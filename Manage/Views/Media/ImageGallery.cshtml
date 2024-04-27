@@ -1,0 +1,58 @@
+﻿@using Manage.Tools.FileHandler.Abstraction
+@using Manage.ViewModels.Media
+@using Core.Constants.File
+@using Core.Constants
+@using Core
+@using System.Globalization
+
+@model MediaImageGalleryViewModel
+@inject IFileService _fileService
+@inject IUnitOfWork _unitOfWork
+
+@{
+    ViewData["Title"] = "Nobel Energy | Image gallery";
+
+    var currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+}
+
+@await Component.InvokeAsync("IntroductionBanner", new { Page = Page.Media })
+
+
+<!--------------------------- Tab --------------------------->
+@await Component.InvokeAsync("PageTab", new { page = Page.Media, currentPage = $"{currentCulture}/media/imagegallery" })
+
+
+<!--------------------------- Tab --------------------------->
+<!---------------------------Img Tabs------------------------>
+<section class="what-we-do-services-img on-media g-container mb-150">
+    <div class="row gx-4">
+        @foreach (var imageGalleryComponent in Model.ImageGalleryComponents)
+        {
+            <div class="col-md-6">
+                <div class="news-section__card">
+                    <div class="news-section__card--img">
+                        <a asp-route-culture="@currentCulture" asp-controller="media" asp-action="imagegallerycomponent" asp-route-slug="@imageGalleryComponent.Slug">
+                            <img src="@_fileService.GetFileUrl(imageGalleryComponent.PhotoName, FilePath.Gallery)">
+                        </a>
+                    </div>
+                    <p class="news-section__card--title">
+                        @_unitOfWork.Languages.ChooseLanguage(imageGalleryComponent, "Title", currentCulture)
+                    </p>
+                    <div class="news-section__card--layer">
+                        <p class="layer-title">
+                            @_unitOfWork.Languages.ChooseLanguage(imageGalleryComponent, "Title", currentCulture)
+                        </p>
+
+                        <p class="layer-text"></p>
+
+                        <a class="layer-btn g-btn" asp-route-culture="@currentCulture" asp-controller="media" asp-action="imagegallerycomponent" asp-route-slug="@imageGalleryComponent.Slug">
+                            @await _unitOfWork.LanguageResources.GetByKeyAsync("ReadMore", currentCulture)
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</section>
+
+<!---------------------------Img Tabs------------------------>

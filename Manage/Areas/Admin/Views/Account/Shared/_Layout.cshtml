@@ -1,0 +1,65 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"]</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta content="Nobeloil" name="description" />
+    <meta content="" name="author" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    
+    
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="~/Admin/assets/images/favicon.ico" asp-append-version="true">
+
+    <!-- App css -->
+    <link href="~/Admin/assets/css/bootstrap.min.css" asp-append-version="true" rel="stylesheet" type="text/css" />
+    <link href="~/Admin/assets/css/jquery-ui.min.css" asp-append-version="true" rel="stylesheet">
+    <link href="~/Admin/assets/css/icons.min.css" asp-append-version="true" rel="stylesheet" type="text/css" />
+    <link href="~/Admin/assets/css/metisMenu.min.css" asp-append-version="true" rel="stylesheet" type="text/css" />
+    <link href="~/Admin/assets/css/app.min.css" asp-append-version="true" rel="stylesheet" type="text/css" />
+
+    <!-- Custom css -->
+    @RenderSection("styles", required: false)
+</head>
+
+<body class="account-body accountbg">
+
+    <!-- Log In page -->
+    <div class="container">
+        <div class="row vh-100 ">
+            <div class="col-12 align-self-center">
+                <div class="auth-page mt-5">
+
+                    @RenderBody()
+
+                </div><!--end auth-page-->
+            </div><!--end col-->
+        </div><!--end row-->
+    </div><!--end container-->
+    <!-- End Log In page -->
+    <!-- jQuery  -->
+    <script src="~/Admin/assets/js/jquery.min.js" asp-append-version="true"></script>
+    <script src="~/Admin/assets/js/jquery-ui.min.js" asp-append-version="true"></script>
+    <script src="~/Admin/assets/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
+    <script src="~/Admin/assets/js/metismenu.min.js" asp-append-version="true"></script>
+    <script src="~/Admin/assets/js/waves.js" asp-append-version="true"></script>
+    <script src="~/Admin/assets/js/feather.min.js" asp-append-version="true"></script>
+    <script src="~/Admin/assets/js/jquery.slimscroll.min.js" asp-append-version="true"></script>
+
+    <!-- App js -->
+    <script src="~/Admin/assets/js/app.js" asp-append-version="true"></script>
+
+    <!-- Custom Js -->
+    @RenderSection("scripts", required: false)
+
+</body>
+
+</html>
+

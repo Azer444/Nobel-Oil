@@ -1,0 +1,91 @@
+﻿@using Manage.Areas.Admin.Models.PageManagement.WhatWeDo
+@using Manage.Tools.FileHandler.Abstraction
+@using Core.Constants.File
+
+@model WhatWeDoIndexViewModel
+@inject IFileService _fileService
+
+@{
+    ViewData["Title"] = "What we do";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <h4 class="page-title">What we do</h4>
+        </div>
+    </div>
+</div>
+
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-@TempData["message_type"]">
+        @TempData["message"]
+    </div>
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <h3>Main Photo</h3>
+                    @if (Model.PageMainPhoto == null)
+                    {
+                        <a asp-action="definemainphoto" asp-controller="whatwedo" asp-area="admin" asp type="button" class="btn btn-gradient-primary waves-effect waves-light float-right mb-3">
+                            Define Main Photo
+                        </a>
+                    }
+                    else
+                    {
+                        <table id="users-table" class="table table-striped mb-0 ">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <span class="mr-1" style="pointer-events: none;">Photo</span>
+                                    </th>
+                                    <th>
+                                        <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.PageMainPhoto.Title_AZ)</span>
+                                    </th>
+                                    <th>
+                                        <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.PageMainPhoto.Title_RU)</span>
+                                    </th>
+                                    <th>
+                                        <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.PageMainPhoto.Title_EN)</span>
+                                    </th>
+                                    <th>
+                                        <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.PageMainPhoto.Title_TR)</span>
+                                    </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        @{
+                                            Model.PageMainPhoto.PhotoPath = _fileService.GetFileUrl(Model.PageMainPhoto.PhotoName, FilePath.PageMainPhoto);
+                                        }
+                                        <img src="@Model.PageMainPhoto.PhotoPath" style="width:200px;object-fit:cover;" />
+                                    </td>
+                                    <td>@Model.PageMainPhoto.Title_AZ</td>
+                                    <td>@Model.PageMainPhoto.Title_RU</td>
+                                    <td>@Model.PageMainPhoto.Title_EN</td>
+                                    <td>@Model.PageMainPhoto.Title_TR</td>
+                                    <td>
+                                        <a asp-controller="whatwedo" asp-action="editmainphoto" class="mr-2"><i class="fas fa-edit text-info font-18"></i></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    }
+
+                </div><!--end /tableresponsive-->
+            </div><!--end card-body-->
+        </div><!--end card-->
+    </div> <!-- end col -->
+</div>
+
+
+@section Scripts{
+
+}

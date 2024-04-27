@@ -1,0 +1,82 @@
+﻿@using Manage.Tools.FileHandler.Abstraction
+@using Manage.ViewModels.OurBusiness
+@using Core.Constants.File
+@using Core.Constants
+@using Core
+@using System.Globalization
+
+@model IndexViewModel
+@inject IFileService _fileService
+@inject IUnitOfWork _unitOfWork
+
+@{
+    ViewData["Title"] = "Nobel Energy | Our business";
+    
+    var currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+}
+
+@await Component.InvokeAsync("IntroductionBanner", new { Page = Page.WhatWeDo })
+
+
+<!--------------------------- Tab --------------------------->
+
+@await Component.InvokeAsync("PageTab", new { page = Page.WhatWeDo, currentPage = "ourbusiness" })
+
+
+<!--------------------------- Tab --------------------------->
+
+
+<section class="what-we-do-services-img g-container">
+    <div class="row gx-4">
+        @foreach (var companyService in Model.CompanyServices)
+        {
+            <div class="col-md-6">
+                <div class="news-section__card">
+                    <div class="news-section__card--img">
+                        <img src="@_fileService.GetFileUrl(companyService.PhotoName, FilePath.CompanyService)" asp-append-version="true" alt="Company service">
+                    </div>
+                    <p class="news-section__card--title">
+                        @Html.Raw(_unitOfWork.Languages.ChooseLanguage(companyService, "Title", currentCulture))
+                    </p>
+                    <div class="news-section__card--layer">
+                        <p class="layer-title">
+                            @Html.Raw(_unitOfWork.Languages.ChooseLanguage(companyService, "Title", currentCulture))
+                        </p>
+                        @Html.Raw(_unitOfWork.Languages.ChooseLanguage(companyService, "ExternalLink", currentCulture))
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</section>
+
+
+
+<!--------------------------- Pages Components --------------------------->
+
+<div id="g-pages-component-section">
+
+    @foreach (var company in Model.Companies)
+    {
+        <div class="g-pages-component-element">
+            <div class="g-pages-component-element-wrapper">
+                <div class="g-pages-component-element-content">
+                    <h2 class="g-pages-component-element-content-title">
+                        @Html.Raw(_unitOfWork.Languages.ChooseLanguage(company, "Title", currentCulture))
+                    </h2>
+                    <div class="g-pages-component-element-content-text">
+                        @Html.Raw(_unitOfWork.Languages.ChooseLanguage(company, "ContentWWD", currentCulture))
+                    </div>
+                    <a asp-controller="OurBusiness" asp-action="Company" asp-route-slug="@company.Slug" class="g-pages-component-anchor-button">
+                        @await _unitOfWork.LanguageResources.GetByKeyAsync("ReadMore", currentCulture)
+                    </a>
+                </div>
+                <div class="g-pages-component-element-image">
+                    <a asp-controller="OurBusiness" asp-action="Company" asp-route-slug="@company.Slug"><img src="@_fileService.GetFileUrl(company.PhotoName_WWD, FilePath.Company)" asp-append-version="true"></a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<!--------------------------- Pages Components --------------------------->

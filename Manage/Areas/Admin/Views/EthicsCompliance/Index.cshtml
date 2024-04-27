@@ -1,0 +1,148 @@
+﻿@using Manage.Areas.Admin.Models.PageManagement.EthicsCompliance
+@using Manage.Tools.FileHandler.Abstraction
+@using Core.Constants.File
+
+@model EthicsComplianceIndexViewModel
+@inject IFileService _fileService
+
+@{
+    ViewData["Title"] = "Ethics Compliance";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <h4 class="page-title">Ethics Compliance</h4>
+        </div>
+    </div>
+</div>
+
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-@TempData["message_type"]">
+        @TempData["message"]
+    </div>
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <h3>Component</h3>
+                    @if (Model.EthicsComplianceComponent == null)
+                    {
+                        <a asp-action="definecomponent" asp-controller="ethicscompliance" asp-area="admin" asp type="button" class="btn btn-gradient-primary waves-effect waves-light float-right mb-3">
+                            Define component
+                        </a>
+                    }
+                    else
+                    {
+                        <table id="ourproject-table" class="table table-striped mb-0 ">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.EthicsComplianceComponent.PhotoName)</span>
+                                    </th>
+                                    <th>
+                                        <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.EthicsComplianceComponent.Title_AZ)</span>
+                                    </th>
+                                    <th>
+                                        <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.EthicsComplianceComponent.Title_RU)</span>
+                                    </th>
+                                    <th>
+                                        <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.EthicsComplianceComponent.Title_EN)</span>
+                                    </th>
+                                    <th>
+                                        <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.EthicsComplianceComponent.Title_TR)</span>
+                                    </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        @{
+                                            var photoPath = _fileService.GetFileUrl(Model.EthicsComplianceComponent.PhotoName, FilePath.EthicsCompliance);
+                                        }
+                                        <img src="@photoPath" style="width:200px;object-fit:cover;" />
+                                    </td>
+                                    <td>@Model.EthicsComplianceComponent.Title_AZ</td>
+                                    <td>@Model.EthicsComplianceComponent.Title_RU</td>
+                                    <td>@Model.EthicsComplianceComponent.Title_EN</td>
+                                    <td>@Model.EthicsComplianceComponent.Title_TR</td>
+                                    <td>
+                                        <a asp-controller="ethicscompliance" asp-action="editcomponent" class="mr-2"><i class="fas fa-edit text-info font-18"></i></a>
+                                        @*<a asp-controller="ethicscompliance" asp-action="detailscomponent" class="mr-2"><i class="fas fa-external-link-square-alt text-info font-18"></i></a>*@
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    }
+
+                </div><!--end /tableresponsive-->
+            </div><!--end card-body-->
+        </div><!--end card-->
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <h3>Sub Component</h3>
+                    <a asp-action="addsubcomponent" asp-controller="ethicscompliance" asp-area="admin" asp type="button" class="btn btn-gradient-primary waves-effect waves-light float-right mb-3">
+                        Add sub-component
+                    </a>
+                    <table id="ourproject-table" class="table table-striped mb-0 ">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.EthicsComplianceSubComponents.GetEnumerator().Current.PhotoName)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.EthicsComplianceSubComponents.GetEnumerator().Current.Title_AZ)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.EthicsComplianceSubComponents.GetEnumerator().Current.Title_RU)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.EthicsComplianceSubComponents.GetEnumerator().Current.Title_EN)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.EthicsComplianceSubComponents.GetEnumerator().Current.Title_TR)</span>
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var ethicsComplianceSubComponent in Model.EthicsComplianceSubComponents)
+                            {
+                                <tr>
+                                    <td>
+                                        @{
+                                            var photoPath_ = _fileService.GetFileUrl(ethicsComplianceSubComponent.PhotoName_EC, FilePath.EthicsCompliance);
+                                        }
+                                        <img src="@photoPath_" style="width:200px;object-fit:cover;" />
+                                    </td>
+                                    <td>@ethicsComplianceSubComponent.Title_AZ</td>
+                                    <td>@ethicsComplianceSubComponent.Title_RU</td>
+                                    <td>@ethicsComplianceSubComponent.Title_EN</td>
+                                    <td>@ethicsComplianceSubComponent.Title_TR</td>
+                                    <td>
+                                        <a asp-controller="ethicscompliance" asp-action="editsubcomponent" asp-route-id="@ethicsComplianceSubComponent.Id" class="mr-2"><i class="fas fa-edit text-info font-18"></i></a>
+                                        <a asp-controller="ethicscompliance" asp-action="deletesubcomponent" asp-route-id="@ethicsComplianceSubComponent.Id" onclick="return confirm('Are you sure to delete?')" class="mr-2"><i class="fas fa-trash-alt text-danger font-18"></i></a>
+                                        @*<a asp-controller="ethicscompliance" asp-action="detailssubcomponent" asp-route-id="@ethicsComplianceSubComponent.Id" class="mr-2"><i class="fas fa-external-link-square-alt text-info font-18"></i></a>*@
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div><!--end /tableresponsive-->
+
+            </div><!--end card-body-->
+        </div><!--end card-->
+
+    </div> <!-- end col -->
+</div>
+
+
+@section Scripts{
+
+}

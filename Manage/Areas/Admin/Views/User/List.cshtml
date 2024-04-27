@@ -1,0 +1,110 @@
+﻿@using Core
+@using Manage.Areas.Admin.Models.UserManagement.User
+@inject IUnitOfWork _unitOfWork
+@model UserListViewModel
+
+@{
+    ViewData["Title"] = "Users";
+    var sortOrder = Url.ActionContext.HttpContext.Request.Query["sortOrder"].ToString();
+    var startDate = Url.ActionContext.HttpContext.Request.Query["startDate"].ToString();
+    var endDate = Url.ActionContext.HttpContext.Request.Query["endDate"].ToString();
+}
+
+@section plugin_styles{
+    <link rel="stylesheet" href="~/Areas/Admin/plugins/select2/select2.min.css" />
+    <link rel="stylesheet" href="~/Areas/Admin/plugins/daterangepicker/daterangepicker.css" />
+    <link rel="stylesheet" href="~/Areas/Admin/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.css" />
+    <link rel="stylesheet" href="~/Areas/Admin/plugins/timepicker/bootstrap-material-datetimepicker.css" />
+    <link rel="stylesheet" href="~/Areas/Admin/plugins/bootstrap-touchspin/css/jquery.bootstrap-touchspin.min.css" />
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <h4 class="page-title">Users</h4>
+        </div>
+    </div>
+</div>
+
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-@TempData["message_type"]">
+        @TempData["message"]
+    </div>
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div>
+                    <a asp-controller="user" asp-action="create" asp-area="admin" asp type="button" class="btn btn-gradient-primary waves-effect waves-light float-right mb-3">
+                        + New User
+                    </a>
+                </div>
+
+                <div class="table-responsive">
+                    <table id="users-table" class="table table-striped mb-0 ">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <span class="mr-1">@Html.DisplayNameFor(x => x.Users.GetEnumerator().Current.UserName)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.Users.GetEnumerator().Current.EmailConfirmed)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">Roles</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.Users.GetEnumerator().Current.JoinedAt)</span>
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int rowCounter = 0;
+                                foreach (var user in Model.Users)
+                                {
+                                    rowCounter++;
+
+                                    <tr data-pk="@user.ID">
+                                        <td>@user.UserName</td>
+                                        <td>@await Component.InvokeAsync("BooleanResult", new { result = user.EmailConfirmed })</td>
+                                        <td>
+                                            @foreach (var item in await _unitOfWork.Users.GetRolesAsync(user.User))
+                                            {
+                                                <span class="badge badge-md badge-soft-purple">@item</span>
+                                            }
+                                        </td>
+                                        <td>@user.JoinedAt</td>
+                                        <td>
+                                            <a asp-controller="user" asp-action="edit" asp-area="admin" asp-route-id="@user.ID" class="mr-2"><i class="fas fa-edit text-info font-18"></i></a>
+                                            <a asp-controller="user" asp-action="delete" asp-area="admin" asp-route-id="@user.ID" onclick="return confirm('Are you sure to delete?')" class="mr-2"><i class="fas fa-trash-alt text-danger font-18"></i></a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div><!--end /tableresponsive-->
+            </div><!--end card-body-->
+        </div><!--end card-->
+    </div> <!-- end col -->
+</div>
+
+@section plugin_scripts{
+    <script src="~/Areas/Admin/plugins/moment/moment.js" asp-append-version="true"></script>
+    <script src="~/Areas/Admin/plugins/daterangepicker/daterangepicker.js" asp-append-version="true"></script>
+    <script src="~/Areas/Admin/plugins/select2/select2.min.js" asp-append-version="true"></script>
+    <script src="~/Areas/Admin/plugins/timepicker/bootstrap-material-datetimepicker.js" asp-append-version="true"></script>
+    <script src="~/Areas/Admin/plugins/bootstrap-touchspin/js/jquery.bootstrap-touchspin.min.js" asp-append-version="true"></script>
+    <script src="~/Areas/Admin/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js" asp-append-version="true"></script>
+    <script src="~/Areas/Admin/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js" asp-append-version="true"></script>
+
+}
+
+@section Scripts{
+    <script src="~/Areas/Admin/assets/pages/UserManagement/User/List.js" asp-append-version="true"></script>
+}

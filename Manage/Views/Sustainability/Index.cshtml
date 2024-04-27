@@ -1,0 +1,91 @@
+﻿@using Manage.Tools.FileHandler.Abstraction
+@using Manage.ViewModels.Sustainability
+@using Core.Constants.File
+@using Core.Constants
+@using Core
+@using System.Globalization
+
+@model IndexViewModel
+@inject IFileService _fileService
+@inject IUnitOfWork _unitOfWork
+
+@{
+    ViewData["Title"] = "Nobel Energy | Sustainability Reports";
+
+    var currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+}
+
+@await Component.InvokeAsync("IntroductionBanner", new { Page = Page.Sustainability })
+
+<!--------------------------- Our Projects Section --------------------------->
+<div class="media__related-news on-career g-container mt-5 mb-2">
+    <h3>Sustainability Reports</h3>
+    <div class="news-section__news ">
+        <div class="news-wrapper row ">
+            @foreach (var sustainabilityReport in Model.SustainabilityReports)
+            {
+                <div class="swiper-slide_card mt-5 col-md-4">
+                    <div class="news-section__card ">
+                        <div class="news-section__card--img">
+                            <img src="@_fileService.GetFileUrl(sustainabilityReport.PhotoName,FilePath.SustainabilityReport)">
+                        </div>
+                        <div class="news-section__card--body">
+                            <div class="news-section__card--title">
+                                @_unitOfWork.Languages.ChooseLanguage(sustainabilityReport, "Title", currentCulture)
+                            </div>
+                            <div class="news-section__card--info">
+                                @Html.Raw(_unitOfWork.Languages.ChooseLanguage(sustainabilityReport, "Content", currentCulture))
+                            </div>
+                            <div class="news-section__card--footer">
+                                @{
+                                    var relatedFileName = _unitOfWork.Languages.ChooseLanguage(sustainabilityReport, "FileName", currentCulture);
+                                    var sustainabilityReportPdf = _fileService.GetFileUrl(relatedFileName, FilePath.SustainabilityReport);
+                                }
+                                <a target="_blank" href="@sustainabilityReportPdf" class="g-btn" download>
+                                    DOWNLOAD
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<!--------------------------- Our Projects Section --------------------------->
+<!--------------------------- Pages Components --------------------------->
+<div class="pagination-section mt-4" id="pagination">
+    <div class="g-container d-flex justify-content-md-end justify-content-center ">
+        @if (Model.Pager.TotalPages > 0)
+        {
+            <ul class="pagination-section__container ">
+
+                @if (Model.Pager.CurrentPage > 1)
+                {
+                    <li class="pagination-section__container--item">
+                        <a asp-controller="sustainability" asp-action="index" asp-route-page="@(Model.Pager.CurrentPage - 1)" class="pagination-section__container--link" id="pag-prev">
+                            <i class="fas fa-chevron-left"></i>
+                        </a>
+                    </li>
+                }
+
+                @for (var pge = Model.Pager.StartPage; pge <= Model.Pager.EndPage; pge++)
+                {
+                    <li class="pagination-section__container--item @(pge == Model.Pager.CurrentPage ? "active" : "")">
+                        <a class="pagination-section__container--link" asp-controller="sustainability" asp-action="index" asp-route-page="@pge">@pge</a>
+                    </li>
+                }
+
+                @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
+                {
+                    <li class="pagination-section__container--item ">
+                        <a asp-controller="sustainability" asp-action="index" asp-route-page="@(Model.Pager.CurrentPage + 1)" class="pagination-section__container--link" id="pag-next">
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </li>
+                }
+            </ul>
+        }
+    </div>
+</div>

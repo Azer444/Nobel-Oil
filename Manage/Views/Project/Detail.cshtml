@@ -1,0 +1,47 @@
+﻿@using Manage.Tools.FileHandler.Abstraction
+@using Manage.ViewModels.Project
+@using Core.Constants.File
+@using Core.Constants
+@using Core
+@using System.Globalization
+
+@model DetailViewModel
+@inject IFileService _fileService
+@inject IUnitOfWork _unitOfWork
+
+@{
+    ViewData["Title"] = "Nobel Energy | Project";
+    
+    var currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+}
+
+@await Component.InvokeAsync("IntroductionBanner", new { Page = Page.WhatWeDo })
+
+
+<!--------------------------- Tab --------------------------->
+
+@await Component.InvokeAsync("PageTab", new { page = Page.WhatWeDo, currentPage = "project" })
+
+
+<!--------------------------- Tab --------------------------->
+
+
+<div id="g-pages-component-section">
+    <div class="g-pages-component-element">
+        <div class="g-pages-component-element-wrapper">
+            <div class="g-pages-component-element-content">
+                <h3 class="g-pages-component-element-content-title">
+                    @Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.Project, "Title", currentCulture))
+                </h3>
+                <div class="g-pages-component-element-content-text">
+                    @Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.Project, "Content", currentCulture))
+                </div>
+
+            </div>
+            <div class="g-pages-component-element-image ">
+                <img src="@_fileService.GetFileUrl(Model.Project.PhotoName, FilePath.Project)">
+            </div>
+        </div>
+    </div>
+</div>
+

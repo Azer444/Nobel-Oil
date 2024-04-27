@@ -1,0 +1,112 @@
+﻿@using Manage.Tools.FileHandler.Abstraction
+@using Manage.ViewModels.Career
+@using Core.Constants.File
+@using EcomLab.Core.Constants.File
+@using Core.Constants
+@using Core
+@using System.Globalization
+
+@model LifeAtNobelEnergyComponentViewModel
+@inject IFileService _fileService
+@inject IUnitOfWork _unitOfWork
+
+@{
+    ViewData["Title"] = "Nobel Energy | Life At Nobel Energy";
+    
+    var currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+}
+
+@await Component.InvokeAsync("IntroductionBanner", new { Page = Page.Career })
+
+
+<!--------------------------- Tab --------------------------->
+@await Component.InvokeAsync("PageTab", new { page = Page.Career, currentPage = $"{currentCulture}/media/{Model.LifeAtNobelEnergy.Slug}" })
+
+
+<!--------------------------- Tab --------------------------->
+
+<section class="news-section media" id="news">
+    <div class="g-container__md media__wrapper">
+        <div>
+            <img src="@_fileService.GetFileUrl(Model.LifeAtNobelEnergy.PhotoName, FilePath.LifeAtNobelEnergy)" class="media__image" alt="">
+        </div>
+        <div class=" mt-5">
+            <h1 class="media__title">
+                @_unitOfWork.Languages.ChooseLanguage(Model.LifeAtNobelEnergy, "Title", currentCulture)
+            </h1>
+        </div>
+        <div class="mt-4">
+            <p class="media__date">@Model.LifeAtNobelEnergy.ActionDate.ToString("dd.MM.yyyy")</p>
+        </div>
+        <div class="media__content">
+            <p class="media__content--description">
+                @Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.LifeAtNobelEnergy, "Content", currentCulture))
+            </p>
+        </div>
+
+        @foreach (var pdf in Model.LifeAtNobelEnergyPdfs)
+        {
+            var pdfPath = @_fileService.GetFileUrl(pdf.PdfFileName, FilePath.LifeAtNobelEnergy);
+            var pdfSize = @_fileService.GetFileSize(pdf.PdfFileName, FilePath.LifeAtNobelEnergy, StorageUnits.Megabyte);
+
+            <div class="download__pdf mt-5 mb-5 pb-4">
+                <a href="@pdfPath" class="d-block d-block mb-4 download__pdf--link-2 has-triangle" download>
+                    <span><i class="far fa-file-pdf"></i></span>
+                    <span class="pdf-name">@Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.LifeAtNobelEnergy, "Title", currentCulture))</span>
+                    <span class="size">PDF/@pdfSize mb</span>
+                </a>
+            </div>
+        }
+    </div>
+
+    <div class="media__related-news g-container">
+        @if(Model.LifeAtNobelEnergies.Count > 0)
+        {
+        <h3 class="text-center">
+            @await _unitOfWork.LanguageResources.GetByKeyAsync("RecentNews", currentCulture)
+        </h3>            
+        }
+        <div class="news-section__news">
+            <div class="news-wrapper row">
+                @foreach (var item in Model.LifeAtNobelEnergies.Take(3))
+                {
+                    <div class="swiper-slide_card mt-5 col-md-4">
+                        <div class="news-section__card ">
+                            <div class="news-section__card--img">
+                                <img src="@_fileService.GetFileUrl(item.PhotoName, FilePath.LifeAtNobelEnergy)" alt="">
+                            </div>
+                            <div class="news-section__card--body">
+                                <p class="news-section__card--title">
+                                    @_unitOfWork.Languages.ChooseLanguage(item, "Title", currentCulture)
+                                </p>
+                                <div class="news-section__card--info">
+                                    @Html.Raw(_unitOfWork.Languages.ChooseLanguage(item, "Content", currentCulture))
+                                </div>
+                                <div class="news-section__card--footer">
+                                    <a asp-action="lifeatnobelenergycomponent" asp-controller="career" asp-route-slug="@item.Slug" class="g-btn">
+                                        @await _unitOfWork.LanguageResources.GetByKeyAsync("ReadMore", currentCulture)
+                                    </a>
+                                    <p class="news-section__card--date">@item.ActionDate.ToString("dd.MM.yyyy")</p>
+                                </div>
+                            </div>
+                            <div class="news-section__card--layer">
+                                <p class="layer-title">
+                                    @_unitOfWork.Languages.ChooseLanguage(item, "Title", currentCulture)
+                                </p>
+                                <a asp-action="lifeatnobelenergycomponent" asp-controller="career" asp-route-slug="@item.Slug" class="layer-btn g-btn">
+                                    @await _unitOfWork.LanguageResources.GetByKeyAsync("ReadMore", currentCulture)
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+@section Scripts{
+    <script src="~/Client/js/newsTruncate.js"></script>
+}

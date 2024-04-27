@@ -1,0 +1,73 @@
+﻿@using Manage.Tools.FileHandler.Abstraction
+@using Manage.ViewModels.EthicsAndCompilance
+@using Core.Constants.File
+@using Core.Constants
+@using Core
+@using System.Globalization
+
+@model IndexViewModel
+@inject IFileService _fileService
+@inject IUnitOfWork _unitOfWork
+
+@{
+    ViewData["Title"] = "Nobel Energy | Ethics & Compliance";
+    
+    var currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+}
+
+@await Component.InvokeAsync("IntroductionBanner", new { Page = Page.Sustainability })
+
+<!--------------------------- Tab --------------------------->
+
+@await Component.InvokeAsync("PageTab", new { page = Page.Sustainability, currentPage = $"{currentCulture}/ethicsandcompliance" })
+
+<!--------------------------- Tab --------------------------->
+<!--------------------------- Pages Components --------------------------->
+
+<div id="g-pages-component-section">
+    @foreach (var subComponent in Model.EthicsComplianceSubComponents)
+    {
+        if (subComponent.isBanner)
+        {
+            <div class="g-page-banner">
+                <div class="g-page-banner-cover"
+                     style="background-image: url('@_fileService.GetFileUrl(subComponent.PhotoName_EC, FilePath.EthicsCompliance)')">
+                    <div class="g-page-banner-content">
+                        <h2 class="g-page-banner-title">
+                            @_unitOfWork.Languages.ChooseLanguage(subComponent, "Title", currentCulture)
+                        </h2>
+                        <div class="g-page-banner-text">
+                            @Html.Raw(_unitOfWork.Languages.ChooseLanguage(subComponent, "ContentEC", currentCulture))
+                        </div>
+                        <a asp-action="component" asp-controller="ethicsandcompliance" asp-route-slug="@subComponent.Slug" class="g-page-banner-anchor-button">
+                            @await _unitOfWork.LanguageResources.GetByKeyAsync("ReadMore", currentCulture)
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="g-pages-component-element">
+                <div class="g-pages-component-element-wrapper">
+                    <div class="g-pages-component-element-content">
+                        <h2 class="g-pages-component-element-content-title">
+                            @Html.Raw(_unitOfWork.Languages.ChooseLanguage(subComponent, "Title", currentCulture))
+                        </h2>
+                        <div class="g-pages-component-element-content-text">
+                            @Html.Raw(_unitOfWork.Languages.ChooseLanguage(subComponent, "ContentEC", currentCulture))
+                        </div>
+                        <a asp-route-culture="@currentCulture" asp-action="component" asp-controller="ethicsandcompliance" asp-route-slug="@subComponent.Slug" class="g-pages-component-anchor-button">
+                            @await _unitOfWork.LanguageResources.GetByKeyAsync("ReadMore", currentCulture)
+                        </a>
+                    </div>
+                    <div class="g-pages-component-element-image">
+                        <img src="@_fileService.GetFileUrl(subComponent.PhotoName_EC, FilePath.EthicsCompliance)">
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+<!--------------------------- Pages Components --------------------------->

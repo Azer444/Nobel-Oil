@@ -1,0 +1,59 @@
+﻿@using Manage.Tools.FileHandler.Abstraction
+@using Manage.ViewModels.Project
+@using Core.Constants.File
+@using Core.Constants
+@using Core
+@using System.Globalization
+
+@model IndexViewModel
+@inject IFileService _fileService
+@inject IUnitOfWork _unitOfWork
+
+@{
+    ViewData["Title"] = "Nobel Energy | Project";
+    
+    var currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+}
+
+@await Component.InvokeAsync("IntroductionBanner", new { Page = Page.WhatWeDo })
+
+
+<!--------------------------- Tab --------------------------->
+
+@await Component.InvokeAsync("PageTab", new { page = Page.WhatWeDo, currentPage = "project" })
+
+<!--------------------------- Tab --------------------------->
+<!---------------------------Img Tabs------------------------>
+
+<section class="what-we-do-services-img img-tabs g-container mb-150 mt-104">
+    <div class="row gx-4">
+        @foreach (var project in Model.Projects)
+        {
+            <div class="col-md-6">
+                <div class="news-section__card">
+                    <div class="news-section__card--img">
+                        <a asp-route-culture="@currentCulture" asp-controller="project" asp-action="detail" asp-route-slug="@project.Slug">
+                            <img src="@_fileService.GetFileUrl(project.MainPhotoName, FilePath.Project)" alt="">
+                        </a>
+                    </div>
+                    <p class="news-section__card--title">
+                        @Html.Raw(_unitOfWork.Languages.ChooseLanguage(project, "Title", currentCulture))
+                    </p>
+                    <div class="news-section__card--layer">
+                        <p class="layer-title">
+                            @Html.Raw(_unitOfWork.Languages.ChooseLanguage(project, "Title", currentCulture))
+                        </p>
+                        <p class="layer-text">
+                            @Html.Raw(_unitOfWork.Languages.ChooseLanguage(project, "Description", currentCulture))
+                        </p>
+                        <a asp-route-culture="@currentCulture" asp-controller="project" asp-action="detail" asp-route-slug="@project.Slug" class="layer-btn g-btn">
+                            @await _unitOfWork.LanguageResources.GetByKeyAsync("ReadMore", currentCulture)
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</section>
+
+<!---------------------------Img Tabs------------------------>

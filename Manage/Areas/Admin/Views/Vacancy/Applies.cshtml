@@ -1,0 +1,91 @@
+﻿@using Manage.Areas.Admin.Models.ComponentManagement.Vacancy
+@model VacancyAppliesViewModel
+@using Core.Constants.File
+@using Manage.Tools.FileHandler.Abstraction
+
+
+@inject IFileService _fileService
+
+@{
+    ViewData["Title"] = "Vacancy Applies";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <h4 class="page-title">@Model.Vacancy?.Title_EN Applies</h4>
+        </div>
+    </div>
+</div>
+
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-@TempData["message_type"]">
+        @TempData["message"]
+    </div>
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="table-responsive">
+
+                    <table id="users-table" class="table table-striped mb-0 ">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.VacancyApplies.GetEnumerator().Current.FullName)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.VacancyApplies.GetEnumerator().Current.Email)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.VacancyApplies.GetEnumerator().Current.CVName)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.VacancyApplies.GetEnumerator().Current.VacancyApplyFiles)</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int rowCounter = 0;
+                                foreach (var vacancyApply in Model.VacancyApplies)
+                                {
+                                    rowCounter++;
+
+                                    <tr>
+                                        <td>@vacancyApply.FullName</td>
+                                        <td>@vacancyApply.Email</td>
+                                        <td>
+                                            <a href="@_fileService.GetFileUrl(vacancyApply.CVName, FilePath.Apply)">CV</a>
+                                        </td>
+                                        <td>
+                                            @{
+                                                int fileCounter = 0;
+                                            }
+
+                                            @foreach (var vacancyApplyFile in vacancyApply.VacancyApplyFiles)
+                                            {
+                                                <a class="d-block" href="@_fileService.GetFileUrl(vacancyApplyFile.FileName, FilePath.Apply)">File-@fileCounter</a>
+
+                                                fileCounter++;
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+
+                </div><!--end /tableresponsive-->
+            </div><!--end card-body-->
+        </div><!--end card-->
+    </div> <!-- end col -->
+</div>
+
+@section Scripts{
+
+}

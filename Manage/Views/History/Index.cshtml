@@ -1,0 +1,48 @@
+﻿@using Manage.Tools.FileHandler.Abstraction
+@using Manage.ViewModels.History
+@using Core.Constants.File
+@using Core.Constants
+@using Core
+@using System.Globalization
+
+@model IndexViewModel
+@inject IFileService _fileService
+@inject IUnitOfWork _unitOfWork
+
+@{
+    ViewData["Title"] = "Nobel Energy | History";
+    
+    var currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+}
+
+@await Component.InvokeAsync("IntroductionBanner", new { Page = Page.WhoWeAre })
+
+
+<!--------------------------- Tab --------------------------->
+
+@await Component.InvokeAsync("PageTab", new { page = Page.WhoWeAre, currentPage = $"{currentCulture}/history" })
+
+<!--------------------------- Tab --------------------------->
+
+
+<!--------------------------- Our History Section --------------------------->
+
+<div class="history-section">
+    <div class="g-timeline">
+        @foreach (var historyComponent in Model.HistoryComponents)
+        {
+            <div class="g-timeline__content">
+                <div class="g-timeline__content--year">@historyComponent.ActionDate.Year</div>
+                <div class="g-timeline__content--history">
+                    <div class="g-timeline__content--list">
+                        <div class="g-timeline__content--item">
+                            @Html.Raw(_unitOfWork.Languages.ChooseLanguage(historyComponent, "Content", currentCulture))
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<!--------------------------- Our History Section --------------------------->

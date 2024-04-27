@@ -1,0 +1,108 @@
+﻿@using Manage.Areas.Admin.Models.UserManagement.User
+@model UserEditViewModel
+@{
+    ViewData["Title"] = "Users";
+}
+
+
+@section plugin_styles{
+
+    <link href="~/Admin/plugins/select2/select2.min.css" asp-append-version="true" rel="stylesheet" type="text/css" />
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <div class="float-right">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-controller="user" asp-action="list" asp-area="admin">Users</a></li>
+                    <li class="breadcrumb-item active">Edit</li>
+                </ol>
+            </div>
+            <h4 class="page-title">Edit user</h4>
+        </div><!--end page-title-box-->
+    </div><!--end col-->
+</div>
+
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-@TempData["message_type"]">
+        @TempData["message"]
+    </div>
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                @*<h4 class="header-title mt-0 mb-3">You can add your note to here</h4>*@
+                <form method="POST" asp-controller="user" asp-action="edit" asp-area="admin" id="user-create">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" asp-for="ID" />
+
+                    <div class="row">
+                        <div asp-validation-summary="ModelOnly" class="invalid-feedback" style="display:block"></div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="custom-control custom-switch switch-success">
+                                    <input asp-for="EmailConfirmed" class="custom-control-input">
+                                    <label class="custom-control-label" asp-for="EmailConfirmed"></label>
+                                    <span asp-validation-for="EmailConfirmed" class="invalid-feedback" style="display:block"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="UserName"></label>
+                                <input class="form-control form-control" asp-for="UserName">
+                                <span asp-validation-for="UserName" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="ApplicationRolesIDs"></label>
+                                <select class="select2 mb-3 select2-multiple" asp-for="ApplicationRolesIDs" asp-items='new SelectList(Model.ApplicationRoles,"Id", "Name")' style="width: 100%" multiple="multiple" data-placeholder="Choose.."></select>
+                                <span asp-validation-for="ApplicationRolesIDs" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="form-group mt-3">
+                    <button class="btn btn-sm btn-primary" type="submit" form="user-create">Save</button>
+                    @*<button class="btn btn-sm btn-primary" type="submit" form="user-create">Save and edit</button>*@
+                    <a asp-controller="user" asp-action="list" asp-area="admin" class="btn btn-sm btn-danger">Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section plugin_scripts{
+    <!-- Plugins js -->
+    <script src="~/Admin/plugins/moment/moment.js" asp-append-version="true"></script>
+    <script src="~/Admin/plugins/daterangepicker/daterangepicker.js" asp-append-version="true"></script>
+    <script src="~/Admin/plugins/select2/select2.min.js" asp-append-version="true"></script>
+    <script src="~/Admin/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js" asp-append-version="true"></script>
+    <script src="~/Admin/plugins/timepicker/bootstrap-material-datetimepicker.js" asp-append-version="true"></script>
+    <script src="~/Admin/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js" asp-append-version="true"></script>
+    <script src="~/Admin/plugins/bootstrap-touchspin/js/jquery.bootstrap-touchspin.min.js" asp-append-version="true"></script>
+    <script src="~/Admin/assets/pages/jquery.forms-advanced.js" asp-append-version="true"></script>
+}
+
+
+@section scripts{
+
+}

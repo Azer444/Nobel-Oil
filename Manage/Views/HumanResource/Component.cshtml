@@ -1,0 +1,66 @@
+﻿@using Manage.Tools.FileHandler.Abstraction
+@using Manage.ViewModels.HumanResource
+@using Core.Constants.File
+@using Core.Constants
+@using Core
+@using System.Globalization
+
+@model ComponentViewModel
+@inject IFileService _fileService
+@inject IUnitOfWork _unitOfWork
+
+@{
+    ViewData["Title"] = "Nobel Energy | Human resource";
+    
+    var currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+}
+
+@await Component.InvokeAsync("IntroductionBanner", new { Page = Page.Sustainability })
+
+<!--------------------------- Tab --------------------------->
+
+@await Component.InvokeAsync("PageTab", new { page = Page.Sustainability, currentPage = $"{currentCulture}/humanresource" })
+
+<!--------------------------- Tab --------------------------->
+<!--------------------------- Pages Components --------------------------->
+
+<div id="g-pages-component-section">
+    @{
+        bool title = true;
+        int order = 0;
+    }
+
+    @foreach (var splittedContent in _unitOfWork.Languages.ChooseLanguageList(Model.HumanResourceComponent, "SplitedContent", currentCulture))
+    {
+        <div class="g-pages-component-element">
+            <div class="g-pages-component-element-wrapper">
+                <div class="g-pages-component-element-content">
+                    @if (title)
+                    {
+                        <h2 class="g-pages-component-element-content-title">
+                            @Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.HumanResourceComponent, "Title", currentCulture))
+                        </h2>
+
+                        title = false;
+                    }
+
+                    <div class="g-pages-component-element-content-text">
+                        @Html.Raw(splittedContent)
+                    </div>
+                </div>
+
+                @{var photo = Model.HumanResourceComponent.HumanResourceComponentPhotos.Skip(order).FirstOrDefault();}
+
+                <div class="g-pages-component-element-image">
+                    <img src="@_fileService.GetFileUrl(photo.PhotoName, FilePath.HumanResource)" asp-append-version="true">
+                </div>
+            </div>
+        </div>
+
+        order++;
+    }
+
+</div>
+
+
+<!--------------------------- Pages Components --------------------------->

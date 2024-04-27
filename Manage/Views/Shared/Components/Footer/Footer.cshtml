@@ -1,0 +1,252 @@
+﻿@using Core
+@using Manage.ViewModels.FooterViewComponent;
+@using System.Globalization
+
+@model FooterViewComponentViewModel
+@inject IUnitOfWork _unitOfWork
+
+@{
+    var currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+}
+
+<!--------------------------- Footer Section --------------------------->
+
+@* <div class="g-footer">
+    <div class="g-footer__top">
+        <div class="g-container">
+            <div class="row">
+                <div class="col-lg-9">
+                    <div class="g-footer__grid">
+                        @foreach (var navTitleComponent in Model.NavTitleComponents)
+                        {
+                            <div class="g-footer__grid--item">
+                                <ul class="g-footer__links">
+                                    <li class="g-footer__links--title">
+                                        <a href="/@currentCulture/@navTitleComponent.Link">@_unitOfWork.Languages.ChooseLanguage(navTitleComponent, "Title", currentCulture)</a>
+                                    </li>
+                                    @foreach (var navComponent in navTitleComponent.NavComponents)
+                                    {
+                                        <li class="g-footer__links--item">
+                                            <a href="/@currentCulture/@navComponent.Link">@_unitOfWork.Languages.ChooseLanguage(navComponent, "Title", currentCulture)</a>
+                                        </li>
+                                    }
+
+                                </ul>
+                            </div>
+                        }
+                        <div class="g-footer__grid--item">
+                            <ul class="g-footer__links contact-links">
+                                <li class="g-footer__links--title">@await _unitOfWork.LanguageResources.GetByKeyAsync("Contact", currentCulture)</li>
+                                <li class="g-footer__links--item">
+                                    @if (Model.SiteConfig != null)
+                                    {
+                                        @Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.SiteConfig, "Contact", currentCulture))
+                                    }
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="g-footer__right">
+                        <a href="#body" class="g-btn scroll-to scroll-to-top" id="scroll-top">
+                            <span>
+                                @await _unitOfWork.LanguageResources.GetByKeyAsync("GoToTop", currentCulture)
+                            </span>
+                            <span class="arrow-btn">
+                                <img src="~/Client/assets/svgs/top-arrow.svg" asp-append-version="true" alt="Nobel Energy">
+                            </span>
+                        </a>
+                        <div class="g-footer__grid--item">
+                            <ul class="g-footer__links social-links">
+                                <ul>
+                                    <li class="g-footer__links--item">
+                                        <a target="_blank" href="@Model.SiteConfig?.FacebookLink">
+                                            <img src="~/Client/assets/svgs/facebook.svg" alt="Nobel Polymer">
+                                        </a>
+                                    </li>
+                                    <li class="g-footer__links--item">
+                                        <a target="_blank" href="@Model.SiteConfig?.LinkedinLink">
+                                            <img src="~/Client/assets/svgs/linkedin.svg" alt="Nobel Polymer">
+                                        </a>
+                                    </li>
+                                    <li class="g-footer__links--item">
+                                        <a target="_blank" href="@Model.SiteConfig?.TwitterLink">
+                                            <img src="~/Client/assets/svgs/twitter.svg" alt="Nobel Polymer">
+                                        </a>
+                                    </li>
+                                    <li class="g-footer__links--item">
+                                        <a target="_blank" href="@Model.SiteConfig?.YoutubeLink">
+                                            <img src="~/Client/assets/svgs/youtube.svg" alt="Nobel Polymer">
+                                        </a>
+                                    </li>
+                                </ul>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="visible-sm">
+            <ul class="additional-links">
+                <li class="g-footer__links--item">
+                    <a asp-route-culture="@currentCulture" asp-action="index" asp-controller="legalnotice">
+                        @await _unitOfWork.LanguageResources.GetByKeyAsync("LegalNotice", currentCulture)
+                    </a>
+                </li>
+                <li class="g-footer__links--item">
+                    <a asp-route-culture="@currentCulture" asp-action="index" asp-controller="privacynotice">
+                        @await _unitOfWork.LanguageResources.GetByKeyAsync("PrivacyNotice", currentCulture)
+                    </a>
+                </li>
+                <li class="g-footer__links--item">
+                    <a asp-route-culture="@currentCulture" asp-action="index" asp-controller="cookiespolicy">
+                        @await _unitOfWork.LanguageResources.GetByKeyAsync("CookiesPolicy", currentCulture)
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="g-container">
+        <div class="g-footer__bottom">
+            <p class="copyright">
+                @if (Model.SiteConfig != null)
+                {
+                    @Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.SiteConfig, "Copyright", currentCulture)) <span>@DateTime.Now.Year</span>
+                }
+            </p>
+            <ul class="g-footer__links">
+                <li class="g-footer__links--item">
+                    <a asp-route-culture="@currentCulture" asp-action="index" asp-controller="legalnotice">
+                        @await _unitOfWork.LanguageResources.GetByKeyAsync("LegalNotice", currentCulture)
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div> *@
+
+<!--------------------------- Footer Section --------------------------->
+<section class="info_section ">
+    <div class="container">
+        <div class="info_top">
+            <div class="row">
+                <div class="col-md-3 ">
+                    <a class="navbar-brand" href="index.html">
+                        Finter
+                    </a>
+                </div>
+                <div class="col-md-5 ">
+                    <div class="info_contact">
+                        <a href="">
+                            <i class="fa fa-map-marker" aria-hidden="true"></i>
+                            <span>
+                                Location
+                            </span>
+                        </a>
+                        <a href="">
+                            <i class="fa fa-phone" aria-hidden="true"></i>
+                            <span>
+                                +01 1234567890
+                            </span>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-4 ">
+                    <div class="social_box">
+                        <a href="">
+                            <i class="fa fa-facebook" aria-hidden="true"></i>
+                        </a>
+                        <a href="">
+                            <i class="fa fa-twitter" aria-hidden="true"></i>
+                        </a>
+                        <a href="">
+                            <i class="fa fa-linkedin" aria-hidden="true"></i>
+                        </a>
+                        <a href="">
+                            <i class="fa fa-instagram" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="info_bottom">
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <div class="info_detail">
+                        <h5>
+                            Company
+                        </h5>
+                        <p>
+                            Randomised words which don't look even slightly believable. If you are going to use a passage of
+                            Lorem
+                            Ipsum, you need to be sure
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="info_form">
+                        <h5>
+                            NEWSLETTER
+                        </h5>
+                        <form action="">
+                            <input type="text" placeholder="Enter Your Email" />
+                            <button type="submit">
+                                Subscribe
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="info_detail">
+                        <h5>
+                            Services
+                        </h5>
+                        <p>
+                            Randomised words which don't look even slightly believable. If you are going to use a passage of
+                            Lorem
+                            Ipsum, you need to be sure
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <div class="">
+                        <h5>
+                            Useful links
+                        </h5>
+                        <ul class="info_menu">
+                            <li>
+                                <a href="index.html">
+                                    Home
+                                </a>
+                            </li>
+                            <li>
+                                <a href="about.html">
+                                    About
+                                </a>
+                            </li>
+                            <li>
+                                <a href="service.html">
+                                    Services
+                                </a>
+                            </li>
+                            <li>
+                                <a href="team.html">
+                                    Team
+                                </a>
+                            </li>
+                            <li class="mb-0">
+                                <a href="contact.html">
+                                    Contact Us
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@section Scripts{
+    <script src="~/Client/js/main.js"></script>
+}

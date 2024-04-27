@@ -1,0 +1,246 @@
+﻿@using Manage.Tools.FileHandler.Abstraction
+@using Manage.ViewModels.WhatWeDo
+@using Core.Constants.File
+@using Core.Constants
+@using Core
+@using System.Globalization
+
+@model IndexViewModel
+@inject IFileService _fileService
+@inject IUnitOfWork _unitOfWork
+
+@{
+    ViewData["Title"] = "Nobel Energy | What we do";
+    
+    var currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+}
+
+@await Component.InvokeAsync("IntroductionBanner", new { Page = Page.WhatWeDo })
+
+
+<!--------------------------- Tab --------------------------->
+@await Component.InvokeAsync("PageTab", new { page = Page.WhatWeDo, currentPage = "" })
+
+
+<!--------------------------- Tab --------------------------->
+<!--------------------------- Pages Components --------------------------->
+
+<div id="g-pages-component-section">
+    <div id="ourstrategy" class="g-pages-component-element">
+        <div class="d-flex justify-content-center align-items-center">
+            <div class="g-pages-component-element-content">
+                @if (currentCulture == "az")
+                {
+                    <h2 class="g-pages-component-element-content-title">Strategiyamız</h2>
+                    <div class="g-pages-component-element-content-text">
+                        <p>
+                            Nobel Oil Services enerji sənayesində ixtisaslaşmış çoxşaxəli şirkətlər qrupudur. Nobel Oil Services çərçivəsində fəaliyyət göstərən şirkətlər müvafiq sahələrdə fəaliyyətlərini uğurla genişləndirməklə yanaşı, qazma, tikinti və layihələrin idarə edilməsi, o cümlədən avadanlıqlara texniki xidmət, PSCM və təkmilləşdirilmiş neftçıxarma xidmətləri göstərirlər.
+                        </p>
+                    </div>
+                    <a href="/@currentCulture/ourstrategy" class="g-pages-component-anchor-button">
+                        @await _unitOfWork.LanguageResources.GetByKeyAsync("ReadMore", currentCulture)
+                    </a>
+                }
+                else if (currentCulture == "en")
+                {
+                    <h2 class="g-pages-component-element-content-title">Our strategy</h2>
+                    <div class="g-pages-component-element-content-text">
+                        <p>
+                            Nobel Oil Services is a diversified group of companies specialized in the energy industry.
+                            Companies
+                            operating within Nobel Oil Services provide drilling, construction and project management,
+                            as well
+                            as equipment maintenance, PSCM and enhanced oil recovery services, while successfully
+                            expanding
+                            their activities in the respective fields.
+                        </p>
+                    </div>
+                    <a href="/@currentCulture/ourstrategy" class="g-pages-component-anchor-button">
+                        @await _unitOfWork.LanguageResources.GetByKeyAsync("ReadMore", currentCulture)
+                    </a>
+                }
+            </div>
+            <div class="g-pages-component-element-image">
+                <img src="~/Client/assets/svgs/Rectangle 24.svg">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--------------------------- Pages Components --------------------------->
+<!--------------------------- Business Section --------------------------->
+
+<section id="ourbusiness" class="business-section">
+    <div class="g-container">
+        <p class="g-title__md">
+            @await _unitOfWork.LanguageResources.GetByKeyAsync("OurBusiness", currentCulture)
+        </p>
+        <div class="visible-md">
+            <div class="g-cards__wrapper">
+                @foreach (var ourBusiness in Model.OurBusinesses)
+                {
+                    <div class="g-card__t1">
+                        <a target="_blank" href="@ourBusiness.Link">
+                            <div class="g-card__t1--icon">
+                                <img class="g-fluid" src="@_fileService.GetFileUrl(ourBusiness.PhotoName, FilePath.OurBusiness)" asp-append-version="true" alt="Nobel Energy">
+                            </div>
+                            <div class="g-card__t1--content">
+                                <p class="g-card__t1--title">
+                                    @Html.Raw(_unitOfWork.Languages.ChooseLanguage(ourBusiness, "Title", currentCulture))
+                                </p>
+                                <div class="g-card__t1--info">
+                                    @Html.Raw(_unitOfWork.Languages.ChooseLanguage(ourBusiness, "Content", currentCulture))
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="visible-sm">
+            <div class="business-section__wrapper">
+                <div class="g-navigation">
+                    <button class="g-btn g-navigation__prev" id="business-prev">
+                        <img src="~/Client/assets/svgs/left-arrow.svg" asp-append-version="true" alt="Nobel Energy">
+                    </button>
+                    <button class="g-btn g-navigation__next" id="business-next">
+                        <img src="~/Client/assets/svgs/right-arrow.svg" asp-append-version="true" alt="Nobel Energy">
+                    </button>
+                </div>
+                <div class="business-section__swiper">
+                    <div class="swiper-wrapper">
+                        @foreach (var ourBusiness in Model.OurBusinesses)
+                        {
+                            <div class="swiper-slide">
+                                <div class="g-card__t1">
+                                    <a target="_blank" href="@ourBusiness.Link">
+                                        <div class="g-card__t1--icon">
+                                            <img class="g-fluid" src="@_fileService.GetFileUrl(ourBusiness.PhotoName, FilePath.OurBusiness)" asp-append-version="true" alt="Nobel Energy">
+                                        </div>
+                                        <div class="g-card__t1--content">
+                                            <p class="g-card__t1--title">
+                                                @Html.Raw(_unitOfWork.Languages.ChooseLanguage(ourBusiness, "Title", currentCulture))
+                                            </p>
+                                            <div class="g-card__t1--info">
+                                                @Html.Raw(_unitOfWork.Languages.ChooseLanguage(ourBusiness, "Content", currentCulture))
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--------------------------- Business Section --------------------------->
+<!--------------------------- Our Projects Section --------------------------->
+
+<div id="project">
+    <section id="sustainable" style="background: transparent url('@_fileService.GetFileUrl(Model.OurProjectComponent.PhotoName, FilePath.OurProject)') no-repeat;">
+        <!-- <img class="sustainable-cover g-fluid" src="./static/assets/svgs/sustainable-1.svg" alt="Nobel Energy"> -->
+        <div class="sustainable-content">
+            <p class="sustainable-title our-projects-title">
+                @Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.OurProjectComponent, "Title", currentCulture))
+            </p>
+            <div class="sustainable-info">
+                @Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.OurProjectComponent, "Content", currentCulture))
+            </div>
+            <a asp-action="index" asp-controller="project" class="g-btn g-btn__green g-btn__md">
+                @await _unitOfWork.LanguageResources.GetByKeyAsync("ReadMore", currentCulture)
+            </a>
+        </div>
+    </section>
+</div>
+
+<!--------------------------- Our Projects Section --------------------------->
+
+<div id="g-pages-component-section">
+    @foreach (var flatpage in Model.Flatpages)
+    {
+        if (flatpage.IsBanner)
+        {
+            <div id="@flatpage.URL" class="g-page-banner">
+                <div class="g-page-banner-cover" style='background: transparent url("@_fileService.GetFileUrl(flatpage.PagePhotoName, FilePath.Flatpage)")'>
+                    <div class="g-page-banner-content">
+                        <h3 class="g-page-banner-title">
+                            @Html.Raw(_unitOfWork.Languages.ChooseLanguage(flatpage, "TitlePage", currentCulture))
+                        </h3>
+                        <div class="g-page-banner-text">
+                            @Html.Raw(_unitOfWork.Languages.ChooseLanguage(flatpage, "ContentPage", currentCulture))
+                        </div>
+                        <a href="/@currentCulture/@flatpage.URL" class="g-page-banner-anchor-button">
+                            @await _unitOfWork.LanguageResources.GetByKeyAsync("ReadMore", currentCulture)
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div id="@flatpage.URL" class="g-pages-component-element">
+                <div class="g-pages-component-element-wrapper">
+                    <div class="g-pages-component-element-content">
+                        <h2 class="g-pages-component-element-content-title">
+                            @Html.Raw(_unitOfWork.Languages.ChooseLanguage(flatpage, "TitlePage", currentCulture))
+                        </h2>
+                        <div class="g-pages-component-element-content-text">
+                            @Html.Raw(_unitOfWork.Languages.ChooseLanguage(flatpage, "ContentPage", currentCulture))
+                        </div>
+                        <a href="/@currentCulture/@flatpage.URL" class="g-pages-component-anchor-button">
+                            @await _unitOfWork.LanguageResources.GetByKeyAsync("ReadMore", currentCulture)
+                        </a>
+                    </div>
+                    <div class="g-pages-component-element-image">
+                        <img src="@_fileService.GetFileUrl(flatpage.PagePhotoName, FilePath.Flatpage)" asp-append-version="true">
+                    </div>
+                </div>
+            </div>
+        }
+    }
+     @foreach (var dynamicPage in Model.DynamicPages)
+    {
+        if (dynamicPage.IsBanner)
+        {
+            <div id="@dynamicPage.URL" class="g-page-banner">
+                <div class="g-page-banner-cover" style='background: transparent url("@_fileService.GetFileUrl(dynamicPage.PagePhotoName, FilePath.DynamicPage)")'>
+                    <div class="g-page-banner-content">
+                        <h3 class="g-page-banner-title">
+                            @Html.Raw(_unitOfWork.Languages.ChooseLanguage(dynamicPage, "TitlePage", currentCulture))
+                        </h3>
+                        <div class="g-page-banner-text">
+                            @Html.Raw(_unitOfWork.Languages.ChooseLanguage(dynamicPage, "ContentPage", currentCulture))
+                        </div>
+                        <a href="/@currentCulture/@dynamicPage.URL" class="g-page-banner-anchor-button">
+                            @await _unitOfWork.LanguageResources.GetByKeyAsync("ReadMore", currentCulture)
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div id="@dynamicPage.URL" class="g-pages-component-element">
+                <div class="g-pages-component-element-wrapper">
+                    <div class="g-pages-component-element-content">
+                        <h2 class="g-pages-component-element-content-title">
+                            @Html.Raw(_unitOfWork.Languages.ChooseLanguage(dynamicPage, "TitlePage", currentCulture))
+                        </h2>
+                        <div class="g-pages-component-element-content-text">
+                            @Html.Raw(_unitOfWork.Languages.ChooseLanguage(dynamicPage, "ContentPage", currentCulture))
+                        </div>
+                        <a href="/@currentCulture/@dynamicPage.URL" class="g-pages-component-anchor-button">
+                            @await _unitOfWork.LanguageResources.GetByKeyAsync("ReadMore", currentCulture)
+                        </a>
+                    </div>
+                    <div class="g-pages-component-element-image">
+                        <img src="@_fileService.GetFileUrl(dynamicPage.PagePhotoName, FilePath.DynamicPage)" asp-append-version="true">
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>

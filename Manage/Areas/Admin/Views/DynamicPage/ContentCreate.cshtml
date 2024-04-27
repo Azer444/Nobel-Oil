@@ -1,0 +1,166 @@
+﻿@using Manage.Areas.Admin.Models.DynamicPageManagement
+@using Core.Constants
+
+@model ContentAddViewModel
+
+@{
+    ViewData["Title"] = "Content";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <div class="float-right">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-action="contentlist" asp-route-id="@Model.DynamicPageId" asp-controller="dynamicpage" asp-area="admin">Contents</a></li>
+                    <li class="breadcrumb-item active">Create</li>
+                </ol>
+            </div>
+            <h4 class="page-title">Create Content</h4>
+        </div><!--end page-title-box-->
+    </div><!--end col-->
+</div>
+
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-@TempData["message_type"]">
+        @TempData["message"]
+    </div>
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data" asp-action="contentcreate" asp-controller="dynamicpage" id="dynamicpage-create">
+                    @Html.AntiForgeryToken()
+                    <div class="row">
+                        <div asp-validation-summary="ModelOnly" class="invalid-feedback" style="display:block"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="ContentTitle_AZ"></label>
+                                <input class="form-control form-control" asp-for="ContentTitle_AZ">
+                                <span asp-validation-for="ContentTitle_AZ" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="ContentTitle_RU"></label>
+                                <input class="form-control form-control" asp-for="ContentTitle_RU">
+                                <span asp-validation-for="ContentTitle_RU" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="ContentTitle_EN"></label>
+                                <input class="form-control form-control" asp-for="ContentTitle_EN">
+                                <span asp-validation-for="ContentTitle_EN" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="ContentTitle_TR"></label>
+                                <input class="form-control form-control" asp-for="ContentTitle_TR">
+                                <span asp-validation-for="ContentTitle_TR" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="custom-control custom-switch switch-success">
+                                    <input type="checkbox" class="custom-control-input" asp-for="IsContentTitle">
+                                    <label class="custom-control-label" asp-for="IsContentTitle"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="d-flex m-0 bold-text" asp-for="ContentPhoto"></label>
+                                <div class="custom-file">
+                                    <input asp-for="ContentPhoto" class="form-control custom-file-input" accept="image/*" />
+                                    <label class="custom-file-label"></label>
+                                </div>
+                                <span class="text-danger validate-message d-inline-block py-2" asp-validation-for="ContentPhoto"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Content_AZ"></label>
+                                <textarea class="form-control form-control" asp-for="Content_AZ"></textarea>
+                                <span asp-validation-for="Content_AZ" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Content_RU"></label>
+                                <textarea class="form-control form-control" asp-for="Content_RU"></textarea>
+                                <span asp-validation-for="Content_RU" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Content_EN"></label>
+                                <textarea class="form-control form-control" asp-for="Content_EN"></textarea>
+                                <span asp-validation-for="Content_EN" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Content_TR"></label>
+                                <textarea class="form-control form-control" asp-for="Content_TR"></textarea>
+                                <span asp-validation-for="Content_TR" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input class="form-control form-control" type="hidden" asp-for="DynamicPageId">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="form-group mt-3">
+                    <button class="btn btn-sm btn-primary" type="submit" form="dynamicpage-create">Save</button>
+                    <a asp-action="contentlist" asp-route-id="@Model.DynamicPageId" asp-controller="dynamicpage" asp-area="admin" class="btn btn-sm btn-danger">Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+
+<script src="~/Admin/vendor/slug.js" asp-append-version="true" ></script>
+<script src="~/Admin/vendor/ckeditor/ckeditor4/ckeditor.js" asp-append-version="true"></script>
+<script src="~/common/js/show_file_name.js" asp-append-version="true"></script>
+
+<!-- validate js -->
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+ }
+
+<script>
+    $('#Title_EN').on('input', function () {
+        $('#Slug').val(slug($(this).val()));
+    });
+
+    const contents = ["#Content_AZ", "#Content_RU", "#Content_EN", "#Content_TR"];
+
+    for (const content of contents) {
+         CKEDITOR.replace(document.querySelector(content), {
+            customConfig: '/admin/vendor/ckeditor/ckeditor4/dynamicPageConfig.js'
+        });
+    }
+
+</script>
+}

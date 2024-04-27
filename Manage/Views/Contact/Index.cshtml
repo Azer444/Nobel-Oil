@@ -1,0 +1,122 @@
+﻿@using Manage.Tools.FileHandler.Abstraction
+@using Manage.ViewModels.Contact
+@using Core.Constants.File
+@using Core.Constants
+@using Core
+@using System.Globalization
+
+@model IndexViewModel
+@inject IFileService _fileService
+@inject IUnitOfWork _unitOfWork
+
+@{
+    ViewData["Title"] = "Nobel Energy | Contact";
+    
+    var currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+}
+
+@await Component.InvokeAsync("IntroductionBanner", new { Page = Page.Contact })
+
+
+
+<!--------------------------- Contact Form --------------------------->
+
+<section id="contact-section" class="contact-section">
+    <div class="g-container">
+        <p class="g-title__md">@await _unitOfWork.LanguageResources.GetByKeyAsync("GetInTouch", currentCulture)</p>
+        <div class="contact-section__wrapper">
+            <div class="row">
+                <div class="col-md-6">
+                    <form id="contact-form" autocomplete="off" autocapitalize="off" class="contact-form">
+
+                        <div class="g-form-group-t2">
+                            <label class="g-label-t2 related-label" asp-for="ContactSubmitForm.FullName"></label>
+                            <input class="g-input-t2 target-field" id="fullName" name="fullName" required >
+                        </div>
+                        <div class="g-form-group-t2">
+                            <label class="g-label-t2 related-label" asp-for="ContactSubmitForm.Email"></label>
+                            <input class="g-input-t2 target-field" required id="email" name="email">
+                        </div>
+                        <div class="g-form-group-t2">
+                            <label class="g-label-t2 related-label" asp-for="ContactSubmitForm.Phone"></label>
+                            <input class="g-input-t2 target-field" required id="phone" name="phone">
+                        </div>
+                        <div class="g-form-group-t2">
+                            <label class="g-label-t2 related-label" asp-for="ContactSubmitForm.Subject"></label>
+                            <input class="g-input-t2 target-field" required id="subject" name="subject">
+                        </div>
+                        <div class="g-form-group-t2">
+                            <label class="g-label-t2 related-label" asp-for="ContactSubmitForm.Message"></label>
+                            <textarea class="g-input-t2 target-field" required cols="30" rows="1" id="message" name="message"></textarea>
+                        </div>
+                        <div id="success-alert" class="g-form-group-t2 d-none">
+                            <div class="alert alert-success" role="alert">
+                                @await _unitOfWork.LanguageResources.GetByKeyAsync("ApplySuccessfullyCompleted", currentCulture) 
+                            </div>
+                        </div>
+                        <div id="error-alert" class="g-form-group-t2 d-none">
+                            <div class="alert alert-danger" role="alert">
+                                @await _unitOfWork.LanguageResources.GetByKeyAsync("FillAllRequiredBlanks", currentCulture) 
+                            </div>
+                        </div>
+                        <button type="submit" class="g-btn g-btn__md g-btn__green contact-section__btn">
+                            @await _unitOfWork.LanguageResources.GetByKeyAsync("Send", currentCulture) 
+                        </button>
+                    </form>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="contact-section__info">
+                        @*<p class="contact-section__info--title">Info</p>
+                            <address>
+                                10Q Alasgar Gayibov St AZ1029, Baku, Azerbaijan
+                            </address>
+                            <a class="contact-section__info--link" href="+tel:+99412 310 44 44">+99412 310 44 44</a>
+                            <a href="mailto:contact@nobelenergy.com">contact@nobelenergy.com</a>*@
+                        @if (Model.SiteConfig != null)
+                        {
+                            @Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.SiteConfig, "Contact", currentCulture))
+                        }
+                        <div class="media__share">
+                            <ul class="media__share--wrapper">
+                                <li class="media__share--item">
+                                    <a target="_blank" class="media__share--link" href="@Model.SiteConfig.FacebookLink">
+                                        <i class="fab fa-facebook-f"></i>
+                                    </a>
+                                </li>
+                                <li class="media__share--item">
+                                    <a target="_blank" class="media__share--link" href="@Model.SiteConfig.LinkedinLink">
+                                        <i class="fab fa-linkedin-in"></i>
+                                    </a>
+                                </li>
+                                <li class="media__share--item">
+                                    <a target="_blank" class="media__share--link" href="@Model.SiteConfig.TwitterLink">
+                                        <i class="fab fa-twitter"></i>
+                                    </a>
+                                </li>
+                                <li class="media__share--item">
+                                    <a target="_blank" class="media__share--link" href="@Model.SiteConfig.YoutubeLink">
+                                        <i class="fab fa-youtube"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--------------------------- Contact Form --------------------------->
+
+
+@section scripts{
+    <script>
+        var contactPostUrl = $"{@currentCulture}/contact/message"
+    </script>
+
+    <script src="~/Client/pages/Contact/Index.js" asp-append-version="true"></script>
+    <script src="~/Client/js/label-animation.js"></script>
+    <script src="~/Client/js/contact.js"></script>
+}

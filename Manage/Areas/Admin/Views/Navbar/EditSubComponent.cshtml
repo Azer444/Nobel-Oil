@@ -1,0 +1,110 @@
+﻿@using Core.Models
+@model NavSubComponent
+@{
+    ViewData["Title"] = "Navbar";
+}
+
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <div class="float-right">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-action="index" asp-controller="navbar" asp-area="admin">Navbar Sub-Component</a></li>
+                    <li class="breadcrumb-item active">Edit sub-component</li>
+                </ol>
+            </div>
+            <h4 class="page-title">Edit sub-component</h4>
+        </div><!--end page-title-box-->
+    </div><!--end col-->
+</div>
+
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-@TempData["message_type"]">
+        @TempData["message"]
+    </div>
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <form method="POST" asp-action="editsubcomponent" asp-controller="navbar" id="ourproject-create">
+                    @Html.AntiForgeryToken()
+
+                    <div class="row">
+                        <div asp-validation-summary="ModelOnly" class="invalid-feedback" style="display:block"></div>
+                    </div>
+
+                    <input type="hidden" asp-for="NavComponentId" />
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Title_AZ"></label>
+                                <input class="form-control form-control" asp-for="Title_AZ">
+                                <span asp-validation-for="Title_AZ" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Title_RU"></label>
+                                <input class="form-control form-control" asp-for="Title_RU">
+                                <span asp-validation-for="Title_RU" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Title_EN"></label>
+                                <input class="form-control form-control" asp-for="Title_EN">
+                                <span asp-validation-for="Title_EN" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Title_TR"></label>
+                                <input class="form-control form-control" asp-for="Title_TR">
+                                <span asp-validation-for="Title_TR" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Link"></label>
+                                <input class="form-control form-control" asp-for="Link">
+                                <span asp-validation-for="Link" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="custom-control custom-switch switch-success">
+                                    <input class="custom-control-input" asp-for="IsActive">
+                                    <label class="custom-control-label" asp-for="IsActive"></label>
+                                    <span asp-validation-for="IsActive" class="invalid-feedback" style="display:block"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="form-group mt-3">
+                    <button class="btn btn-sm btn-primary" type="submit" form="ourproject-create">Save</button>
+                    @*<button class="btn btn-sm btn-primary" type="submit" form="user-create">Save and edit</button>*@
+                    <a asp-action="index" asp-controller="navbar" asp-area="admin" class="btn btn-sm btn-danger">Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

@@ -1,0 +1,185 @@
+﻿@using Manage.Tools.FileHandler.Abstraction
+@using Manage.ViewModels.Career
+@using Core.Constants.File
+@using Core.Constants
+@using Core
+@using System.Globalization
+
+@model IndexViewModel
+@inject IFileService _fileService
+@inject IUnitOfWork _unitOfWork
+
+@{
+    ViewData["Title"] = "Nobel Energy | Career";
+    
+    var currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+}
+
+@await Component.InvokeAsync("IntroductionBanner", new { Page = Page.Career })
+
+@await Component.InvokeAsync("PageTab", new { page = Page.Career, currentPage = $"" })
+
+<!--------------------------- Pages Components --------------------------->
+
+<div id="g-pages-component-section">
+
+    @foreach (var careerComponent in Model.CareerComponents)
+    {
+        if (careerComponent.IsBanner)
+        {
+            <div id="career/@careerComponent.Slug" class="g-page-banner">
+                <div class="g-page-banner-cover" style="background-image: url('@_fileService.GetFileUrl(careerComponent.PhotoName_Career, FilePath.Career)');">
+                    <div class="g-page-banner-content">
+                        <h2 class="g-page-banner-title">@Html.Raw(_unitOfWork.Languages.ChooseLanguage(careerComponent, "Title", currentCulture))</h2>
+                        <div class="g-page-banner-text">
+                            @Html.Raw(_unitOfWork.Languages.ChooseLanguage(careerComponent, "ContentCareer", currentCulture))
+                        </div>
+                        <a asp-route-culture="@currentCulture" asp-action="component" asp-controller="career" asp-route-slug="@careerComponent.Slug" class="g-page-banner-anchor-button">@await _unitOfWork.LanguageResources.GetByKeyAsync("ReadMore", currentCulture)</a>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div id="career/@careerComponent.Slug" class="g-pages-component-element">
+                <div class="g-pages-component-element-wrapper">
+                    <div class="g-pages-component-element-content">
+                        <h2 class="g-pages-component-element-content-title">
+                            @Html.Raw(_unitOfWork.Languages.ChooseLanguage(careerComponent, "Title", currentCulture))
+                        </h2>
+                        <div class="g-pages-component-element-content-text">
+                            @Html.Raw(_unitOfWork.Languages.ChooseLanguage(careerComponent, "ContentCareer", currentCulture))
+                        </div>
+                        <a asp-route-culture="@currentCulture" asp-action="component" asp-controller="career" asp-route-slug="@careerComponent.Slug" class="g-pages-component-anchor-button">@await _unitOfWork.LanguageResources.GetByKeyAsync("ReadMore", currentCulture)</a>
+                    </div>
+                    <div class="g-pages-component-element-image">
+                        <img src="@_fileService.GetFileUrl(careerComponent.PhotoName_Career, FilePath.Career)" asp-append-version="true">
+                    </div>
+                </div>
+            </div>
+        }
+    }
+
+    @foreach (var flatpage in Model.Flatpages)
+    {
+        if (flatpage.IsBanner)
+        {
+            <div id="@flatpage.URL" class="g-page-banner">
+                <div class="g-page-banner-cover" style='background: transparent url("@_fileService.GetFileUrl(flatpage.PagePhotoName, FilePath.Flatpage)")'>
+                    <div class="g-page-banner-content">
+                        <h3 class="g-page-banner-title">@Html.Raw(_unitOfWork.Languages.ChooseLanguage(flatpage, "TitlePage", currentCulture))</h3>
+                        <div class="g-page-banner-text">@Html.Raw(_unitOfWork.Languages.ChooseLanguage(flatpage, "ContentPage", currentCulture))</div>
+                        <a href="/@currentCulture/@flatpage.URL" class="g-page-banner-anchor-button">@await _unitOfWork.LanguageResources.GetByKeyAsync("ReadMore", currentCulture)</a>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div id="@flatpage.URL" class="g-pages-component-element">
+                <div class="g-pages-component-element-wrapper">
+                    <div class="g-pages-component-element-content">
+                        <h2 class="g-pages-component-element-content-title">@Html.Raw(_unitOfWork.Languages.ChooseLanguage(flatpage, "TitlePage", currentCulture))</h2>
+                        <div class="g-pages-component-element-content-text">@Html.Raw(_unitOfWork.Languages.ChooseLanguage(flatpage, "ContentPage", currentCulture))</div>
+                        <a href="/@currentCulture/@flatpage.URL" class="g-pages-component-anchor-button">@await _unitOfWork.LanguageResources.GetByKeyAsync("ReadMore", currentCulture)</a>
+                    </div>
+                    <div class="g-pages-component-element-image">
+                        <img src="@_fileService.GetFileUrl(flatpage.PagePhotoName, FilePath.Flatpage)" asp-append-version="true">
+                    </div>
+                </div>
+            </div>
+        }
+    }
+
+    @foreach (var dynamicPage in Model.DynamicPages)
+    {
+        if (dynamicPage.IsBanner)
+        {
+            <div id="@dynamicPage.URL" class="g-page-banner">
+                <div class="g-page-banner-cover" style='background: transparent url("@_fileService.GetFileUrl(dynamicPage.PagePhotoName, FilePath.DynamicPage)")'>
+                    <div class="g-page-banner-content">
+                        <h3 class="g-page-banner-title">@Html.Raw(_unitOfWork.Languages.ChooseLanguage(dynamicPage, "TitlePage", currentCulture))</h3>
+                        <div class="g-page-banner-text">@Html.Raw(_unitOfWork.Languages.ChooseLanguage(dynamicPage, "ContentPage", currentCulture))</div>
+                        <a href="/@currentCulture/@dynamicPage.URL" class="g-page-banner-anchor-button">@await _unitOfWork.LanguageResources.GetByKeyAsync("ReadMore", currentCulture)</a>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div id="@dynamicPage.URL" class="g-pages-component-element">
+                <div class="g-pages-component-element-wrapper">
+                    <div class="g-pages-component-element-content">
+                        <h2 class="g-pages-component-element-content-title">@Html.Raw(_unitOfWork.Languages.ChooseLanguage(dynamicPage, "TitlePage", currentCulture))</h2>
+                        <div class="g-pages-component-element-content-text">@Html.Raw(_unitOfWork.Languages.ChooseLanguage(dynamicPage, "ContentPage", currentCulture))</div>
+                        <a href="/@currentCulture/@dynamicPage.URL" class="g-pages-component-anchor-button">@await _unitOfWork.LanguageResources.GetByKeyAsync("ReadMore", currentCulture)</a>
+                    </div>
+                    <div class="g-pages-component-element-image">
+                        <img src="@_fileService.GetFileUrl(dynamicPage.PagePhotoName, FilePath.DynamicPage)" asp-append-version="true">
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+<!--------------------------- Pages Components --------------------------->
+
+<section class="what-we-do-services-img on-career g-container mb-150">
+    <div class="row gx-4">
+        @foreach (var company in Model.Companies)
+        {
+            <div class="col-md-6">
+                <div class="news-section__card">
+                    <div class="news-section__card--img">
+                        <a href="#"><img src="@_fileService.GetFileUrl(company.PhotoName_Career, FilePath.Company)" asp-append-version="true" alt="company-image"></a>
+                    </div>
+                    <p class="news-section__card--title">
+                        @Html.Raw(_unitOfWork.Languages.ChooseLanguage(company, "Title", currentCulture))
+                    </p>
+                    <div class="news-section__card--layer">
+                        <a href="@company.Link_Career" class="has-triangle explore-btn layer-btn g-btn">@Html.Raw(_unitOfWork.Languages.ChooseLanguage(company, "TitleCareer", currentCulture))</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</section>
+
+<div class="media__related-news on-career g-container">
+    <h3>@await _unitOfWork.LanguageResources.GetByKeyAsync("CareerTips", currentCulture) </h3>
+    <div class="news-section__news ">
+        <div class="news-wrapper row ">
+            @foreach (var careerTip in Model.CareerTipComponents)
+            {
+                <div class="swiper-slide_card mt-5 col-md-4">
+                    <div class="news-section__card ">
+                        <div class="news-section__card--img">
+                            <img src="@_fileService.GetFileUrl(careerTip.PhotoName_Career, FilePath.Career)" asp-append-version="true" alt="career-photo">
+                        </div>
+                        <div class="news-section__card--body">
+                            <p class="news-section__card--title">
+                                @_unitOfWork.Languages.ChooseLanguage(careerTip, "Title", currentCulture)
+                            </p>
+                            <div class="news-section__card--info">
+                                @Html.Raw(_unitOfWork.Languages.ChooseLanguage(careerTip, "Content", currentCulture))
+                            </div>
+                            <div class="news-section__card--footer">
+                                <a asp-route-culture="@currentCulture" asp-action="tip" asp-controller="career" asp-route-id="@careerTip.Id" class="g-btn">@await _unitOfWork.LanguageResources.GetByKeyAsync("ReadMore", currentCulture)</a>
+                                <p class="news-section__card--date">@careerTip.Date.ToString("dd.MM.yyyy")</p>
+                            </div>
+                        </div>
+                        <div class="news-section__card--layer">
+                            <p class="layer-title">@_unitOfWork.Languages.ChooseLanguage(careerTip, "Title", currentCulture)</p>
+                            <a asp-route-culture="@currentCulture" asp-action="tip" asp-controller="career" asp-route-id="@careerTip.Id" class="layer-btn g-btn">@await _unitOfWork.LanguageResources.GetByKeyAsync("ReadMore", currentCulture)</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/Client/js/newsTruncate.js"></script>
+}

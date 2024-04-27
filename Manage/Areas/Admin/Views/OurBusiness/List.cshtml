@@ -1,0 +1,114 @@
+﻿@using Manage.Areas.Admin.Models.PageManagement.OurBusiness
+@using Manage.Tools.FileHandler.Abstraction
+@using Core.Constants.File
+
+@inject IFileService _fileService
+@model OurBusinessListViewModel
+
+@{
+    ViewData["Title"] = "Our businesses";
+}
+
+@section plugin_styles{
+    <link rel="stylesheet" href="~/Areas/Admin/plugins/select2/select2.min.css" />
+    <link rel="stylesheet" href="~/Areas/Admin/plugins/daterangepicker/daterangepicker.css" />
+    <link rel="stylesheet" href="~/Areas/Admin/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.css" />
+    <link rel="stylesheet" href="~/Areas/Admin/plugins/timepicker/bootstrap-material-datetimepicker.css" />
+    <link rel="stylesheet" href="~/Areas/Admin/plugins/bootstrap-touchspin/css/jquery.bootstrap-touchspin.min.css" />
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <h4 class="page-title">Our businesses</h4>
+        </div>
+    </div>
+</div>
+
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-@TempData["message_type"]">
+        @TempData["message"]
+    </div>
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div>
+                    <a asp-action="create" asp-controller="ourbusiness" asp-area="admin" asp type="button" class="btn btn-gradient-primary waves-effect waves-light float-right mb-3">
+                        + New Our business
+                    </a>
+                </div>
+
+                <div class="table-responsive">
+
+                    <table id="ourbusiness-table" class="table table-striped mb-0 ">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.OurBusinesses.GetEnumerator().Current.PhotoName)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.OurBusinesses.GetEnumerator().Current.Title_AZ)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.OurBusinesses.GetEnumerator().Current.Title_RU)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.OurBusinesses.GetEnumerator().Current.Title_EN)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.OurBusinesses.GetEnumerator().Current.Title_TR)</span>
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int rowCounter = 0;
+                                foreach (var ourBusiness in Model.OurBusinesses)
+                                {
+                                    rowCounter++;
+
+                                    ourBusiness.PhotoName = _fileService.GetFileUrl(ourBusiness.PhotoName, FilePath.OurBusiness);
+                                    <tr data-pk="@ourBusiness.Id">
+                                        <td>
+                                            <img src="@ourBusiness.PhotoName" style="width:200px;object-fit:cover;" />
+                                        </td>
+                                        <td>@ourBusiness.Title_AZ</td>
+                                        <td>@ourBusiness.Title_RU</td>
+                                        <td>@ourBusiness.Title_EN</td>
+                                        <td>@ourBusiness.Title_TR</td>
+                                        <td>
+                                            <a asp-controller="ourbusiness" asp-action="edit" asp-route-id="@ourBusiness.Id" class="mr-2"><i class="fas fa-edit text-info font-18"></i></a>
+                                            <a asp-controller="ourbusiness" asp-action="delete" asp-route-id="@ourBusiness.Id" onclick="return confirm('Are you sure to delete?')" class="mr-2"><i class="fas fa-trash-alt text-danger font-18"></i></a>
+                                            <a asp-controller="ourbusiness" asp-action="details" asp-route-id="@ourBusiness.Id" class="mr-2"><i class="fas fa-external-link-square-alt text-info font-18"></i></a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+
+                </div><!--end /tableresponsive-->
+            </div><!--end card-body-->
+        </div><!--end card-->
+    </div> <!-- end col -->
+</div>
+
+@section plugin_scripts{
+    <script src="~/Areas/Admin/plugins/moment/moment.js" asp-append-version="true"></script>
+    <script src="~/Areas/Admin/plugins/daterangepicker/daterangepicker.js" asp-append-version="true"></script>
+    <script src="~/Areas/Admin/plugins/select2/select2.min.js" asp-append-version="true"></script>
+    <script src="~/Areas/Admin/plugins/timepicker/bootstrap-material-datetimepicker.js" asp-append-version="true"></script>
+    <script src="~/Areas/Admin/plugins/bootstrap-touchspin/js/jquery.bootstrap-touchspin.min.js" asp-append-version="true"></script>
+    <script src="~/Areas/Admin/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js" asp-append-version="true"></script>
+    <script src="~/Areas/Admin/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js" asp-append-version="true"></script>
+    <script src="~/Areas/Admin/assets/pages/jquery.forms-advanced.js" asp-append-version="true"></script>
+}
+
+@section Scripts{
+
+}

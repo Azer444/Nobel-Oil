@@ -1,0 +1,32 @@
+﻿@using Core
+@using Manage.ViewModels.DynamicPage
+@using Core.Constants
+@using System.Globalization
+
+@model DynamicPageViewModel
+
+@{
+    ViewData["Title"] = $"Nobel Energy | {Model.BannerTitle}";
+    var currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+}
+
+<!--------------------------- Introduction Banner --------------------------->
+<section id="g-banner-section">
+    <a class="g-btn scroll-to scroll-to-section" href="#sticky-section">
+        <img class="g-fluid" src="~/Client/assets/svgs/double-arrow.svg" asp-append-version="true" alt="Nobel Energy">
+    </a>
+    <div class="g-banner" style="background-image: url('@Model.BannerPhotoName');">
+        <div class="g-container">
+            <h1 class="g-banner-title">@Model.BannerTitle</h1>
+        </div>
+    </div>
+</section>
+<!--------------------------- Introduction Banner --------------------------->
+
+<!--------------------------- Tab --------------------------->
+@await Component.InvokeAsync("PageTab", new { page = Model.Page, currentPage = $"{currentCulture}/{Model.Page}"})
+<!--------------------------- Tab --------------------------->
+
+<!--------------------------- Content --------------------------->
+@await Component.InvokeAsync("DynamicPageContent", new { id = Model.Id })
+<!--------------------------- Content --------------------------->

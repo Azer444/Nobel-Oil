@@ -1,0 +1,58 @@
+﻿@using Manage.Tools.FileHandler.Abstraction
+@using Manage.ViewModels.ExecutiveManagement
+@using Core.Constants.File
+@using Core.Constants
+@using Core
+@using System.Globalization
+
+@model IndexViewModel
+@inject IFileService _fileService
+@inject IUnitOfWork _unitOfWork
+
+@{
+    ViewData["Title"] = "Nobel Energy | Executive management";
+    
+    var currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+}
+
+@await Component.InvokeAsync("IntroductionBanner", new { Page = Page.WhoWeAre })
+
+
+<!--------------------------- Tab --------------------------->
+
+@await Component.InvokeAsync("PageTab", new { page = Page.WhoWeAre, currentPage = $"{currentCulture}/executivemanagement" })
+
+<!--------------------------- Tab --------------------------->
+
+<!--------------------------- Pages Components --------------------------->
+
+<div id="g-pages-component-section" class="px-md-5 px-2">
+    <div class="row justify-content-around ">
+        <h2 class="g-pages-component-title">
+            @Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.ExecutiveManagementComponent, "Title", currentCulture))
+        </h2>
+
+        @foreach (var executiveManager in Model.ExecutiveManagers)
+        {
+            <div class="g-pages-component-director col-lg-6">
+                <div class="g-pages-component-director-image  "
+                     style="background-image: url('@_fileService.GetFileUrl(executiveManager.PhotoName, FilePath.Manager)');">
+
+                    <h4 class="g-pages-component-director-name  mb-5 mb-md-0">
+                        @Html.Raw(_unitOfWork.Languages.ChooseLanguage(executiveManager, "Name", currentCulture))
+                    </h4>
+                    <p class="g-pages-component-director-position">
+                        @Html.Raw(_unitOfWork.Languages.ChooseLanguage(executiveManager, "Info", currentCulture))
+                    </p>
+                </div>
+
+                <div class="g-pages-component-director-info px-2 mt-3">
+                    @Html.Raw(_unitOfWork.Languages.ChooseLanguage(executiveManager, "Content", currentCulture))
+                </div>
+            </div>
+        }
+
+    </div>
+</div>
+
+<!--------------------------- Pages Components --------------------------->

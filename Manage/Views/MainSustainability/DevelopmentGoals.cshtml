@@ -1,0 +1,56 @@
+﻿@using Manage.Tools.FileHandler.Abstraction
+@using Manage.ViewModels.MainSustainability
+@using Core.Constants.File
+@using Core.Constants
+@using Core.Models
+@using Core
+@using System.Globalization
+
+@model List<SustainableGoal>
+@inject IFileService _fileService
+@inject IUnitOfWork _unitOfWork
+
+@{
+    ViewData["Title"] = "Nobel Energy | Development goals";
+    
+    var currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+}
+
+@await Component.InvokeAsync("IntroductionBanner", new { Page = Page.Sustainability })
+
+
+<!--------------------------- Tab --------------------------->
+
+@await Component.InvokeAsync("PageTab", new { page = Page.Sustainability, currentPage = "sustainability/developmentgoals" })
+
+<!--------------------------- Tab --------------------------->
+<!--------------------------- Pages Components --------------------------->
+<section class="what-we-do-services-img g-container on-sustainability mb-150">
+    <div class="row gx-4">
+        @foreach (var sustainableGoal in Model)
+        {
+            <div class="col-lg-4 col-md-6">
+                <div class="news-section__card">
+                    <div class="news-section__card--img">
+                        <a href="@_unitOfWork.Languages.ChooseLanguage(sustainableGoal, "ExternalLink", currentCulture)">
+                            <img src="@_fileService.GetFileUrl(sustainableGoal.PhotoName, FilePath.SustainableGoal)" alt="">
+                        </a>
+                    </div>
+                    <p class="news-section__card--title-2">
+                        @_unitOfWork.Languages.ChooseLanguage(sustainableGoal, "Title", currentCulture)
+                    </p>
+                    <div class="news-section__card--layer px-4">
+                        <h5 class="sustainability-layer-title px-2">
+                            @_unitOfWork.Languages.ChooseLanguage(sustainableGoal, "Title", currentCulture)
+                        </h5>
+                        <div class="sustainability-layer-list list px-3 mt-3">
+                            @Html.Raw(_unitOfWork.Languages.ChooseLanguage(sustainableGoal, "ExternalLink", currentCulture))
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</section>
+
+<!--------------------------- Pages Components --------------------------->

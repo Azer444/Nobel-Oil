@@ -1,0 +1,170 @@
+﻿@using Manage.Tools.FileHandler.Abstraction
+@using Manage.ViewModels.Career
+@using Core.Constants.File
+@using EcomLab.Core.Constants.File
+@using Core.Constants
+@using Core
+@using System.Globalization
+
+@model ComponentViewModel
+@inject IFileService _fileService
+@inject IUnitOfWork _unitOfWork
+
+@{
+    ViewData["Title"] = "Nobel Energy | Career";
+    var currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+}
+
+@await Component.InvokeAsync("IntroductionBanner", new { Page = Page.Career })
+
+<!--------------------------- Tab --------------------------->
+@await Component.InvokeAsync("PageTab", new { page = Page.Career, currentPage = $"{currentCulture}/career/{Model.CareerComponent.Slug}" })
+
+
+<!--------------------------- Tab --------------------------->
+<!--------------------------- Project Content --------------------------->
+@if (Model.CareerComponent.ImageOnRight)
+{
+    <div id="g-pages-component-section">
+        <div class="g-pages-component-element">
+            <div class="g-pages-component-element-wrapper">
+                <div class="g-pages-component-element-content">
+                    <h2 class="g-pages-component-element-content-title">
+                        @_unitOfWork.Languages.ChooseLanguage(Model.CareerComponent, "Title", currentCulture)
+                    </h2>
+                    <div class="g-pages-component-element-content-text">
+                        @Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.CareerComponent, "Content", currentCulture))
+                    </div>
+                </div>
+                <div class="g-pages-component-element-image">
+                    <img src="@_fileService.GetFileUrl(Model.CareerComponent.PhotoName, FilePath.Career)" asp-append-version="true">
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+else
+{
+    <section id="g-project-section">
+        <div class="g-container__md">
+            <div class="g-project">
+                <img class="g-project-image" src="@_fileService.GetFileUrl(Model.CareerComponent.PhotoName, FilePath.Career)" asp-append-version="true">
+                <div class="g-project-content">
+                    <p class="g-project-content-title">@_unitOfWork.Languages.ChooseLanguage(Model.CareerComponent, "Title", currentCulture)</p>
+                    @Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.CareerComponent, "Content", currentCulture))
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+
+@if (Model.CareerComponent.ShowVacancies)
+{
+    <div class="accordion-section">
+        <div class="g-container">
+            <div class="accordion-section__wrapper">
+                <div class="accordion" id="mainAccordion">
+                    @{
+                        int order = 0;
+                    }
+                    @foreach (var vacancy in Model.Vacancies)
+                    {
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading_@order">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_@order" aria-expanded="false" aria-controls="collapse_@order">
+                                    @_unitOfWork.Languages.ChooseLanguage(vacancy, "Title", currentCulture)
+                                </button>
+                            </h2>
+                            <div id="collapse_@order" class="accordion-collapse collapse" aria-labelledby="heading_@order" data-bs-parent="#mainAccordion">
+                                <div class="accordion-body">
+                                    @Html.Raw(_unitOfWork.Languages.ChooseLanguage(vacancy, "Content", currentCulture))
+                                    <button id="@vacancy.Id" class="g-btn g-btn__md g-btn__orange apply-btn" data-bs-toggle="modal" data-bs-target="#applyModal">
+                                        @await _unitOfWork.LanguageResources.GetByKeyAsync("ApplyNow",  currentCulture)
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        order++;
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--------------------------- Apply Form Modal --------------------------->
+    <div class="modal fade g-modal apply-modal" id="applyModal" tabindex="-1" aria-labelledby="applyModal"
+     aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close-btn g-btn" data-bs-dismiss="modal">
+                        <img src="~/Client/assets/svgs/close-black.svg" asp-append-version="true" alt="">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h2 class="apply-title">
+                        @await _unitOfWork.LanguageResources.GetByKeyAsync("ApplyNow",  currentCulture)
+                    </h2>
+                    <div class="g-form apply-form__wrapper">
+                        <form id="apply-form" class="apply-form" autocomplete="off" autocapitalize="off" enctype="multipart/form-data" asp-action="apply" onsubmit="return jqueryAjaxPost(this)">
+                            <input type="hidden" id="vacancyId" asp-for="VacancyApply.VacancyId" value="" />
+                            <div class="g-form-group">
+                                <input class="g-input" id="fullName" asp-for="VacancyApply.FullName" placeholder="@Html.DisplayNameFor(v => v.VacancyApply.FullName)">
+                            </div>
+                            <div class="g-form-group">
+                                <input type="email" class="g-input" id="email" asp-for="VacancyApply.Email" placeholder="@Html.DisplayNameFor(v => v.VacancyApply.Email)">
+                            </div>
+                            <div class="g-form-group">
+                                <input readonly id="position" class="g-input" placeholder="Position">
+                            </div>
+                            <div class="g-form-group">
+                                <label class="g-upload">
+                                    <input type="file" asp-for="VacancyApply.CV" accept=".pdf,.doc,.docx" class="visually-hidden" id="cv-form-file">
+                                    <p class="g-upload__label">
+                                        @Html.DisplayNameFor(v => v.VacancyApply.CV)
+                                    </p>
+                                </label>
+                            </div>
+                            <div class="g-form-group">
+                                <label class="g-upload">
+                                    <input type="file" id="supportingFiles-form-file" asp-for="VacancyApply.SupportingFiles" accept=".pdf,.doc,.docx" multiple class="visually-hidden">
+                                    <p class="g-upload__label">
+                                        @Html.DisplayNameFor(v => v.VacancyApply.SupportingFiles)
+                                    </p>
+                                </label>
+                            </div>
+                            <div id="success-alert" class="g-form-group d-none">
+                                <div class="alert alert-success" role="alert">
+                                    @await _unitOfWork.LanguageResources.GetByKeyAsync("ApplySuccessfullyCompleted",  currentCulture)
+                                </div>
+                            </div>
+                            <div id="error-alert" class="g-form-group d-none">
+                                <div class="alert alert-danger" role="alert">
+                                    @await _unitOfWork.LanguageResources.GetByKeyAsync("FillAllRequiredBlanks",  currentCulture)
+                                </div>
+                            </div>
+                            <button type="submit" class="g-btn g-btn__orange apply-form__btn">
+                                @await _unitOfWork.LanguageResources.GetByKeyAsync("Send",  currentCulture)
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--------------------------- Apply Form Modal --------------------------->
+}
+
+<!--------------------------- Project Content --------------------------->
+@section scripts{
+    <script>
+
+    </script>
+    <script src="~/Client/js/upload.js"></script>
+    <script src="~/Client/js/vacancy.js" asp-append-version="true"></script>
+    <script src="~/common/js/show_file_name.js"></script>
+}

@@ -1,0 +1,114 @@
+﻿@using Manage.Areas.Admin.Models.ComponentManagement.Project
+@using Manage.Tools.FileHandler.Abstraction
+@using Core.Constants.File
+
+@inject IFileService _fileService
+@model ProjectListViewModel
+
+@{
+    ViewData["Title"] = "Projects";
+}
+
+@section plugin_styles{
+    <link rel="stylesheet" href="~/Areas/Admin/plugins/select2/select2.min.css" />
+    <link rel="stylesheet" href="~/Areas/Admin/plugins/daterangepicker/daterangepicker.css" />
+    <link rel="stylesheet" href="~/Areas/Admin/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.css" />
+    <link rel="stylesheet" href="~/Areas/Admin/plugins/timepicker/bootstrap-material-datetimepicker.css" />
+    <link rel="stylesheet" href="~/Areas/Admin/plugins/bootstrap-touchspin/css/jquery.bootstrap-touchspin.min.css" />
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <h4 class="page-title">Projects</h4>
+        </div>
+    </div>
+</div>
+
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-@TempData["message_type"]">
+        @TempData["message"]
+    </div>
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div>
+                    <a asp-action="create" asp-controller="project" asp-area="admin" asp type="button" class="btn btn-gradient-primary waves-effect waves-light float-right mb-3">
+                        + New Project
+                    </a>
+                </div>
+
+                <div class="table-responsive">
+
+                    <table id="project-table" class="table table-striped mb-0 ">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.Projects.GetEnumerator().Current.PhotoName)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.Projects.GetEnumerator().Current.Title_AZ)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.Projects.GetEnumerator().Current.Title_RU)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.Projects.GetEnumerator().Current.Title_EN)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.Projects.GetEnumerator().Current.Title_TR)</span>
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int rowCounter = 0;
+                                foreach (var project in Model.Projects)
+                                {
+                                    rowCounter++;
+
+                                    project.PhotoName = _fileService.GetFileUrl(project.PhotoName, FilePath.Project);
+                                    <tr data-pk="@project.Id">
+                                        <td>
+                                            <img src="@project.PhotoName" style="width:200px;object-fit:cover;" />
+                                        </td>
+                                        <td>@project.Title_AZ</td>
+                                        <td>@project.Title_RU</td>
+                                        <td>@project.Title_EN</td>
+                                        <td>@project.Title_TR</td>
+                                        <td>
+                                            <a asp-controller="project" asp-action="edit" asp-route-id="@project.Id" class="mr-2"><i class="fas fa-edit text-info font-18"></i></a>
+                                            <a asp-controller="project" asp-action="delete" asp-route-id="@project.Id" onclick="return confirm('Are you sure to delete?')" class="mr-2"><i class="fas fa-trash-alt text-danger font-18"></i></a>
+                                            <a asp-controller="project" asp-action="details" asp-route-id="@project.Id" class="mr-2"><i class="fas fa-external-link-square-alt text-info font-18"></i></a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+
+                </div><!--end /tableresponsive-->
+            </div><!--end card-body-->
+        </div><!--end card-->
+    </div> <!-- end col -->
+</div>
+
+@section plugin_scripts{
+    <script src="~/Areas/Admin/plugins/moment/moment.js" asp-append-version="true"></script>
+    <script src="~/Areas/Admin/plugins/daterangepicker/daterangepicker.js" asp-append-version="true"></script>
+    <script src="~/Areas/Admin/plugins/select2/select2.min.js" asp-append-version="true"></script>
+    <script src="~/Areas/Admin/plugins/timepicker/bootstrap-material-datetimepicker.js" asp-append-version="true"></script>
+    <script src="~/Areas/Admin/plugins/bootstrap-touchspin/js/jquery.bootstrap-touchspin.min.js" asp-append-version="true"></script>
+    <script src="~/Areas/Admin/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js" asp-append-version="true"></script>
+    <script src="~/Areas/Admin/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js" asp-append-version="true"></script>
+    <script src="~/Areas/Admin/assets/pages/jquery.forms-advanced.js" asp-append-version="true"></script>
+}
+
+@section Scripts{
+
+}

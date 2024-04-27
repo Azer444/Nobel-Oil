@@ -1,0 +1,165 @@
+﻿@using Manage.ViewModels.ViewComponent
+@using Core.Constants
+@using Core
+@using System.Globalization
+
+@model PageTabViewModel
+@inject IUnitOfWork _unitOfWork
+
+@{
+    var currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+}
+
+@if (Model.Page == Page.WhoWeAre)
+{
+    <div id="sticky-section">
+        <div class="g-container">
+            @if (string.IsNullOrEmpty(Model.CurrentPage))
+            {
+                <section id="g-tab-section" class="not-scroll-el">
+                    @foreach (var pageTabComponent in Model.PageTabComponents?.Where(c => c.Page == Page.WhoWeAre))
+                    {
+                        <a href="#@pageTabComponent.Link" class="g-tab-component @( Model.CurrentPage == $"{pageTabComponent.Link}" ? "active" : "")">
+                            @_unitOfWork.Languages.ChooseLanguage(pageTabComponent, "Title", currentCulture)
+                        </a>
+                    }
+                </section>
+            }
+            else
+            {
+                <section id="g-tab-section">
+                    @foreach (var pageTabComponent in Model.PageTabComponents?.Where(c => c.Page == Page.WhoWeAre))
+                    {
+                        <a href="/@currentCulture/@pageTabComponent.Link" class="g-tab-component @( Model.CurrentPage == $"{pageTabComponent.Link}" ? "active" : "")">
+                            @_unitOfWork.Languages.ChooseLanguage(pageTabComponent, "Title", currentCulture)
+                        </a>
+
+                    }
+                </section>
+            }
+        </div>
+    </div>
+}
+
+@if (Model.Page == Page.WhatWeDo)
+{
+    <div id="sticky-section">
+        <div class="g-container">
+            @if (string.IsNullOrEmpty(Model.CurrentPage))
+            {
+                <section id="g-tab-section" class="not-scroll-el">
+                    @foreach (var pageTabComponent in Model.PageTabComponents?.Where(c => c.Page == Page.WhatWeDo))
+                    {
+                        <a href="#@pageTabComponent.Link" class="g-tab-component indigo @( Model.CurrentPage == $"{pageTabComponent.Link}" ? "active" : "")">
+                            @_unitOfWork.Languages.ChooseLanguage(pageTabComponent, "Title", currentCulture)
+                        </a>
+                    }
+                </section>
+            }
+            else
+            {
+                <section id="g-tab-section">
+                    @foreach (var pageTabComponent in Model.PageTabComponents?.Where(c => c.Page == Page.WhatWeDo))
+                    {
+                        <a href="/@currentCulture/@pageTabComponent.Link" class="g-tab-component indigo @( Model.CurrentPage == $"{pageTabComponent.Link}" ? "active" : "")">
+                            @_unitOfWork.Languages.ChooseLanguage(pageTabComponent, "Title", currentCulture)
+                        </a>
+
+                    }
+                </section>
+            }
+        </div>
+    </div>
+}
+
+@if (Model.Page == Page.Sustainability)
+{
+    <div id="sticky-section">
+        <div class="g-container">
+            @if (string.IsNullOrEmpty(Model.CurrentPage))
+            {
+
+                <section id="g-tab-section" class="not-scroll-el">
+                    @foreach (var pageTabComponent in Model.PageTabComponents?.Where(c => c.Page == Page.Sustainability))
+                    {
+                        <a href="#@pageTabComponent.Link" class="g-tab-component purple @( Model.CurrentPage == $"{pageTabComponent.Link}" ? "active" : "")">
+                            @_unitOfWork.Languages.ChooseLanguage(pageTabComponent, "Title", currentCulture)
+                        </a>
+                    }
+                </section>
+            }
+            else
+            {
+                <section id="g-tab-section">
+                    @foreach (var pageTabComponent in Model.PageTabComponents?.Where(c => c.Page == Page.Sustainability))
+                    {
+                        <a href="/@currentCulture/@pageTabComponent.Link" class="g-tab-component purple @( Model.CurrentPage == $"{pageTabComponent.Link}" ? "active" : "")">
+                            @_unitOfWork.Languages.ChooseLanguage(pageTabComponent, "Title", currentCulture)
+                        </a>
+                    }
+                </section>
+            }
+        </div>
+    </div>
+}
+
+@if (Model.Page == Page.Media)
+{
+    <div id="sticky-section">
+        <div class="g-container">
+            @if (string.IsNullOrEmpty(Model.CurrentPage))
+            {
+                <section id="g-tab-section" class="not-scroll-el">
+                    @foreach (var pageTabComponent in Model.PageTabComponents?.Where(c => c.Page == Page.Media))
+                    {
+                        <a href="#@pageTabComponent.Link" class="g-tab-component blue @( Model.CurrentPage == $"{pageTabComponent.Link}" ? "active" : "")">
+                            @_unitOfWork.Languages.ChooseLanguage(pageTabComponent, "Title", currentCulture)
+                        </a>
+                    }
+                </section>
+            }
+            else
+            {
+                <section id="g-tab-section">
+                    @foreach (var pageTabComponent in Model.PageTabComponents?.Where(c => c.Page == Page.Media))
+                    {
+                        <a href="/@currentCulture/@pageTabComponent.Link" class="g-tab-component blue @( Model.CurrentPage == $"{pageTabComponent.Link}" ? "active" : "")">
+                            @_unitOfWork.Languages.ChooseLanguage(pageTabComponent, "Title", currentCulture)
+                        </a>
+                    }
+                </section>
+            }
+
+        </div>
+    </div>
+}
+
+@if (Model.Page == Page.Career)
+{
+    <div id="sticky-section">
+        <div class="g-container">
+            @if (string.IsNullOrEmpty(Model.CurrentPage))
+            {
+                <section id="g-tab-section" class="not-scroll-el">
+                    @foreach (var pageTabComponent in Model.PageTabComponents?.Where(c => c.Page == Page.Career))
+                    {
+                        <a href="#@pageTabComponent.Link" class="g-tab-component orange @( Model.CurrentPage == $"{pageTabComponent.Link}" ? "active" : "")">
+                            @_unitOfWork.Languages.ChooseLanguage(pageTabComponent, "Title", currentCulture)
+                        </a>
+                    }
+                </section>
+            }
+            else
+            {
+                <section id="g-tab-section">
+                    @foreach (var pageTabComponent in Model.PageTabComponents?.Where(c => c.Page == Page.Career))
+                    {
+                        <a href="/@currentCulture/@pageTabComponent.Link" class="g-tab-component orange @( Model.CurrentPage == $"{pageTabComponent.Link}" ? "active" : "")">
+                            @_unitOfWork.Languages.ChooseLanguage(pageTabComponent, "Title", currentCulture)
+                        </a>
+                    }
+                </section>
+            }
+        </div>
+    </div>
+}

@@ -1,0 +1,44 @@
+﻿@using Manage.Tools.FileHandler.Abstraction
+@using Manage.ViewModels.About
+@using Core.Constants.File
+@using Core.Constants
+@using Core
+@using System.Globalization
+
+@model IndexViewModel
+@inject IFileService _fileService
+@inject IUnitOfWork _unitOfWork
+
+@{
+    ViewData["Title"] = "Nobel Energy";
+
+    var currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+}
+
+@await Component.InvokeAsync("IntroductionBanner", new { Page = Page.WhoWeAre })
+
+
+<!--------------------------- Tab --------------------------->
+
+@await Component.InvokeAsync("PageTab", new { page = Page.WhoWeAre, currentPage = $"{currentCulture}/about" })
+
+<!--------------------------- Tab --------------------------->
+
+
+<!--------------------------- Pages Components --------------------------->
+
+<div id="g-pages-component-section">
+    <div class="g-pages-component-element">
+        <div class="g-pages-component-element-wrapper">
+            <div class="g-pages-component-element-content">
+                <h2 class="g-pages-component-element-content-title">@Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.AboutComponent, "Title", currentCulture))</h2>
+                <div class="g-pages-component-element-content-text">@Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.AboutComponent, "Content", currentCulture))</div>
+            </div>
+            <div class="g-pages-component-element-image">
+                <img src="@_fileService.GetFileUrl(Model.AboutComponent.PhotoName, FilePath.About)" asp-append-version="true">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--------------------------- Pages Components --------------------------->

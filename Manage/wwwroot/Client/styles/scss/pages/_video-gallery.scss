@@ -1,0 +1,95 @@
+.gallery-section {
+  @include advancedRem(margin, (40 0 150));
+
+  @include breakpoint($mobile-width, $tablet-width) {
+    @include advancedRem(margin, (40 0 100));
+  }
+
+  &__wrapper {
+    @include advancedRem(padding, (0 30));
+
+    @include breakpoint(0, $tablet-width) {
+      padding: 0;
+    }
+
+    .gallery-carousel {
+      position: relative;
+    }
+
+    &--iframe,
+    .gallery-carousel-wrapper {
+      padding: 0 rem(50);
+
+      @include breakpoint(0, $mobile-width) {
+        padding: 0 rem(20);
+      }
+    }
+
+    &--iframe {
+      position: relative;
+      margin-bottom: rem(24);
+      height: calc(min(600px, 40vw));
+
+      iframe {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    .target-video {
+      position: relative;
+      border: 4px solid transparent;
+      @include transition();
+
+      &.active {
+        border: 4px solid $primary-clr;
+      }
+
+      .play-btn {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translateY(-50%) translateX(-50%);
+
+        img {
+          width: rem(23);
+        }
+      }
+    }
+
+    .swiper-wrapper,
+    .gallery-carousel-wrapper {
+      overflow: hidden;
+    }
+
+    .navigation-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      @include box(25);
+      color: $dark-gray;
+      z-index: 2;
+
+      &:hover {
+        background-color: $primary-clr;
+        color: $white-clr;
+      }
+
+      &__prev {
+        left: 0;
+
+        @include breakpoint(0, $mobile-width) {
+          left: rem(-10);
+        }
+      }
+
+      &__next {
+        right: 0;
+
+        @include breakpoint(0, $mobile-width) {
+          right: rem(-10);
+        }
+      }
+    }
+  }
+}

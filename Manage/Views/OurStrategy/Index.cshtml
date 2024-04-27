@@ -1,0 +1,136 @@
+﻿@using Manage.Tools.FileHandler.Abstraction
+@using Manage.ViewModels.OurStrategy
+@using Core.Constants.File
+@using Core.Constants
+@using Core
+@using System.Globalization
+
+@model IndexViewModel
+@inject IFileService _fileService
+@inject IUnitOfWork _unitOfWork
+
+@{
+    ViewData["Title"] = "Nobel Energy | Our strategy";
+    
+    var currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+}
+
+@await Component.InvokeAsync("IntroductionBanner", new { Page = Page.WhatWeDo })
+
+
+<!--------------------------- Tab --------------------------->
+@await Component.InvokeAsync("PageTab", new { page = Page.WhatWeDo, currentPage = "ourstrategy" })
+
+<!--------------------------- Tab --------------------------->
+<!--------------------------- Our Projects Section --------------------------->
+@{
+    var row = 1;
+    foreach (var ourStrategyComponent in Model.OurStrategyComponents)
+    {
+        if (row == 3)
+        {
+            <!--------------------------- Pages Components --------------------------->
+
+            <section class="what-we-do-services-img our-strategy-section g-container on-sustainability mb-150">
+                <div class="row">
+                    <div class="what-we-do-title col-12 text-center">
+                        <h2>
+                            @await _unitOfWork.LanguageResources.GetByKeyAsync("AreaOfActivity", currentCulture)
+                        </h2>
+                        <p>
+                            @await _unitOfWork.LanguageResources.GetByKeyAsync("AreaOfActivityDescription", currentCulture)
+                        </p>
+                    </div>
+                </div>
+                <div class="row gx-4">
+                    @foreach (var keyAreaComponent in Model.KeyAreaComponents)
+                    {
+                        var photoPathh = @_fileService.GetFileUrl(keyAreaComponent.PhotoName, FilePath.OurStrategy);
+
+                        <div class="col-lg-4 col-md-6">
+                            <div class="news-section__card">
+                                <div class="news-section__card--img">
+                                    <img src="@photoPathh" alt="">
+                                </div>
+                                <p class="news-section__card--title-2">
+                                    @_unitOfWork.Languages.ChooseLanguage(keyAreaComponent, "Title", currentCulture)
+                                </p>
+                                <div class="news-section__card--layer px-5 justify-content-center">
+                                    <h5 class="sustainability-layer-title mb-4">
+                                        @_unitOfWork.Languages.ChooseLanguage(keyAreaComponent, "Title", currentCulture)
+                                    </h5>
+                                    <div>
+                                        @Html.Raw(_unitOfWork.Languages.ChooseLanguage(keyAreaComponent, "Content", currentCulture))
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </section>
+
+            <!--------------------------- Pages Components --------------------------->
+        }
+
+        var photoPath = @_fileService.GetFileUrl(ourStrategyComponent.PhotoName, FilePath.OurStrategy);
+        if (ourStrategyComponent.IsBanner)
+        {
+            <div class="g-page-banner">
+                <div class="g-page-banner-cover" style="background-image: url('@photoPath');">
+                    <div class="g-page-banner-content">
+                        <h2 class="g-page-banner-title">
+                            @_unitOfWork.Languages.ChooseLanguage(ourStrategyComponent, "Title", currentCulture)
+                        </h2>
+                        <div class="g-page-banner-text">
+                            @Html.Raw(_unitOfWork.Languages.ChooseLanguage(ourStrategyComponent, "Content", currentCulture))
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div id="g-pages-component-section" class="our-strategy-section">
+                <div class="g-pages-component-element">
+                    <div class="g-pages-component-element-wrapper">
+                        <div class="g-pages-component-element-content">
+                            <div class="g-pages-component-element-content-text mb-0">
+                                <h2>@_unitOfWork.Languages.ChooseLanguage(ourStrategyComponent, "Title", currentCulture)</h2>
+                                @Html.Raw(_unitOfWork.Languages.ChooseLanguage(ourStrategyComponent, "Content", currentCulture))
+                            </div>
+                        </div>
+                        @if (!string.IsNullOrEmpty(ourStrategyComponent.VideoLink))
+                        {
+                            <div class="g-pages-component-element-image">
+                                <div class="presentation-section__video" style="background-image: url('@photoPath');">
+                                    <div id="player" class="hidden h-100">
+                                        <iframe id="iframe" width="100%" class="h-100" src="@ourStrategyComponent.VideoLink" title="Nobel Energy" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                    </div>
+
+                                    <button class="g-btn play-btn" id="play-video">
+                                        <img class="g-fluid" src="/Client/assets/svgs/play.svg" asp-append-version="true" alt="Nobel Energy">
+                                    </button>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="g-pages-component-element-image">
+                                <img src="@photoPath" alt="">
+                            </div>
+
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+
+        row++;
+    }
+}
+
+
+<!--------------------------- Our Projects Section --------------------------->
+@section Scripts{
+<script src="~/Client/js/iframe.js"></script>
+}

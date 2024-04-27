@@ -1,0 +1,71 @@
+﻿@using Manage.Tools.FileHandler.Abstraction
+@using Manage.ViewModels.EthicsAndCompilance
+@using Core.Constants.File
+@using EcomLab.Core.Constants.File
+@using Core.Constants
+@using Core
+@using System.Globalization
+
+@model ComponentViewModel
+@inject IFileService _fileService
+@inject IUnitOfWork _unitOfWork
+
+@{
+    ViewData["Title"] = "Nobel Energy | Ethics & Compliance";
+    
+    var currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+}
+
+@await Component.InvokeAsync("IntroductionBanner", new { Page = Page.Sustainability })
+
+<!--------------------------- Tab --------------------------->
+
+@await Component.InvokeAsync("PageTab", new { page = Page.Sustainability, currentPage = $"{currentCulture}/ethicsandcompliance" })
+
+
+<!--------------------------- Tab --------------------------->
+<!--------------------------- Pages Components --------------------------->
+
+<section class="news-section media" id="news">
+    <div class="g-container__md media__wrapper">
+        <div>
+            <img src="@_fileService.GetFileUrl(Model.EthicsComplianceSubComponent.PhotoName, FilePath.EthicsCompliance)" asp-append-version="true" class="media__image" alt="">
+        </div>
+        <div class="mt-5">
+            <h1 class="media__title">
+                @Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.EthicsComplianceSubComponent, "Title", currentCulture))
+            </h1>
+        </div>
+        <div class="mt-3 mb-3">
+            @Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.EthicsComplianceSubComponent, "Content", currentCulture))
+
+            @foreach (var subComponentPdf in Model.EthicsComplianceSubComponent.EthicsComplianceSubComponentPdfs)
+            {
+                var pdfPath = @_fileService.GetFileUrl(subComponentPdf.PdfFileName, FilePath.EthicsCompliancePDF);
+                var pdfSize = @_fileService.GetFileSize(subComponentPdf.PdfFileName, FilePath.EthicsCompliancePDF, StorageUnits.Megabyte);
+
+                <div class="download__pdf mt-5">
+                    <a href="@pdfPath" class="d-block d-block mb-4 download__pdf--link-2 has-triangle" download>
+                        <span><i class="far fa-file-pdf"></i></span>
+                        <span class="pdf-name">@Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.EthicsComplianceSubComponent, "Title", currentCulture))</span>
+                        <span class="size">PDF/@pdfSize mb</span>
+                    </a>
+                </div>
+            }
+
+            @if (Model.EthicsComplianceSubComponent.SubmitForm)
+            {
+                @await Component.InvokeAsync("ECSubmitForm")
+            }
+
+        </div>
+
+</section>
+<!--------------------------- Pages Components --------------------------->
+
+@section scripts{
+    <script>
+        var postUrl = "@Url.Action("EthicsAndCompilanceApplyAdd", "Notification")"
+    </script>
+    <script src="~/Client/pages/EthicsAndCompliance/Component.js" asp-append-version="true"></script>
+}

@@ -1,0 +1,88 @@
+﻿@using Manage.Tools.FileHandler.Abstraction
+@using Manage.ViewModels.NobelHeritage
+@using Core.Constants.File
+@using Core.Constants
+@using Core
+@using System.Globalization
+
+@model IndexViewModel
+@inject IFileService _fileService
+@inject IUnitOfWork _unitOfWork
+
+@{
+    ViewData["Title"] = "Nobel Energy | Nobel heritage";
+    
+    var currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+}
+
+@await Component.InvokeAsync("IntroductionBanner", new { Page = Page.WhoWeAre })
+
+
+<!--------------------------- Tab --------------------------->
+
+@await Component.InvokeAsync("PageTab", new { page = Page.WhoWeAre, currentPage = "nobelheritage" })
+
+<!--------------------------- Tab --------------------------->
+
+<!--------------------------- Pages Components --------------------------->
+<div id="g-pages-component-section">
+
+    @foreach (var testimonial in Model.Testimonials)
+    {
+        <div class="g-pages-component-element">
+            <div class="g-pages-component-element-wrapper">
+                <div class="g-pages-component-element-content">
+                    <div class="g-pages-component-element-content-testimonial">
+                        <img src="~/Client/assets/svgs/shape.svg" alt="">
+                        @Html.Raw(_unitOfWork.Languages.ChooseLanguage(testimonial, "Content", currentCulture))
+                    </div>
+                    <p>
+                        <strong>@Html.Raw(_unitOfWork.Languages.ChooseLanguage(testimonial, "Writer", currentCulture))</strong>
+                        <br>
+                        <br>
+                        @Html.Raw(_unitOfWork.Languages.ChooseLanguage(testimonial, "WriterInfo", currentCulture))
+                        <br>
+                        <br>
+                    </p>
+                </div>
+                <div class="g-pages-component-element-image">
+                    <img src="@_fileService.GetFileUrl(testimonial.PhotoName, FilePath.Testimonial)" asp-append-version="true">
+                </div>
+            </div>
+        </div>
+    }
+    @{
+        bool title = true;
+        int order = 0;
+    }
+
+    @foreach (var splittedContent in _unitOfWork.Languages.ChooseLanguageList(Model.NobelHeritageComponent, "SplitedContent", currentCulture))
+    {
+        <div class="g-pages-component-element">
+            <div class="g-pages-component-element-wrapper">
+                <div class="g-pages-component-element-content">
+                    @if (title)
+                    {
+                        <h2 class="g-pages-component-element-content-title">@Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.NobelHeritageComponent, "Title", currentCulture))</h2>
+
+                        title = false;
+                    }
+
+                    <div class="g-pages-component-element-content-text">
+                        @Html.Raw(splittedContent)
+                    </div>
+                </div>
+
+                @{var photo = Model.NobelHeritageComponent.NobelHeritagePhotos.Skip(order).FirstOrDefault();}
+
+                <div class="g-pages-component-element-image">
+                    <img src="@_fileService.GetFileUrl(photo.PhotoName, FilePath.NobelHeritage)" asp-append-version="true">
+                </div>
+            </div>
+        </div>
+
+        order++;
+    }
+</div>
+
+<!--------------------------- Pages Components --------------------------->

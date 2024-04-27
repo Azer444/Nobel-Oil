@@ -1,0 +1,122 @@
+﻿@using Manage.Areas.Admin.Models.PageManagement.PageTab
+@using Core.Constants 
+
+@model PageTabCreateViewModel
+
+@{
+    ViewData["Title"] = "Page Tab";
+}
+
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <div class="float-right">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-action="index" asp-controller="pagetab" asp-area="admin">Page Tab</a></li>
+                    <li class="breadcrumb-item active">Create component</li>
+                </ol>
+            </div>
+            <h4 class="page-title">Create component</h4>
+        </div><!--end page-title-box-->
+    </div><!--end col-->
+</div>
+
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-@TempData["message_type"]">
+        @TempData["message"]
+    </div>
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title mt-0 mb-3">You can add your note to here</h4>
+                <form method="POST" enctype="multipart/form-data" asp-action="createcomponent" asp-controller="pagetab" id="user-create">
+                    @Html.AntiForgeryToken()
+
+                    <div class="row">
+                        <div asp-validation-summary="ModelOnly" class="invalid-feedback" style="display:block"></div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Title_AZ"></label>
+                                <input class="form-control form-control" asp-for="Title_AZ">
+                                <span asp-validation-for="Title_AZ" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Title_RU"></label>
+                                <input class="form-control form-control" asp-for="Title_RU">
+                                <span asp-validation-for="Title_RU" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Title_EN"></label>
+                                <input class="form-control form-control" asp-for="Title_EN">
+                                <span asp-validation-for="Title_EN" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Title_TR"></label>
+                                <input class="form-control form-control" asp-for="Title_TR">
+                                <span asp-validation-for="Title_TR" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Link"></label>
+                                <input class="form-control form-control" asp-for="Link">
+                                <span asp-validation-for="Link" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Page"></label>
+                                <select class="form-control form-control" asp-for="Page" asp-items="Html.GetEnumSelectList<Page>()"></select>
+                                <span asp-validation-for="Page" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="custom-control custom-switch switch-success">
+                                    <input class="custom-control-input" asp-for="IsActive">
+                                    <label class="custom-control-label" asp-for="IsActive"></label>
+                                    <span asp-validation-for="IsActive" class="invalid-feedback" style="display:block"></span>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="form-group mt-3">
+                    <button class="btn btn-sm btn-primary" type="submit" form="user-create">Save</button>
+                    @*<button class="btn btn-sm btn-primary" type="submit" form="user-create">Save and edit</button>*@
+                    <a asp-action="index" asp-controller="pagetab" asp-area="admin" class="btn btn-sm btn-danger">Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+ 
+}

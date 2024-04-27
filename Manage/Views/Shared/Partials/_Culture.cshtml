@@ -1,0 +1,55 @@
+﻿@using System.Globalization;
+@using Microsoft.AspNetCore.Builder;
+
+@inject RequestLocalizationOptions _localizationOptions
+
+@{
+    var cultures = _localizationOptions.SupportedUICultures.Select(ci => ci.Name).ToList();
+    var requestUrl = $"{GetPath(Context.Request.Path.ToString())}{Context.Request.QueryString}";
+    var currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+}
+
+@{
+    string GetPath(string path)
+    {
+        foreach (var culture in cultures)
+        {
+            if (path.Contains($"/{culture}/"))
+            {
+                return path.Replace($"{culture}/", "");
+            }
+        }
+
+        return string.Empty;
+    }
+}
+
+
+
+<button class="btn" type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    @(char.ToUpper(currentCulture[0]) + currentCulture.Substring(1))
+</button>
+
+<div id="culture-change" class="dropdown-menu" aria-labelledby="languageDropdown">
+    <ul>
+        @foreach (var culture in cultures)
+        {
+            <li>
+                <a data-lang="@culture" href="~/@culture@requestUrl" class="language-direct @Html.Raw( currentCulture == culture ? "active" : "")">
+                    @(char.ToUpper(culture[0]) + culture.Substring(1))
+                </a>
+            </li>
+        }
+    </ul>
+</div>
+
+@*<form id="changeculture-form" style="display:none" method="POST" asp-action="ChangeCulture" asp-controller="Home" asp-route-returnUrl="@requestUrl">
+    <select id="cultures-box" name="lang">
+        @foreach (var culture in cultures)
+        {
+            <option value="@culture">@culture</option>
+        }
+    </select>
+</form>*@
+
+

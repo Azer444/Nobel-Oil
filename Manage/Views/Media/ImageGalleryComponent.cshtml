@@ -1,0 +1,66 @@
+﻿@using Manage.Tools.FileHandler.Abstraction
+@using Manage.ViewModels.Media
+@using Core.Constants.File
+@using Core.Constants
+@using Core
+@using System.Globalization
+
+@model MediaImageGalleryComponentViewModel
+@inject IFileService _fileService
+@inject IUnitOfWork _unitOfWork
+
+@{
+    ViewData["Title"] = "Nobel Energy | Image gallery";
+    
+    var currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+}
+
+@await Component.InvokeAsync("IntroductionBanner", new { Page = Page.Media })
+
+
+<!--------------------------- Tab --------------------------->
+@await Component.InvokeAsync("PageTab", new { page = Page.Media, currentPage = $"{currentCulture}/media/imagegallery" })
+
+
+<!--------------------------- Tab --------------------------->
+<!--------------------------- Video Gallery --------------------------->
+
+<section class="gallery-section">
+    <div class="g-container">
+        <div class="gallery-section__wrapper">
+            <div class="gallery-section__wrapper--iframe">
+                <img src="@_fileService.GetFileUrl(Model.ImageGalleryComponent.PhotoName, FilePath.Gallery)" asp-append-version="true">
+            </div>
+            <div class="gallery-carousel">
+                <button class="g-btn navigation-btn__prev navigation-btn">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="g-btn navigation-btn__next navigation-btn">
+                    <i class="g-btn fas fa-chevron-right"></i>
+                </button>
+                <div class="gallery-carousel-wrapper">
+                    <div class="swiper-wrapper" style="overflow:initial;">
+                        <div class="swiper-slide">
+                            <div class="target-video">
+                                <img data-src="@_fileService.GetFileUrl(Model.ImageGalleryComponent.PhotoName, FilePath.Gallery)" src="@_fileService.GetFileUrl(Model.ImageGalleryComponent.PhotoName, FilePath.Gallery)" alt="" class="g-fluid thumbnail">
+                            </div>
+                        </div>
+                        @foreach (var imageGalleryComponentPhoto in Model.ImageGalleryComponent.ImageGalleryComponentPhotos)
+                        {
+                            <div class="swiper-slide">
+                                <div class="target-video">
+                                    <img data-src="@_fileService.GetFileUrl(imageGalleryComponentPhoto.PhotoName, FilePath.Gallery)" src="@_fileService.GetFileUrl(imageGalleryComponentPhoto.PhotoName, FilePath.Gallery)" alt="" class="g-fluid thumbnail">
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--------------------------- Video  Gallery --------------------------->
+@section Scripts{
+<script src="~/Client/js/img-gallery.js"></script>
+} 

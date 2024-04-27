@@ -1,0 +1,289 @@
+﻿@using Manage.Tools.FileHandler.Abstraction
+@using Manage.ViewModels.Home
+@using Core.Constants.File
+@using Core
+@using System.Globalization
+
+@model IndexViewModel
+@inject IFileService _fileService
+@inject IUnitOfWork _unitOfWork
+
+@{
+    ViewData["Title"] = "Nobel Energy";
+
+    var currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+}
+
+<!--------------------------- Introduction Banner --------------------------->
+
+<section id="section-to" class="intro-section">
+    <a href="#news" class="g-btn scroll-to scroll-to-section" data-target="news">
+        <img class="g-fluid" src="~/Client/assets/svgs/double-arrow.svg" asp-append-version="true" alt="Nobel Energy">
+    </a>
+    <div class="intro-section__swiper">
+        <div class="swiper-wrapper">
+            @foreach (var carousel in Model.Carousels)
+            {
+                <div class="swiper-slide">
+                    <img src="@_fileService.GetFileUrl(carousel.PhotoName, FilePath.Carousel)" asp-append-version="true" alt="Nobel Energy">
+                    <div class="intro-section__content">
+                        <h1 class="g-title__lg">
+                            @Html.Raw(_unitOfWork.Languages.ChooseLanguage(carousel, "Title", currentCulture))
+                        </h1>
+                        <div class="intro-section__text">
+                            @Html.Raw(_unitOfWork.Languages.ChooseLanguage(carousel, "Description", currentCulture))
+                        </div>
+                        <a href="/@currentCulture/@carousel.ReadMoreLink" class="g-btn g-btn__lg g-btn__green">
+                            @await _unitOfWork.LanguageResources.GetByKeyAsync("ReadMore", currentCulture)
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="swiper-pagination"></div>
+    </div>
+</section>
+
+<!--------------------------- Introduction Banner --------------------------->
+
+<!--------------------------- News Section --------------------------->
+
+<section class="news-section" id="news">
+    <div class="g-container">
+        <div class="g-flex">
+            <a asp-action="news" asp-controller="media" class="g-navigation__subtitle">
+                @await _unitOfWork.LanguageResources.GetByKeyAsync("NewsArchive", currentCulture)
+            </a>
+            <div class="g-navigation g-navigation__md">
+                <button class="g-btn g-navigation__prev" id="news-prev-md">
+                    <img src="~/Client/assets/svgs/left-arrow.svg" asp-append-version="true" alt="Nobel Energy">
+                </button>
+                <button class="g-btn g-navigation__next" id="news-next-md">
+                    <img src="~/Client/assets/svgs/right-arrow.svg" asp-append-version="true" alt="Nobel Energy">
+                </button>
+            </div>
+        </div>
+        <p class="news-section__title g-title__md">
+            @await _unitOfWork.LanguageResources.GetByKeyAsync("RecentNews", currentCulture)
+        </p>
+        <div class="news-section__wrapper">
+            <div class="g-navigation g-navigation__sm">
+                <button class="g-btn g-navigation__prev" id="news-prev-md">
+                    <img src="~/Client/assets/svgs/left-arrow.svg" asp-append-version="true" alt="Nobel Energy">
+                </button>
+                <button class="g-btn g-navigation__next" id="news-next-md">
+                    <img src="~/Client/assets/svgs/right-arrow.svg" asp-append-version="true" alt="Nobel Energy">
+                </button>
+            </div>
+            <div class="news-section__swiper">
+                <div class="swiper-wrapper">
+                    @foreach (var news in Model.News)
+                    {
+                        <div class="swiper-slide">
+                            <div class="news-section__card">
+                                <div class="news-section__card--img">
+                                    <img src="@_fileService.GetFileUrl(news.PhotoName, FilePath.News)" asp-append-version="true" alt="">
+                                </div>
+                                <div class="news-section__card--body">
+                                    <div class="news-section__card--title">
+                                        @_unitOfWork.Languages.ChooseLanguage(news, "Title", currentCulture)
+                                    </div>
+                                    <div class="news-section__card--info">
+                                        @Html.Raw(_unitOfWork.Languages.ChooseLanguage(news, "Description", currentCulture))
+                                    </div>
+                                    <div class="news-section__card--footer">
+                                        <a href="" class="g-btn">
+                                            @await _unitOfWork.LanguageResources.GetByKeyAsync("ReadMore", currentCulture)
+                                        </a>
+                                        <p class="news-section__card--date">
+                                            @news.ActionDate.ToString("dd.MM.yyyy")
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="news-section__card--layer">
+                                    <div class="layer-title">
+                                        @Html.Raw(_unitOfWork.Languages.ChooseLanguage(news, "Title", currentCulture))
+                                    </div>
+                                    <a asp-controller="media" asp-action="newscomponent"asp-route-culture="@currentCulture" asp-route-slug="@news.Slug" class="layer-btn g-btn">
+                                        @await _unitOfWork.LanguageResources.GetByKeyAsync("ReadMore", currentCulture)
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--------------------------- News Section --------------------------->
+
+@if (Model.HomeVideoComponent != null)
+{
+    <section class="presentation-section mw-100">
+        <div class="g-container">
+            <p class="presentation-section__title g-title__md">
+                @Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.HomeVideoComponent, "Title", currentCulture))
+            </p>
+            <div class="presentation-section__video" style="background-image:url('@_fileService.GetFileUrl(Model.HomeVideoComponent.PhotoName, FilePath.HomeVideo)')">
+                @*<img id="thumbnail" class="g-fluid" src="@_fileService.GetFileUrl(Model.HomeVideoComponent.PhotoName, FilePath.HomeVideo)" asp-append-version="true" alt="Nobel Energy">*@
+                <div id="player" class="hidden">
+                    <iframe id="iframe" width="100%" src="@Model.HomeVideoComponent.VideoUrl"
+                            title="Nobel Energy" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen>
+                    </iframe>
+                </div>
+
+                <button class="g-btn play-btn" id="play-video">
+                    <img class="g-fluid" src="~/Client/assets/svgs/play.svg" asp-append-version="true" alt="Nobel Energy">
+                </button>
+            </div>
+        </div>
+    </section>
+}
+
+<!--------------------------- Projects Section --------------------------->
+
+<section class="projects-section">
+    <div class="g-container">
+        <div class="projects-section__cover">
+            <div class="g-flex projects-section__navigation">
+                <p class="g-navigation__subtitle projects-section__heading">
+                    @await _unitOfWork.LanguageResources.GetByKeyAsync("OurProjects", currentCulture)
+                </p>
+                <div class="g-navigation">
+                    <button class="g-btn g-navigation__prev" id="projects-prev">
+                        <img src="~/Client/assets/svgs/left-arrow.svg" asp-append-version="true" alt="Nobel Energy">
+                    </button>
+                    <button class="g-btn g-navigation__next" id="projects-next">
+                        <img src="~/Client/assets/svgs/right-arrow.svg" asp-append-version="true" alt="Nobel Energy">
+                    </button>
+                </div>
+            </div>
+            <div class="projects-section__swiper">
+                <div class="swiper-wrapper">
+                    @foreach (var project in Model.Projects)
+                    {
+                        <div class="swiper-slide">
+                            <div class="projects-section__wrapper">
+                                <div class="projects-section__wrapper--content">
+                                    <div class="projects-section__title">
+                                        @Html.Raw(_unitOfWork.Languages.ChooseLanguage(project, "Title", currentCulture))
+                                    </div>
+                                    <div class="projects-section__info">
+                                        @Html.Raw(_unitOfWork.Languages.ChooseLanguage(project, "Description", currentCulture))
+                                    </div>
+                                    <a asp-controller="project" asp-action="detail" asp-route-slug="@project.Slug" asp-route-culture="@currentCulture" class="g-btn g-btn__md g-btn__green">
+                                        @await _unitOfWork.LanguageResources.GetByKeyAsync("ReadMore", currentCulture)
+                                    </a>
+                                </div>
+                                <div class="projects-section__wrapper--img">
+                                    <img class="g-fluid" src="@_fileService.GetFileUrl(project.PhotoName, FilePath.Project)" asp-append-version="true" alt="Nobel Energy">
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--------------------------- Projects Section --------------------------->
+<!--------------------------- Business Section --------------------------->
+
+<section class="business-section">
+    <div class="g-container">
+        <p class="g-title__md">@await _unitOfWork.LanguageResources.GetByKeyAsync("OurBusiness", currentCulture)</p>
+        <div class="visible-md">
+            <div class="g-cards__wrapper">
+                @foreach (var business in Model.OurBusinesses)
+                {
+                    <div class="g-card__t1">
+                        <a target="_blank" href="@business.Link">
+                            <div class="g-card__t1--icon">
+                                <img class="g-fluid" src="@_fileService.GetFileUrl(business.PhotoName, FilePath.OurBusiness)" asp-append-version="true" alt="Nobel Energy">
+                            </div>
+                            <div class="g-card__t1--content">
+                                <div class="g-card__t1--title">
+                                    @Html.Raw(_unitOfWork.Languages.ChooseLanguage(business, "Title", currentCulture))
+                                </div>
+                                <div class="g-card__t1--info">
+                                    @Html.Raw(_unitOfWork.Languages.ChooseLanguage(business, "Content", currentCulture))
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="visible-sm">
+            <div class="business-section__wrapper">
+                <div class="g-navigation">
+                    <button class="g-btn g-navigation__prev" id="business-prev">
+                        <img src="~/Client/assets/svgs/left-arrow.svg" asp-append-version="true" alt="Nobel Energy">
+                    </button>
+                    <button class="g-btn g-navigation__next" id="business-next">
+                        <img src="~/Client/assets/svgs/right-arrow-sm.svg" asp-append-version="true" alt="Nobel Energy">
+                    </button>
+                </div>
+                <div class="business-section__swiper">
+                    <div class="swiper-wrapper">
+                        @foreach (var business in Model.OurBusinesses)
+                        {
+                            <div class="swiper-slide">
+                                <div class="g-card__t1">
+                                    <a target="_blank" href="@business.Link">
+                                        <div class="g-card__t1--icon">
+                                            <img class="g-fluid" src="@_fileService.GetFileUrl(business.PhotoName, FilePath.OurBusiness)" asp-append-version="true" alt="Nobel Energy">
+                                        </div>
+                                        <div class="g-card__t1--content">
+                                            <div class="g-card__t1--title">
+                                                @Html.Raw(_unitOfWork.Languages.ChooseLanguage(business, "Title", currentCulture))
+                                            </div>
+                                            <div class="g-card__t1--info">
+                                                @Html.Raw(_unitOfWork.Languages.ChooseLanguage(business, "Content", currentCulture))
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--------------------------- Business Section --------------------------->
+
+<!--------------------------- Sustainable Development Section --------------------------->
+
+@if (Model.SustainableDevelopmentComponent != null)
+{
+    <section id="sustainable" style='background: transparent url("@_fileService.GetFileUrl(Model.SustainableDevelopmentComponent?.PhotoName, FilePath.SustainableDevelopment)") no-repeat; background-size:cover;'>
+        <!-- <img class="sustainable-cover g-fluid" src="~/Client/assets/svgs/sustainable-1.svg" alt="Nobel Energy"> -->
+        <div class="sustainable-content">
+            <p class="sustainable-title">
+                @Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.SustainableDevelopmentComponent, "Title", currentCulture))</p>
+            <div class="sustainable-info">
+                @Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.SustainableDevelopmentComponent, "Content", currentCulture))
+            </div>
+            <a asp-route-culture="@currentCulture" asp-controller="sustainability" asp-action="index" class="g-btn g-btn__green g-btn__md">
+                @await _unitOfWork.LanguageResources.GetByKeyAsync("ReadMore", currentCulture)
+            </a>
+        </div>
+    </section>
+}
+
+<!--------------------------- Sustainable Development Section --------------------------->
+
+
+@section Scripts{
+    <script src="~/Client/js/carousel.js" asp-append-version="true"></script>
+    <script src="~/Client/js/newsTruncate.js"></script>
+    <script src="~/Client/js/iframe.js"></script>
+}

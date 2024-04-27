@@ -1,0 +1,606 @@
+﻿@using Core
+@inject IUnitOfWork _unitOfWork
+
+@{
+    Layout = null;
+    Core.Models.User current_user = await _unitOfWork.Users.GetUserAsync(User);
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"]</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta content="Nobeloil" name="description" />
+    <meta content="" name="author" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="~/common/nobel-favicon.jpeg" asp-append-version="true" type="image/x-icon">
+
+    <!-- Plugin css -->
+    @RenderSection("plugin_styles", required: false)
+
+    <!-- App css -->
+    <link href="~/Admin/assets/css/bootstrap.min.css" asp-append-version="true" rel="stylesheet" type="text/css" />
+    <link href="~/Admin/assets/css/jquery-ui.min.css" asp-append-version="true" rel="stylesheet">
+    <link href="~/Admin/assets/css/icons.min.css" asp-append-version="true" rel="stylesheet" type="text/css" />
+    <link href="~/Admin/assets/css/metisMenu.min.css" asp-append-version="true" rel="stylesheet" type="text/css" />
+    <link href="~/Admin/assets/css/app.min.css" asp-append-version="true" rel="stylesheet" type="text/css" />
+    <link href="~/Client/styles/css/admin.css" asp-append-version="true" rel="stylesheet" type="text/css" />
+
+    <!-- Custom css -->
+    @RenderSection("styles", required: false)
+
+</head>
+<body>
+
+    <!-- leftbar-tab-menu -->
+    <div class="leftbar-tab-menu">
+
+        <div style="background-color: #059FF8;" class="main-icon-menu">
+            <a href="#" class="logo logo-metrica d-block text-center">
+                <span>
+                    <img src="~/Admin/assets/images/labrin-logo-mini.png" asp-append-version="true" alt="logo-small" class="logo-sm">
+                </span>
+            </a>
+            <nav class="nav">
+
+                <a href="#HomeManagement" class="nav-link @( ViewBag.HomeManagement  != null ? "active" : "")" data-toggle="tooltip-custom" data-placement="right" title="" data-original-title="Home management" data-trigger="hover">
+                    <i data-feather="home" class="align-self-center menu-icon icon-dual"></i>
+                </a><!--end of HomeManagement-->
+                <a href="#UserManagement" class="nav-link @( ViewBag.UserManagement != null ? "active" : "")" data-toggle="tooltip-custom" data-placement="right" title="" data-original-title="User Management" data-trigger="hover">
+                    <i data-feather="users" class="align-self-center menu-icon icon-dual"></i>
+                </a><!--end of UserManagement-->
+                <a href="#ComponentManagement" class="nav-link @( ViewBag.ComponentManagement != null ? "active" : "")" data-toggle="tooltip-custom" data-placement="right" title="" data-original-title="Component Management" data-trigger="hover">
+                    <i data-feather="list" class="align-self-center menu-icon icon-dual"></i>
+                </a><!--end of ComponentManagement-->
+                <a href="#PageManagement" class="nav-link @( ViewBag.PageManagement != null ? "active" : "")" data-toggle="tooltip-custom" data-placement="right" title="" data-original-title="Page Management" data-trigger="hover">
+                    <i data-feather="copy" class="align-self-center menu-icon icon-dual"></i>
+                </a><!--end of PageManagement-->
+                <a href="#NavbarManagement" class="nav-link @( ViewBag.NavbarManagement != null ? "active" : "")" data-toggle="tooltip-custom" data-placement="right" title="" data-original-title="Navbar Management" data-trigger="hover">
+                    <i data-feather="menu" class="align-self-center menu-icon icon-dual"></i>
+                </a><!--end of ComponentManagement-->
+                <a href="#FlatpageManagement" class="nav-link @( ViewBag.FlatpageManagement != null ? "active" : "")" data-toggle="tooltip-custom" data-placement="right" title="" data-original-title="Flatpage Management" data-trigger="hover">
+                    <i data-feather="file" class="align-self-center menu-icon icon-dual"></i>
+                </a><!--end of ComponentManagement-->
+                <a href="#MessageManagement" class="nav-link @( ViewBag.MessageManagement != null ? "active" : "")" data-toggle="tooltip-custom" data-placement="right" title="" data-original-title="Message Management" data-trigger="hover">
+                    <i data-feather="clock" class="align-self-center menu-icon icon-dual"></i>
+                </a><!--end of ComponentManagement-->
+                <a href="#SiteManagement" class="nav-link @( ViewBag.SiteManagement != null ? "active" : "")" data-toggle="tooltip-custom" data-placement="right" title="" data-original-title="Site Management" data-trigger="hover">
+                    <i data-feather="settings" class="align-self-center menu-icon icon-dual"></i>
+                </a><!--end of ComponentManagement-->
+            </nav>
+        </div><!--end main-icon-menu-->
+
+        <div class="main-menu-inner">
+            <!-- LOGO -->
+            <div class="topbar-left">
+                <a href="../crm/crm-index.html" class="logo">
+                    @*<img src="~/Admin/assets/images/labrin-logo-full.png" asp-append-version="true" alt="logo-large" class="logo-lg logo-dark">*@
+                    @*<img src="~/Admin/assets/images/labrin-logo-full.png" asp-append-version="true" alt="logo-large" class="logo-lg logo-light">*@
+                </a>
+            </div>
+            <!--end logo-->
+
+            <div class="menu-body slimscroll">
+                <div id="HomeManagement" class="main-icon-menu-pane @( ViewBag.HomeManagement != null ? "active" : "")">
+                    <div class="title-box">
+                        <h6 class="menu-title">Home Management</h6>
+                    </div>
+
+                    <ul class="nav">
+                        <li class="nav-item @( ViewBag.Home != null ? "active" : "")">
+                            <a asp-controller="home" asp-action="index" asp-area="admin" class="nav-link @( ViewBag.Home != null ? "active" : "")">Home</a>
+                        </li>
+                    </ul>
+                    <!--end of nav-->
+                </div>
+                <!-- end of HomeManagement -->
+
+                <div id="UserManagement" class="main-icon-menu-pane @( ViewBag.UserManagement != null ? "active" : "")">
+                    <div class="title-box">
+                        <h6 class="menu-title">User Management</h6>
+                    </div>
+
+                    <ul class="nav">
+                        <li class="nav-item @( ViewBag.User != null ? "active" : "")">
+                            <a asp-controller="user" asp-action="list" asp-area="admin" class="nav-link @( ViewBag.User != null ? "active" : "")">Users</a>
+                        </li>
+                    </ul>
+                    <!--end of nav-->
+                </div>
+
+                <!-- end of UserManagement -->
+
+                <div id="ComponentManagement" class="main-icon-menu-pane @( ViewBag.ComponentManagement != null ? "active" : "")">
+                    <div class="title-box">
+                        <h6 class="menu-title">Component Management</h6>
+                    </div>
+
+                    <ul class="nav">
+                        <li class="nav-item @( ViewBag.News != null ? "active" : "")">
+                            <a asp-controller="news" asp-action="list" asp-area="admin" class="nav-link @( ViewBag.News != null ? "active" : "")">News</a>
+                        </li>
+                        <li class="nav-item @( ViewBag.PublicationReport != null ? "active" : "")">
+                            <a asp-controller="publicationreport" asp-action="list" asp-area="admin" class="nav-link @( ViewBag.PublicationReport != null ? "active" : "")">Insights</a>
+                        </li>          
+                        <li class="nav-item @( ViewBag.LifeAtNobelEnergy != null ? "active" : "")">
+                            <a asp-controller="lifeatnobelenergy" asp-action="list" asp-area="admin" class="nav-link @( ViewBag.LifeAtNobelEnergy != null ? "active" : "")">Life At Nobel Energy</a>
+                        </li>
+                        <li class="nav-item @( ViewBag.Testimonial != null ? "active" : "")">
+                            <a asp-controller="testimonial" asp-action="list" asp-area="admin" class="nav-link @( ViewBag.Testimonial != null ? "active" : "")">Testimonials</a>
+                        </li>
+                        <li class="nav-item @( ViewBag.Manager != null ? "active" : "")">
+                            <a asp-controller="manager" asp-action="list" asp-area="admin" class="nav-link @( ViewBag.Manager != null ? "active" : "")">Managers</a>
+                        </li>
+                        <li class="nav-item @( ViewBag.Project != null ? "active" : "")">
+                            <a asp-controller="project" asp-action="list" asp-area="admin" class="nav-link @( ViewBag.Project != null ? "active" : "")">Projects</a>
+                        </li>
+                        <li class="nav-item @( ViewBag.Company != null ? "active" : "")">
+                            <a asp-controller="company" asp-action="list" asp-area="admin" class="nav-link @( ViewBag.Company != null ? "active" : "")">Companies</a>
+                        </li>
+                        <li class="nav-item @( ViewBag.Vacancy != null ? "active" : "")">
+                            <a asp-controller="vacancy" asp-action="list" asp-area="admin" class="nav-link @( ViewBag.Vacancy != null ? "active" : "")">Vacancies</a>
+                        </li>
+                    </ul>
+                    <!--end of nav-->
+                </div>
+                <!-- end of ComponentManagement -->
+
+                <div id="PageManagement" class="main-icon-menu-pane @( ViewBag.PageManagement != null ? "active" : "")">
+                    <div class="title-box">
+                        <h6 class="menu-title">Page Management</h6>
+                    </div>
+
+                    <ul class="nav metismenu">
+                        <li class="nav-item @( ViewBag.PageManagementHome != null ? "mm-active" : "")">
+                            <a class="nav-link @( ViewBag.PageManagementHome != null ? "active" : "")" href="javascript: void(0);"><span class="w-100">Home</span><span class="menu-arrow"><i class="mdi mdi-chevron-right"></i></span></a>
+                            <ul class="nav-second-level @( ViewBag.PageManagementHome != null ? "mm-collapse mm-show" : "")" aria-expanded="false">
+                                <li class="@( ViewBag.Carousel != null ? "active" : "")">
+                                    <a asp-controller="carousel" asp-action="list" asp-area="admin" class="@( ViewBag.Carousel != null ? "active" : "")">Carousels</a>
+                                </li>
+                                <li class="@( ViewBag.HomeVideo != null ? "active" : "")">
+                                    <a asp-controller="homevideo" asp-action="index" asp-area="admin" class="@( ViewBag.HomeVideo != null ? "active" : "")">Home Video</a>
+                                </li>
+                            </ul>
+                        </li><!--end nav-item-->
+                        <li class="nav-item">
+                            <a class="nav-link" href="javascript: void(0);"><span class="w-100">Who we are</span><span class="menu-arrow"><i class="mdi mdi-chevron-right"></i></span></a>
+                            <ul class="nav-second-level" aria-expanded="false">
+                                <li class="@( ViewBag.WhoWeAre != null ? "active" : "")">
+                                    <a asp-controller="whoweare" asp-action="index" asp-area="admin" class="@( ViewBag.WhoWeAre != null ? "active" : "")">Main Page</a>
+                                </li>
+                                <li class="@( ViewBag.About != null ? "active" : "")">
+                                    <a asp-controller="about" asp-action="index" asp-area="admin" class="@( ViewBag.About != null ? "active" : "")">About</a>
+                                </li>
+                                <li class="@( ViewBag.VMV != null ? "active" : "")">
+                                    <a asp-controller="vmv" asp-action="index" asp-area="admin" class="@( ViewBag.VMV != null ? "active" : "")">Vision, Mission & Values</a>
+                                </li>
+                                <li class="@( ViewBag.NobelHeritage != null ? "active" : "")">
+                                    <a asp-controller="nobelheritage" asp-action="index" asp-area="admin" class="@( ViewBag.NobelHeritage != null ? "active" : "")">Nobel heritage</a>
+                                </li>
+                                <li class="@( ViewBag.OurHistory != null ? "active" : "")">
+                                    <a asp-controller="ourhistory" asp-action="index" asp-area="admin" class="@( ViewBag.OurHistory != null ? "active" : "")">Our history</a>
+                                </li>
+                                <li class="@( ViewBag.History != null ? "active" : "")">
+                                    <a asp-controller="history" asp-action="index" asp-area="admin" class="@( ViewBag.History != null ? "active" : "")">History</a>
+                                </li>
+                                <li class="@( ViewBag.CorporateGovernance != null ? "active" : "")">
+                                    <a asp-controller="corporategovernance" asp-action="index" asp-area="admin" class="@( ViewBag.CorporateGovernance != null ? "active" : "")">Corporate Governance</a>
+                                </li>
+                                <li class="@( ViewBag.BoardDirector != null ? "active" : "")">
+                                    <a asp-controller="boarddirector" asp-action="index" asp-area="admin" class="@( ViewBag.BoardDirector != null ? "active" : "")">Board director</a>
+                                </li>
+                                <li class="@( ViewBag.ExecutiveManagement != null ? "active" : "")">
+                                    <a asp-controller="executivemanagement" asp-action="index" asp-area="admin" class="@( ViewBag.ExecutiveManagement != null ? "active" : "")">Executive Management</a>
+                                </li>
+                            </ul>
+                        </li><!--end nav-item-->
+                        <li class="nav-item">
+                            <a class="nav-link" href="javascript: void(0);"><span class="w-100">What we do</span><span class="menu-arrow"><i class="mdi mdi-chevron-right"></i></span></a>
+                            <ul class="nav-second-level" aria-expanded="false">
+                                <li class="@( ViewBag.WhatWeDo != null ? "active" : "")">
+                                    <a asp-controller="whatwedo" asp-action="index" asp-area="admin" class="@( ViewBag.WhatWeDo != null ? "active" : "")">Main Page</a>
+                                </li>
+                                <li class="@( ViewBag.OurBusiness != null ? "active" : "")">
+                                    <a asp-controller="ourbusiness" asp-action="list" asp-area="admin" class="@( ViewBag.OurBusiness != null ? "active" : "")">Our business</a>
+                                </li>
+                                <li class="@( ViewBag.OurProject != null ? "active" : "")">
+                                    <a asp-controller="ourproject" asp-action="index" asp-area="admin" class="@( ViewBag.OurProject != null ? "active" : "")">Our project</a>
+                                </li>
+                                <li class="@( ViewBag.OurStrategy != null ? "active" : "")">
+                                    <a asp-controller="ourstrategy" asp-action="index" asp-area="admin" class="@( ViewBag.OurStrategy != null ? "active" : "")">Our strategy</a>
+                                </li>
+                                <li class="@( ViewBag.CompanyService != null ? "active" : "")">
+                                    <a asp-controller="companyservice" asp-action="list" asp-area="admin" class="@( ViewBag.CompanyService != null ? "active" : "")">Company services</a>
+                                </li>
+                            </ul>
+                        </li><!--end nav-item-->
+                        <li class="nav-item">
+                            <a class="nav-link" href="javascript: void(0);"><span class="w-100">Sustainability</span><span class="menu-arrow"><i class="mdi mdi-chevron-right"></i></span></a>
+                            <ul class="nav-second-level" aria-expanded="false">
+                                <li class="@( ViewBag.Sustainability != null ? "active" : "")">
+                                    <a asp-controller="sustainability" asp-action="index" asp-area="admin" class="@( ViewBag.Sustainability != null ? "active" : "")">Main Page</a>
+                                </li>
+                                <li class="@( ViewBag.SustainableDevelopment != null ? "active" : "")">
+                                    <a asp-controller="sustainabledevelopment" asp-action="index" asp-area="admin" class="@( ViewBag.SustainableDevelopment != null ? "active" : "")">Sustainable development</a>
+                                </li>
+                                <li class="@( ViewBag.MainSustainabilityReport != null ? "active" : "")">
+                                    <a asp-controller="mainsustainabilityreport" asp-action="index" asp-area="admin" class="@( ViewBag.MainSustainabilityReport != null ? "active" : "")">Main Sustainability report</a>
+                                </li>
+                                <li class="@( ViewBag.SustainabilityReport != null ? "active" : "")">
+                                    <a asp-controller="sustainabilityreport" asp-action="index" asp-area="admin" class="@( ViewBag.SustainabilityReport != null ? "active" : "")">Sustainability reports</a>
+                                </li>
+                                <li class="@( ViewBag.Safety != null ? "active" : "")">
+                                    <a asp-controller="safety" asp-action="index" asp-area="admin" class="@( ViewBag.Safety != null ? "active" : "")">Safety</a>
+                                </li>
+                                <li class="@( ViewBag.Environment != null ? "active" : "")">
+                                    <a asp-controller="environment" asp-action="index" asp-area="admin" class="@( ViewBag.Environment != null ? "active" : "")">Environment</a>
+                                </li>
+                                <li class="@( ViewBag.HumanResource != null ? "active" : "")">
+                                    <a asp-controller="humanresource" asp-action="index" asp-area="admin" class="@( ViewBag.HumanResource != null ? "active" : "")">Human Resource</a>
+                                </li>
+                                <li class="@( ViewBag.Community != null ? "active" : "")">
+                                    <a asp-controller="community" asp-action="index" asp-area="admin" class="@( ViewBag.Community != null ? "active" : "")">Community</a>
+                                </li>
+                                <li class="@( ViewBag.EthicsCompliance != null ? "active" : "")">
+                                    <a asp-controller="ethicscompliance" asp-action="index" asp-area="admin" class="@( ViewBag.EthicsCompliance != null ? "active" : "")">Ethics Compliance</a>
+                                </li>
+                                <li class="@( ViewBag.SustainableGoal != null ? "active" : "")">
+                                    <a asp-controller="sustainablegoal" asp-action="list" asp-area="admin" class="@( ViewBag.SustainableGoal != null ? "active" : "")">Sustainable goals</a>
+                                </li>
+                            </ul>
+                        </li><!--end nav-item-->
+                        <li class="nav-item">
+                            <a class="nav-link" href="javascript: void(0);"><span class="w-100">Media</span><span class="menu-arrow"><i class="mdi mdi-chevron-right"></i></span></a>
+                            <ul class="nav-second-level" aria-expanded="false">
+                                <li class="@( ViewBag.Media != null ? "active" : "")">
+                                    <a asp-controller="media" asp-action="index" asp-area="admin" class="@( ViewBag.Media != null ? "active" : "")">Main Page</a>
+                                </li>
+                                <li class="@( ViewBag.Gallery != null ? "active" : "")">
+                                    <a asp-controller="gallery" asp-action="index" asp-area="admin" class="@( ViewBag.Gallery != null ? "active" : "")">Gallery</a>
+                                </li>
+                            </ul>
+                        </li><!--end nav-item-->
+                        <li class="nav-item @( ViewBag.Career != null ? "active" : "")">
+                            <a asp-controller="career" asp-action="index" asp-area="admin" class="nav-link @( ViewBag.Career != null ? "active" : "")">Career</a>
+                        </li>
+                        <li class="nav-item @( ViewBag.Contact != null ? "active" : "")">
+                            <a asp-controller="contact" asp-action="index" asp-area="admin" class="nav-link @( ViewBag.Contact != null ? "active" : "")">Contact</a>
+                        </li>
+                        <li class="nav-item @( ViewBag.LegalNotice != null ? "active" : "")">
+                            <a asp-controller="legalnotice" asp-action="index" asp-area="admin" class="nav-link @( ViewBag.LegalNotice != null ? "active" : "")">Legal Notice</a>
+                        </li>
+                        <li class="nav-item @( ViewBag.Search != null ? "active" : "")">
+                            <a asp-controller="search" asp-action="index" asp-area="admin" class="nav-link @( ViewBag.Search != null ? "active" : "")">Search</a>
+                        </li>
+                        <li class="nav-item @( ViewBag.LanguageResource != null ? "active" : "")">
+                            <a asp-controller="langresource" asp-action="index" asp-area="admin" class="nav-link @( ViewBag.LanguageResource != null ? "active" : "")">Language Resource</a>
+                        </li>
+                        <li class="nav-item @( ViewBag.PageTab != null ? "active" : "")">
+                            <a asp-controller="pagetab" asp-action="index" asp-area="admin" class="nav-link @( ViewBag.PageTab != null ? "active" : "")">Page Tab</a>
+                        </li>
+                    </ul>
+                    <!--end of nav-->
+                </div>
+                <!-- end of PageManagement -->
+
+                <div id="NavbarManagement" class="main-icon-menu-pane @( ViewBag.NavbarManagement != null ? "active" : "")">
+                    <div class="title-box">
+                        <h6 class="menu-title">Navbar Management</h6>
+                    </div>
+
+                    <ul class="nav">
+                        <li class="nav-item @( ViewBag.Home != null ? "active" : "")">
+                            <a asp-controller="navbar" asp-action="index" asp-area="admin" class="nav-link @( ViewBag.Navbar != null ? "active" : "")">Navbar</a>
+                        </li>
+                    </ul>
+                    <!--end of nav-->
+                </div>
+
+                <div id="FlatpageManagement" class="main-icon-menu-pane @( ViewBag.FlatpageManagement != null ? "active" : "")">
+                    <div class="title-box">
+                        <h6 class="menu-title">Flatpage Management</h6>
+                    </div>
+
+                    <ul class="nav">
+                        <li class="nav-item @( ViewBag.Flatpage != null ? "active" : "")">
+                            <a asp-controller="flatpage" asp-action="list" asp-area="admin" class="nav-link @( ViewBag.Flatpage != null ? "active" : "")">Flatpages</a>
+                        </li>
+                        <li class="nav-item @( ViewBag.DynamicPage != null ? "active" : "")">
+                            <a asp-controller="dynamicpage" asp-action="list" asp-area="admin" class="nav-link @( ViewBag.DynamicPage != null ? "active" : "")">Dynamic Pages</a>
+                        </li>
+                    </ul>
+                    <!--end of nav-->
+                </div>
+
+                <div id="MessageManagement" class="main-icon-menu-pane @( ViewBag.MessageManagement != null ? "active" : "")">
+                    <div class="title-box">
+                        <h6 class="menu-title">Message Management</h6>
+                    </div>
+
+                    <ul class="nav">
+                        <li class="nav-item @( ViewBag.ContactMessage != null ? "active" : "")">
+                            <a asp-controller="message" asp-action="index" asp-area="admin" class="nav-link @( ViewBag.SiteConfig != null ? "active" : "")">Contact Messages</a>
+                        </li>
+                    </ul>
+                    <!--end of nav-->
+                </div>
+
+                <div id="SiteManagement" class="main-icon-menu-pane @( ViewBag.SiteManagement != null ? "active" : "")">
+                    <div class="title-box">
+                        <h6 class="menu-title">Site Management</h6>
+                    </div>
+
+                    <ul class="nav">
+                        <li class="nav-item @( ViewBag.SiteConfig != null ? "active" : "")">
+                            <a asp-controller="config" asp-action="index" asp-area="admin" class="nav-link @( ViewBag.SiteConfig != null ? "active" : "")">Site Configuration</a>
+                        </li>
+                    </ul>
+                    <!--end of nav-->
+                </div>
+                <!-- end of NotificationManagement -->
+
+
+            </div>
+            <!--end menu-body-->
+        </div>
+        <!-- end main-menu-inner-->
+
+    </div><!-- end leftbar-tab-menu-->
+    <!-- Top Bar Start -->
+    <div class="topbar">
+        <!-- Navbar -->
+        <nav class="navbar-custom">
+            <ul class="list-unstyled topbar-nav float-right mb-0">
+                <li class="dropdown">
+                    <a class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button"
+                       aria-haspopup="false" aria-expanded="false">
+                        <img src="~/Admin/assets/images/users/user-4.jpg" asp-append-version="true" alt="profile-user" class="rounded-circle" />
+                        <span class="ml-1 nav-user-name hidden-sm">@current_user.UserName <i class="mdi mdi-chevron-down"></i> </span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" asp-controller="account" asp-action="logout" asp-area="admin"><i class="dripicons-exit text-muted mr-2"></i> Logout</a>
+                    </div>
+                </li>
+            </ul><!--end topbar-nav-->
+
+            <ul class="list-unstyled topbar-nav mb-0">
+                <li>
+                    <a href="../crm/crm-index.html">
+                        <span class="responsive-logo">
+                            <img src="~/Admin/assets/images/logo-sm.png" asp-append-version="true" alt="logo-small" class="logo-sm align-self-center" height="34">
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <button class="button-menu-mobile nav-link">
+                        <i data-feather="menu" class="align-self-center"></i>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+        <!-- end navbar-->
+    </div>
+    <!-- Top Bar End -->
+    <!-- Page Wrapper Start -->
+    <div class="page-wrapper">
+        <!-- Page Content-->
+        <div class="page-content-tab">
+            <div class="container-fluid">
+
+                @RenderBody()
+
+            </div><!-- container -->
+            <!--  Modal content for the above example -->
+            <div class="modal modal-rightbar fade" tabindex="-1" role="dialog" aria-labelledby="MetricaRightbar" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title mt-0" id="MetricaRightbar">Appearance</h5>
+                            <button type="button" class="btn btn-sm btn-soft-primary btn-circle btn-square" data-dismiss="modal" aria-hidden="true"><i class="mdi mdi-close"></i></button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-pills nav-justified mt-2 mb-4" role="tablist">
+                                <li class="nav-item waves-effect waves-light">
+                                    <a class="nav-link active" data-toggle="tab" href="#ActivityTab" role="tab">Activity</a>
+                                </li>
+                                <li class="nav-item waves-effect waves-light">
+                                    <a class="nav-link" data-toggle="tab" href="#TasksTab" role="tab">Tasks</a>
+                                </li>
+                                <li class="nav-item waves-effect waves-light">
+                                    <a class="nav-link" data-toggle="tab" href="#SettingsTab" role="tab">Settings</a>
+                                </li>
+                            </ul>
+
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <div class="tab-pane active " id="ActivityTab" role="tabpanel">
+                                    <div class="bg-light mx-n3">
+                                        <img src="~/Admin/assets/images/small/img-1.gif" asp-append-version="true" alt="" class="d-block mx-auto my-4" height="180">
+                                    </div>
+                                    <div class="slimscroll scroll-rightbar">
+                                        <div class="activity">
+                                            <div class="activity-info">
+                                                <div class="icon-info-activity">
+                                                    <i class="mdi mdi-checkbox-marked-circle-outline bg-soft-success"></i>
+                                                </div>
+                                                <div class="activity-info-text mb-2">
+                                                    <div class="mb-1">
+                                                        <small class="text-muted d-block mb-1">10 Min ago</small>
+                                                        <a href="#" class="m-0 w-75">Task finished</a>
+                                                    </div>
+                                                    <p class="text-muted mb-2 text-truncate">There are many variations of passages.</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="activity-info">
+                                                <div class="icon-info-activity">
+                                                    <i class="mdi mdi-timer-off bg-soft-pink"></i>
+                                                </div>
+                                                <div class="activity-info-text mb-2">
+                                                    <div class="mb-1">
+                                                        <small class="text-muted d-block mb-1">50 Min ago</small>
+                                                        <a href="#" class="m-0 w-75">Task Overdue</a>
+                                                    </div>
+                                                    <p class="text-muted mb-2 text-truncate">There are many variations of passages.</p>
+                                                    <span class="badge badge-soft-secondary">Design</span>
+                                                    <span class="badge badge-soft-secondary">HTML</span>
+                                                </div>
+                                            </div>
+                                            <div class="activity-info">
+                                                <div class="icon-info-activity">
+                                                    <i class="mdi mdi-alert-decagram bg-soft-purple"></i>
+                                                </div>
+                                                <div class="activity-info-text mb-2">
+                                                    <div class="mb-1">
+                                                        <small class="text-muted d-block mb-1">10 hours ago</small>
+                                                        <a href="#" class="m-0 w-75">New Task</a>
+                                                    </div>
+                                                    <p class="text-muted mb-2 text-truncate">There are many variations of passages.</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="activity-info">
+                                                <div class="icon-info-activity">
+                                                    <i class="mdi mdi-clipboard-alert bg-soft-warning"></i>
+                                                </div>
+                                                <div class="activity-info-text mb-2">
+                                                    <div class="mb-1">
+                                                        <small class="text-muted d-block mb-1">yesterday</small>
+                                                        <a href="#" class="m-0 w-75">New Comment</a>
+                                                    </div>
+                                                    <p class="text-muted mb-2 text-truncate">There are many variations of passages.</p>
+                                                </div>
+                                            </div>
+                                            <div class="activity-info">
+                                                <div class="icon-info-activity">
+                                                    <i class="mdi mdi-clipboard-alert bg-soft-secondary"></i>
+                                                </div>
+                                                <div class="activity-info-text mb-2">
+                                                    <div class="mb-1">
+                                                        <small class="text-muted d-block mb-1">01 feb 2020</small>
+                                                        <a href="#" class="m-0 w-75">New Lead Meting</a>
+                                                    </div>
+                                                    <p class="text-muted mb-2 text-truncate">There are many variations of passages.</p>
+                                                </div>
+                                            </div>
+                                            <div class="activity-info">
+                                                <div class="icon-info-activity">
+                                                    <i class="mdi mdi-checkbox-marked-circle-outline bg-soft-success"></i>
+                                                </div>
+                                                <div class="activity-info-text mb-2">
+                                                    <div class="mb-1">
+                                                        <small class="text-muted d-block mb-1">26 jan 2020</small>
+                                                        <a href="#" class="m-0 w-75">Task finished</a>
+                                                    </div>
+                                                    <p class="text-muted mb-2 text-truncate">There are many variations of passages.</p>
+                                                </div>
+                                            </div>
+                                        </div><!--end activity-->
+                                    </div><!--end activity-scroll-->
+                                </div><!--end tab-pane-->
+                                <div class="tab-pane" id="TasksTab" role="tabpanel">
+                                    <div class="m-0">
+                                        <div id="rightbar_chart" class="apex-charts"></div>
+                                    </div>
+                                    <div class="text-center mt-n2 mb-2">
+                                        <button type="button" class="btn btn-soft-primary">Create Project</button>
+                                        <button type="button" class="btn btn-soft-primary">Create Task</button>
+                                    </div>
+                                    <div class="slimscroll scroll-rightbar">
+                                        <div class="p-2">
+                                            <div class="media mb-3">
+                                                <img src="~/Admin/assets/images/widgets/project3.jpg" asp-append-version="true" alt="" class="thumb-lg rounded-circle">
+                                                <div class="media-body align-self-center text-truncate ml-3">
+                                                    <p class="text-success font-weight-semibold mb-0 font-14">Project</p>
+                                                    <h4 class="mt-0 mb-0 font-weight-semibold text-dark font-18">Payment App</h4>
+                                                </div><!--end media-body-->
+                                            </div>
+                                            <span><b>Deadline:</b> 02 June 2020</span>
+                                            <a href="javascript: void(0);" class="d-block mt-3">
+                                                <p class="text-muted mb-0">Complete Tasks<span class="float-right">75%</span></p>
+                                                <div class="progress mt-2" style="height: 4px;">
+                                                    <div class="progress-bar bg-secondary" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <hr class="hr-dashed">
+                                    </div>
+                                </div><!--end tab-pane-->
+                                <div class="tab-pane" id="SettingsTab" role="tabpanel">
+                                    <div class="p-1 bg-light mx-n3">
+                                        <h6 class="px-3">Account Settings</h6>
+                                    </div>
+                                    <div class="p-2 text-left mt-3">
+                                        <div class="custom-control custom-switch switch-primary mb-3">
+                                            <input type="checkbox" class="custom-control-input" id="settings-switch1" checked="">
+                                            <label class="custom-control-label" for="settings-switch1">Auto updates</label>
+                                        </div>
+
+                                        <div class="custom-control custom-switch switch-primary mb-3">
+                                            <input type="checkbox" class="custom-control-input" id="settings-switch2">
+                                            <label class="custom-control-label" for="settings-switch2">Location Permission</label>
+                                        </div>
+
+                                        <div class="custom-control custom-switch switch-primary mb-3">
+                                            <input type="checkbox" class="custom-control-input" id="settings-switch3" checked="">
+                                            <label class="custom-control-label" for="settings-switch3">Show offline Contacts</label>
+                                        </div>
+                                    </div>
+                                    <div class="p-1 bg-light mx-n3">
+                                        <h6 class="px-3">General Settings</h6>
+                                    </div>
+                                    <div class="p-2 text-left mt-3">
+                                        <div class="custom-control custom-switch switch-primary mb-3">
+                                            <input type="checkbox" class="custom-control-input" id="settings-switch4" checked="">
+                                            <label class="custom-control-label" for="settings-switch4">Show me Online</label>
+                                        </div>
+
+                                        <div class="custom-control custom-switch switch-primary mb-3">
+                                            <input type="checkbox" class="custom-control-input" id="settings-switch5">
+                                            <label class="custom-control-label" for="settings-switch5">Status visible to all</label>
+                                        </div>
+
+                                        <div class="custom-control custom-switch switch-primary mb-3">
+                                            <input type="checkbox" class="custom-control-input" id="settings-switch6" checked="">
+                                            <label class="custom-control-label" for="settings-switch6">Notifications Popup</label>
+                                        </div>
+                                    </div>
+                                </div><!--end tab-pane-->
+                            </div> <!--end tab-content-->
+                        </div><!--end modal-body-->
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+
+            <footer class="footer text-center text-sm-left">
+                &copy; @DateTime.UtcNow.Year Labrin
+            </footer><!--end footer-->
+        </div>
+        <!-- end page content -->
+    </div>
+    <!-- end page-wrapper -->
+    <!-- jQuery  -->
+    <script src="~/Admin/assets/js/jquery.min.js" asp-append-version="true"></script>
+    <script src="~/Admin/assets/js/jquery-ui.min.js" asp-append-version="true"></script>
+    <script src="~/Admin/assets/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
+    <script src="~/Admin/assets/js/metismenu.min.js" asp-append-version="true"></script>
+    <script src="~/Admin/assets/js/waves.js" asp-append-version="true"></script>
+    <script src="~/Admin/assets/js/feather.min.js" asp-append-version="true"></script>
+    <script src="~/Admin/assets/js/jquery.slimscroll.min.js" asp-append-version="true"></script>
+    <script src="~/Admin/plugins/apexcharts/apexcharts.min.js" asp-append-version="true"></script>
+
+    <!-- Plugin Js -->
+    @RenderSection("plugin_scripts", required: false)
+
+    <!-- App js -->
+    <script src="~/Admin/assets/js/app.js" asp-append-version="true"></script>
+
+    <!-- Custom Js -->
+    @RenderSection("scripts", required: false)
+</body>
+</html>

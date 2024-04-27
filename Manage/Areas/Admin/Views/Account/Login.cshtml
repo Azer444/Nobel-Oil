@@ -1,0 +1,67 @@
+﻿@model LoginViewModel
+
+@{
+    ViewData["Title"] = "Nobeloil Admin";
+    var returnUrl = Context.Request.Query["ReturnUrl"];
+}
+
+@section styles{
+    <link href="~/Client/styles/css/admin.css" asp-append-version="true" rel="stylesheet" type="text/css" />
+}
+
+
+<div class="card auth-card shadow-lg">
+    <div class="card-body">
+        <div class="px-3">
+            @*<div class="auth-logo-box">
+                    <a href="#" class="logo logo-admin"><img src="~/Admin/assets/images/logo-sm.png" asp-append-version="true" height="65" alt="logo" class="auth-logo"></a>
+                </div>*@
+
+            <div class="text-center auth-logo-text">
+                <h4 class="mt-0 mb-3 mt-5">Nobeloil Admin</h4>
+                <p class="text-muted mb-0">Please enter your username and password</p>
+            </div> <!--end auth-logo-text-->
+
+            @if (ViewData["message"] != null)
+            {
+                <div class="alert alert-@ViewData["message_type"]">
+                    @ViewData["message"]
+                </div>
+            }
+
+            <form asp-route="admin-account-login" method="post" class="form-horizontal auth-form my-4">
+                @Html.AntiForgeryToken()
+
+                <div asp-validation-summary="All" class="text-danger"></div>
+
+                <div class="form-group">
+                    <label asp-for="UserName"></label>
+                    <div class="input-group mb-3">
+                        <span class="auth-form-icon">
+                            <i class="dripicons-mail"></i>
+                        </span>
+                        <input class="form-control" asp-for="UserName" placeholder="Please enter your username" required />
+                    </div>
+                    <span asp-validation-for="UserName" class="text-danger"></span>
+                </div><!--end form-group-->
+
+                <div class="form-group">
+                    <label asp-for="Password"></label>
+                    <div class="input-group mb-3">
+                        <span class="auth-form-icon">
+                            <i class="dripicons-lock"></i>
+                        </span>
+                        <input class="form-control" asp-for="Password" placeholder="Please enter your password" required />
+                    </div>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div><!--end form-group-->
+
+                <div class="form-group mb-0 row">
+                    <div class="col-12 mt-2">
+                        <button class="btn btn-gradient-primary btn-round btn-block waves-effect waves-light" type="submit">Login<i class="fas fa-sign-in-alt ml-1"></i></button>
+                    </div>
+                </div> <!--end form-group-->
+            </form><!--end form-->
+        </div><!--end /div-->
+    </div><!--end card-body-->
+</div><!--end card-->

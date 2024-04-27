@@ -1,0 +1,89 @@
+﻿@using Core.Models
+@model NavComponent
+
+@{
+    ViewData["Title"] = "Navbar";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <div class="float-right">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-action="index" asp-controller="navbar" asp-area="admin">Navbar Title Components</a></li>
+                    <li class="breadcrumb-item"><a asp-action="components" asp-controller="navbar" asp-route-id="@Model.Id" asp-area="admin">Navbar Components</a></li>
+                    <li class="breadcrumb-item active">Sub-Components</li>
+                </ol>
+            </div>
+            <h4 class="page-title">Sub-Components</h4>
+        </div><!--end page-title-box-->
+    </div><!--end col-->
+</div>
+
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-@TempData["message_type"]">
+        @TempData["message"]
+    </div>
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <h3>Sub-Component</h3>
+                    <a asp-action="addsubcomponent" asp-controller="navbar" asp-route-id="@Model.Id" asp-area="admin" asp type="button" class="btn btn-gradient-primary waves-effect waves-light float-right mb-3">
+                        Add sub-component
+                    </a>
+                    <h6>@Model.NavTitleComponent.Title_EN - @Model.Title_EN</h6>
+                    <table id="ourproject-table" class="table table-striped mb-0 ">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.NavSubComponents.GetEnumerator().Current.Title_AZ)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.NavSubComponents.GetEnumerator().Current.Title_RU)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.NavSubComponents.GetEnumerator().Current.Title_EN)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.NavSubComponents.GetEnumerator().Current.Title_TR)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.NavSubComponents.GetEnumerator().Current.Link)</span>
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var navSubComponent in Model.NavSubComponents)
+                            {
+                                <tr>
+                                    <td>@navSubComponent.Title_AZ</td>
+                                    <td>@navSubComponent.Title_RU</td>
+                                    <td>@navSubComponent.Title_EN</td>
+                                    <td>@navSubComponent.Title_TR</td>
+                                    <td>@navSubComponent.Link</td>
+                                    <td>
+                                        <a asp-controller="navbar" asp-action="editsubcomponent" asp-route-id="@navSubComponent.Id" class="mr-2"><i class="fas fa-edit text-info font-18"></i></a>
+                                        <a asp-controller="news" asp-action="deletesubcomponent" asp-route-id="@navSubComponent.Id" onclick="return confirm('Are you sure to delete?')" class="mr-2"><i class="fas fa-trash-alt text-danger font-18"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div><!--end /tableresponsive-->
+
+            </div><!--end card-body-->
+        </div><!--end card-->
+
+    </div> <!-- end col -->
+</div>
+
+
+@section Scripts{
+
+}

@@ -1,0 +1,164 @@
+﻿@using Manage.Areas.Admin.Models.ComponentManagement.Manager
+@using Core.Constants
+
+@model ManagerDetailsViewModel
+
+@{
+    ViewData["Title"] = "Managers";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <div class="float-right">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-action="list" asp-controller="manager" asp-area="admin">Managers</a></li>
+                    <li class="breadcrumb-item active">Details</li>
+                </ol>
+            </div>
+            <h4 class="page-title">Details manager</h4>
+        </div><!--end page-title-box-->
+    </div><!--end col-->
+</div>
+
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-@TempData["message_type"]">
+        @TempData["message"]
+    </div>
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="Name_AZ"></label>
+                            <input readonly class="form-control form-control" asp-for="Name_AZ">
+                            <span asp-validation-for="Name_AZ" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="Name_RU"></label>
+                            <input readonly class="form-control form-control" asp-for="Name_RU">
+                            <span asp-validation-for="Name_RU" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="Name_EN"></label>
+                            <input readonly class="form-control form-control" asp-for="Name_EN">
+                            <span asp-validation-for="Name_EN" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="Name_TR"></label>
+                            <input readonly class="form-control form-control" asp-for="Name_TR">
+                            <span asp-validation-for="Name_TR" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="Info_AZ"></label>
+                            <input readonly class="form-control form-control" asp-for="Info_AZ">
+                            <span asp-validation-for="Info_AZ" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="Info_RU"></label>
+                            <input readonly class="form-control form-control" asp-for="Info_RU">
+                            <span asp-validation-for="Info_RU" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="Info_EN"></label>
+                            <input readonly class="form-control form-control" asp-for="Info_EN">
+                            <span asp-validation-for="Info_EN" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="Info_TR"></label>
+                            <input readonly class="form-control form-control" asp-for="Info_TR">
+                            <span asp-validation-for="Info_TR" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="Type"></label>
+                            <select disabled class="form-control form-control" asp-for="Type" asp-items="Html.GetEnumSelectList<ManagerType>()"></select>
+                            <span asp-validation-for="Type" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="Content_AZ"></label>
+                            <textarea readonly class="form-control" asp-for="Content_AZ"></textarea>
+                            <span asp-validation-for="Content_AZ" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="Content_RU"></label>
+                            <textarea readonly class="form-control form-control" asp-for="Content_RU"></textarea>
+                            <span asp-validation-for="Content_RU" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="Content_EN"></label>
+                            <textarea readonly class="form-control form-control" asp-for="Content_EN"></textarea>
+                            <span asp-validation-for="Content_EN" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="Content_TR"></label>
+                            <textarea readonly class="form-control form-control" asp-for="Content_TR"></textarea>
+                            <span asp-validation-for="Content_TR" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="d-flex m-0 bold-text" for=""><span>Main Photo</span></label>
+                            <img style="width:200px; object-fit:cover;" src="@Model.PhotoPath" />
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script src="~/Admin/vendor/ckeditor/ckeditor.js"></script>
+
+    <script>
+        const contents = ["#Content_AZ", "#Content_RU", "#Content_EN", "#Content_TR"];
+
+        for (const content of contents) {
+            ClassicEditor
+                .create(document.querySelector(content), {
+                    viewportTopOffset: 50,
+                    toolbar: ['heading', '|', 'bold', 'italic', 'bulletedList', 'link'],
+                })
+                .then(editor => {
+                    editor.isReadOnly = true; // make the editor read-only right after initialization
+                })
+                .catch(error => {
+                    console.error(error);
+                })
+        }
+    </script>
+}

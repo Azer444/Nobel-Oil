@@ -1,0 +1,72 @@
+﻿@using Core.Models
+@using Manage.Tools.FileHandler.Abstraction
+@using Core.Constants.File
+
+@model SiteConfig
+@inject IFileService _fileService
+
+@{
+    ViewData["Title"] = "Site Configuration";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <h4 class="page-title">Site Configuration</h4>
+        </div>
+    </div>
+</div>
+
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-@TempData["message_type"]">
+        @TempData["message"]
+    </div>
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    @if (Model == null)
+                    {
+                        <a asp-action="define" asp-controller="config" asp-area="admin" asp type="button" class="btn btn-gradient-primary waves-effect waves-light float-right mb-3">
+                            Define
+                        </a>
+                    }
+                    else
+                    {
+                        <table id="users-table" class="table table-striped mb-0 ">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.FirstLogo)</span>
+                                    </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <img src="@_fileService.GetFileUrl(Model.FirstLogoName, FilePath.SiteConfig)" style="width:200px;object-fit:cover;" />
+                                    </td>
+                                    <td>
+                                        <a asp-controller="config" asp-action="edit" class="mr-2"><i class="fas fa-edit text-info font-18"></i></a>
+                                        <a asp-controller="config" asp-action="details" class="mr-2"><i class="fas fa-external-link-square-alt text-info font-18"></i></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    }
+
+                </div><!--end /tableresponsive-->
+            </div><!--end card-body-->
+        </div><!--end card-->
+    </div> <!-- end col -->
+</div>
+
+
+@section Scripts{
+
+}

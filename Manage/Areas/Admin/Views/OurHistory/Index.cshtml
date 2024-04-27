@@ -1,0 +1,83 @@
+﻿@using Manage.Areas.Admin.Models.PageManagement.OurHistory
+@using Manage.Tools.FileHandler.Abstraction
+@using Core.Constants.File
+
+@model OurHistoryIndexViewModel
+@inject IFileService _fileService
+
+@{
+    ViewData["Title"] = "Our history";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <h4 class="page-title">Our history</h4>
+        </div>
+    </div>
+</div>
+
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-@TempData["message_type"]">
+        @TempData["message"]
+    </div>
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <h3>Component</h3>
+                    @if (Model.OurHistoryComponent== null)
+                    {
+                        <a asp-action="definecomponent" asp-controller="ourhistory" asp-area="admin" asp type="button" class="btn btn-gradient-primary waves-effect waves-light float-right mb-3">
+                            Define component
+                        </a>
+                    }
+                    else
+                    {
+                        <table id="users-table" class="table table-striped mb-0 ">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.OurHistoryComponent.Title_AZ)</span>
+                                    </th>
+                                    <th>
+                                        <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.OurHistoryComponent.Title_RU)</span>
+                                    </th>
+                                    <th>
+                                        <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.OurHistoryComponent.Title_EN)</span>
+                                    </th>
+                                    <th>
+                                        <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.OurHistoryComponent.Title_TR)</span>
+                                    </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>@Model.OurHistoryComponent.Title_AZ</td>
+                                    <td>@Model.OurHistoryComponent.Title_RU</td>
+                                    <td>@Model.OurHistoryComponent.Title_EN</td>
+                                    <td>@Model.OurHistoryComponent.Title_TR</td>
+                                    <td>
+                                        <a asp-controller="ourhistory" asp-action="editcomponent" class="mr-2"><i class="fas fa-edit text-info font-18"></i></a>
+                                        @*<a asp-controller="about" asp-action="detailscomponent" class="mr-2"><i class="fas fa-external-link-square-alt text-info font-18"></i></a>*@
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    }
+
+                </div><!--end /tableresponsive-->
+            </div><!--end card-body-->
+        </div><!--end card-->
+    </div> <!-- end col -->
+</div>
+
+
+@section Scripts{
+
+}

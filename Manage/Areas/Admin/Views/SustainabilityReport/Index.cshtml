@@ -1,0 +1,90 @@
+﻿@using Manage.Areas.Admin.Models.PageManagement.SustainabilityReport
+@using Manage.Tools.FileHandler.Abstraction
+@using Core.Constants.File
+
+@model SustainabilityReportIndexVM
+@inject IFileService _fileService
+
+@{
+    ViewData["Title"] = "Sustainability Reports";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <h4 class="page-title">Sustainability Reports</h4>
+        </div>
+    </div>
+</div>
+
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-@TempData["message_type"]">
+        @TempData["message"]
+    </div>
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div>
+                    <a asp-action="create" asp-controller="sustainabilityreport" asp-area="admin" type="button" class="btn btn-gradient-primary waves-effect waves-light float-right mb-3">
+                        + New sustainability report
+                    </a>
+                </div>
+
+                <div class="table-responsive">
+                    <h3>Reports</h3>
+
+                    <table id="sustainabilityreport-table" class="table table-striped mb-0 ">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x=> x.SustainabilityReports.GetEnumerator().Current.PhotoName)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.SustainabilityReports.GetEnumerator().Current.Title_AZ)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.SustainabilityReports.GetEnumerator().Current.Title_RU)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.SustainabilityReports.GetEnumerator().Current.Title_EN)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.SustainabilityReports.GetEnumerator().Current.Title_TR)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">Action</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var report in Model.SustainabilityReports)
+                            {
+                                <tr>
+                                    @{
+                                        report.PhotoName = _fileService.GetFileUrl(report.PhotoName, FilePath.SustainabilityReport);
+                                    }
+                                    <td>
+                                        <img src="@report.PhotoName" style="width:200px;object-fit:cover;" />
+                                    </td>
+                                    <td>@report.Title_AZ</td>
+                                    <td>@report.Title_RU</td>
+                                    <td>@report.Title_EN</td>
+                                    <td>@report.Title_TR</td>
+                                    <td>
+                                        <a asp-controller="sustainabilityreport" asp-action="edit" asp-route-id="@report.Id" class="mr-2"><i class="fas fa-edit text-info font-18"></i></a>
+                                        <a asp-controller="sustainabilityreport" asp-action="delete" asp-route-id="@report.Id" class="mr-2"><i class="fas fa-trash-alt text-danger font-18"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </div><!--end /tableresponsive-->
+            </div><!--end card-body-->
+        </div><!--end card-->
+    </div> <!-- end col -->
+</div>

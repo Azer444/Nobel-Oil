@@ -1,0 +1,82 @@
+﻿@using Manage.Tools.FileHandler.Abstraction
+@using Manage.ViewModels.CorporateGovernance
+@using Core.Constants.File
+@using Core.Constants
+@using Core
+@using System.Globalization
+
+@model IndexViewModel
+@inject IFileService _fileService
+@inject IUnitOfWork _unitOfWork
+
+@{
+    ViewData["Title"] = "Nobel Energy | Corporate governance";
+    
+    var currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+}
+
+@await Component.InvokeAsync("IntroductionBanner", new { Page = Page.WhoWeAre })
+
+
+<!--------------------------- Tab --------------------------->
+
+@await Component.InvokeAsync("PageTab", new { page = Page.WhoWeAre, currentPage = $"{currentCulture}/corporategovernance" })
+
+<!--------------------------- Tab --------------------------->
+<!--------------------------- Pages Components --------------------------->
+
+<div id="g-pages-component-section-2">
+    <div class="g-pages-component-element">
+        <div class="g-pages-component-element-wrapper">
+            <div class="g-pages-component-element-content">
+                <h2 class="g-pages-component-element-content-title">
+                    @Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.CorporateGovernanceComponent, "Title", currentCulture))
+                </h2>
+                <div class="g-pages-component-element-content-text">
+                    @Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.CorporateGovernanceComponent, "Content", currentCulture))
+                </div>
+            </div>
+            <div class="g-pages-component-element-image ">
+                <img src="@_fileService.GetFileUrl(Model.CorporateGovernanceComponent.PhotoName, FilePath.CorporateGovernance)" asp-append-version="true">
+            </div>
+        </div>
+    </div>
+    <div class="g-pages-component-element">
+        <div class="g-pages-component-element-wrapper">
+            <div class="g-pages-component-element-content">
+                <h2 class="g-pages-component-element-content-title">@Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.BoardDirectorComponent, "Title", currentCulture))</h2>
+                <div class="g-pages-component-element-content-text">
+                    @Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.BoardDirectorComponent, "Content", currentCulture))
+                </div>
+                <a asp-route-culture="@currentCulture" asp-controller="boarddirector" asp-action="index" class="g-pages-component-anchor-button">
+                    @await _unitOfWork.LanguageResources.GetByKeyAsync("ReadMore", currentCulture) 
+                </a>
+            </div>
+            <div class="g-pages-component-element-image">
+                <img src="@_fileService.GetFileUrl(Model.BoardDirectorComponent.PhotoName, FilePath.BoardDirector)" asp-append-version="true">
+            </div>
+        </div>
+    </div>
+
+
+    <div class="g-pages-component-element">
+        <div class="g-pages-component-element-wrapper">
+            <div class="g-pages-component-element-content">
+                <h2 class="g-pages-component-element-content-title">
+                    @Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.ExecutiveManagementComponent, "Title", currentCulture))
+                </h2>
+                <div class="g-pages-component-element-content-text">
+                    @Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.ExecutiveManagementComponent, "Content", currentCulture))
+                </div>
+                <a asp-route-culture="@currentCulture" asp-controller="executivemanagement" asp-action="index" class="g-pages-component-anchor-button">
+                    @await _unitOfWork.LanguageResources.GetByKeyAsync("ReadMore", currentCulture)
+                </a>
+            </div>
+            <div class="g-pages-component-element-image">
+                <img src="@_fileService.GetFileUrl(Model.ExecutiveManagementComponent.PhotoName, FilePath.ExecutiveManagement)" asp-append-version="true">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--------------------------- Pages Components --------------------------->

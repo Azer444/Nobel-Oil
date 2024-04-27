@@ -1,0 +1,249 @@
+﻿@using Manage.Areas.Admin.Models.PageManagement.Community
+@model CommunityDefineComponentViewModel
+@{
+    ViewData["Title"] = "Community";
+}
+
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <div class="float-right">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-action="index" asp-controller="community" asp-area="admin">Community</a></li>
+                    <li class="breadcrumb-item active">Define component</li>
+                </ol>
+            </div>
+            <h4 class="page-title">Define component</h4>
+        </div><!--end page-title-box-->
+    </div><!--end col-->
+</div>
+
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-@TempData["message_type"]">
+        @TempData["message"]
+    </div>
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title mt-0 mb-3">You can add your note to here</h4>
+                <form method="POST" enctype="multipart/form-data" asp-action="definecomponent" asp-controller="community" id="user-create">
+                    @Html.AntiForgeryToken()
+
+                    <div class="row">
+                        <div asp-validation-summary="ModelOnly" class="invalid-feedback" style="display:block"></div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Title_AZ"></label>
+                                <input class="form-control form-control" asp-for="Title_AZ">
+                                <span asp-validation-for="Title_AZ" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Title_RU"></label>
+                                <input class="form-control form-control" asp-for="Title_RU">
+                                <span asp-validation-for="Title_RU" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Title_EN"></label>
+                                <input class="form-control form-control" asp-for="Title_EN">
+                                <span asp-validation-for="Title_EN" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Title_TR"></label>
+                                <input class="form-control form-control" asp-for="Title_TR">
+                                <span asp-validation-for="Title_TR" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Content_AZ"></label>
+                                <textarea class="form-control form-control" asp-for="Content_AZ"></textarea>
+                                <span asp-validation-for="Content_AZ" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Content_RU"></label>
+                                <textarea class="form-control form-control" asp-for="Content_RU"></textarea>
+                                <span asp-validation-for="Content_RU" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Content_EN"></label>
+                                <textarea class="form-control form-control" asp-for="Content_EN"></textarea>
+                                <span asp-validation-for="Content_EN" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Content_TR"></label>
+                                <textarea class="form-control form-control" asp-for="Content_TR"><</textarea>
+                                <span asp-validation-for="Content_TR" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="ContentSustainability_AZ"></label>
+                                <textarea class="form-control form-control" asp-for="ContentSustainability_AZ"></textarea>
+                                <span asp-validation-for="ContentSustainability_AZ" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="ContentSustainability_RU"></label>
+                                <textarea class="form-control form-control" asp-for="ContentSustainability_RU"></textarea>
+                                <span asp-validation-for="ContentSustainability_RU" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="ContentSustainability_EN"></label>
+                                <textarea class="form-control form-control" asp-for="ContentSustainability_EN"></textarea>
+                                <span asp-validation-for="ContentSustainability_EN" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="ContentSustainability_TR"></label>
+                                <textarea class="form-control form-control" asp-for="ContentSustainability_TR"><</textarea>
+                                <span asp-validation-for="ContentSustainability_TR" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="d-flex m-0 bold-text" asp-for="Photo"></label>
+                                <div class="custom-file">
+                                    <input asp-for="Photo" class="form-control custom-file-input" accept="image/*" />
+                                    <label class="custom-file-label"></label>
+                                </div>
+                                <span class="text-danger validate-message d-inline-block py-2" asp-validation-for="Photo"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="d-flex m-0 bold-text" for=""><span>Photos</span></label>
+                                <div class="custom-file">
+                                    <input multiple asp-for="Photos" class="form-control custom-file-input" accept="image/*" />
+                                    <label class="custom-file-label"></label>
+                                </div>
+                                <span class="text-danger validate-message d-inline-block py-2" asp-validation-for="Photos"></span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="form-group mt-3">
+                    <button class="btn btn-sm btn-primary" type="submit" form="user-create">Save</button>
+                    @*<button class="btn btn-sm btn-primary" type="submit" form="user-create">Save and edit</button>*@
+                    <a asp-action="index" asp-controller="community" asp-area="admin" class="btn btn-sm btn-danger">Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script src="~/Admin/vendor/ckeditor/ckeditor.js"></script>
+    <script src="~/common/js/show_file_name.js"></script>
+    <!-- validate js -->
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#Content_AZ'), {
+                viewportTopOffset: 50,
+                toolbar: ['heading', '|', 'bold', 'italic', 'bulletedList', 'link']
+            })
+            .catch(error => {
+                console.error(error);
+            })
+
+        ClassicEditor
+            .create(document.querySelector('#Content_RU'), {
+                viewportTopOffset: 50,
+                toolbar: ['heading', '|', 'bold', 'italic', 'bulletedList', 'link']
+            })
+            .catch(error => {
+                console.error(error);
+            })
+
+
+        ClassicEditor
+            .create(document.querySelector('#Content_EN'), {
+                viewportTopOffset: 50,
+                toolbar: ['heading', '|', 'bold', 'italic', 'bulletedList', 'link']
+            })
+            .catch(error => {
+                console.error(error);
+            })
+
+        ClassicEditor
+            .create(document.querySelector('#Content_TR'), {
+                viewportTopOffset: 50,
+                toolbar: ['heading', '|', 'bold', 'italic', 'bulletedList', 'link']
+            })
+            .catch(error => {
+                console.error(error);
+            })
+
+        ClassicEditor
+            .create(document.querySelector('#ContentSustainability_AZ'), {
+                viewportTopOffset: 50,
+                toolbar: ['heading', '|', 'bold', 'italic', 'bulletedList', 'link']
+            })
+            .catch(error => {
+                console.error(error);
+            })
+
+        ClassicEditor
+            .create(document.querySelector('#ContentSustainability_RU'), {
+                viewportTopOffset: 50,
+                toolbar: ['heading', '|', 'bold', 'italic', 'bulletedList', 'link']
+            })
+            .catch(error => {
+                console.error(error);
+            })
+
+
+        ClassicEditor
+            .create(document.querySelector('#ContentSustainability_EN'), {
+                viewportTopOffset: 50,
+                toolbar: ['heading', '|', 'bold', 'italic', 'bulletedList', 'link']
+            })
+            .catch(error => {
+                console.error(error);
+            })
+
+        ClassicEditor
+            .create(document.querySelector('#ContentSustainability_TR'), {
+                viewportTopOffset: 50,
+                toolbar: ['heading', '|', 'bold', 'italic', 'bulletedList', 'link']
+            })
+            .catch(error => {
+                console.error(error);
+            })
+    </script>
+}

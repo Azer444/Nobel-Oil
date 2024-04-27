@@ -1,0 +1,137 @@
+﻿@using Manage.Areas.Admin.Models.PageManagement.Gallery
+@using Manage.Tools.FileHandler.Abstraction
+@using Core.Constants.File
+
+@model GalleryIndexViewModel
+@inject IFileService _fileService
+
+@{
+    ViewData["Title"] = "Gallery";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <h4 class="page-title">Gallery</h4>
+        </div>
+    </div>
+</div>
+
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-@TempData["message_type"]">
+        @TempData["message"]
+    </div>
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <h3>Image Component</h3>
+                    <a asp-action="addimagecomponent" asp-controller="gallery" asp-area="admin" type="button" class="btn btn-gradient-primary waves-effect waves-light float-right mb-3">
+                        Add image component
+                    </a>
+                    <table id="ourproject-table" class="table table-striped mb-0 ">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.ImageGalleryComponents.GetEnumerator().Current.PhotoName)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.ImageGalleryComponents.GetEnumerator().Current.Title_AZ)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.ImageGalleryComponents.GetEnumerator().Current.Title_RU)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.ImageGalleryComponents.GetEnumerator().Current.Title_EN)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.ImageGalleryComponents.GetEnumerator().Current.Title_TR)</span>
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var imageGalleryComponent in Model.ImageGalleryComponents)
+                            {
+                                <tr>
+                                    <td>
+                                        @{
+                                            var photoPath_ = _fileService.GetFileUrl(imageGalleryComponent.PhotoName, FilePath.Gallery);
+                                        }
+                                        <img src="@photoPath_" style="width:200px;object-fit:cover;" />
+                                    </td>
+                                    <td>@imageGalleryComponent.Title_AZ</td>
+                                    <td>@imageGalleryComponent.Title_RU</td>
+                                    <td>@imageGalleryComponent.Title_EN</td>
+                                    <td>@imageGalleryComponent.Title_TR</td>
+                                    <td>
+                                        <a asp-controller="gallery" asp-action="editimagecomponent" asp-route-id="@imageGalleryComponent.Id" class="mr-2"><i class="fas fa-edit text-info font-18"></i></a>
+                                        <a asp-controller="gallery" asp-action="detailsimagecomponent" asp-route-id="@imageGalleryComponent.Id" class="mr-2"><i class="fas fa-external-link-square-alt text-info font-18"></i></a>
+                                        <a asp-controller="gallery" asp-action="deleteimagecomponent" asp-route-id="@imageGalleryComponent.Id" onclick="return confirm('Are you sure to delete?')" class="mr-2"><i class="fas fa-trash-alt text-danger font-18"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div><!--end /tableresponsive-->
+
+            </div><!--end card-body-->
+        </div><!--end card-->
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <h3>Video Component</h3>
+                    <a asp-action="addvideocomponent" asp-controller="gallery" asp-area="admin" type="button" class="btn btn-gradient-primary waves-effect waves-light float-right mb-3">
+                        Add video component
+                    </a>
+                    <table id="ourproject-table" class="table table-striped mb-0 ">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">Photo</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.VideoGalleryComponents.GetEnumerator().Current.Link)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.VideoGalleryComponents.GetEnumerator().Current.Order)</span>
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var videoGalleryComponent in Model.VideoGalleryComponents)
+                            {
+                                <tr>
+                                    <td>
+                                        @{
+                                            var photoPath_ = _fileService.GetFileUrl(videoGalleryComponent.PhotoName, FilePath.Gallery);
+                                        }
+                                        <img src="@photoPath_" style="width:200px;object-fit:cover;" />
+                                    </td>
+                                    <td>@videoGalleryComponent.Link</td>
+                                    <td>@videoGalleryComponent.Order</td>
+                                    <td>
+                                        <a asp-controller="gallery" asp-action="editvideocomponent" asp-route-id="@videoGalleryComponent.Id" class="mr-2"><i class="fas fa-edit text-info font-18"></i></a>
+                                        <a asp-controller="gallery" asp-action="deletevideocomponent" asp-route-id="@videoGalleryComponent.Id" onclick="return confirm('Are you sure to delete?')" class="mr-2"><i class="fas fa-trash-alt text-danger font-18"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div><!--end /tableresponsive-->
+
+            </div><!--end card-body-->
+        </div><!--end card-->
+
+    </div> <!-- end col -->
+</div>
+
+
+@section Scripts{
+
+}

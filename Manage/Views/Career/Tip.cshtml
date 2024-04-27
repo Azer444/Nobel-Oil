@@ -1,0 +1,43 @@
+﻿@using Manage.Tools.FileHandler.Abstraction
+@using Manage.ViewModels.Career
+@using Core.Constants.File
+@using Core.Constants
+@using Core
+@using System.Globalization
+
+@model CareerTipDetailViewModel
+@inject IFileService _fileService
+@inject IUnitOfWork _unitOfWork
+
+@{
+    ViewData["Title"] = "Nobel Energy | Career";
+    
+    var currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+}
+
+@await Component.InvokeAsync("IntroductionBanner", new { Page = Page.Career })
+
+
+<!--------------------------- Tab --------------------------->
+
+@await Component.InvokeAsync("PageTab", new { page = Page.Career, currentPage = $"{currentCulture}/tip" })
+
+
+<!--------------------------- Tab --------------------------->
+<!--------------------------- Project Content --------------------------->
+
+<section id="g-project-section">
+    <div class="g-container__md">
+        <div class="g-project">
+            <img class="g-project-image" src="@_fileService.GetFileUrl(Model.CareerTipComponent.PhotoName, FilePath.Career)">
+            <div class="g-project-content">
+                <p class="g-project-content-title">
+                    @_unitOfWork.Languages.ChooseLanguage(Model.CareerTipComponent, "Title", currentCulture)
+                </p>
+                @Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.CareerTipComponent, "Content", currentCulture))
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--------------------------- Project Content --------------------------->

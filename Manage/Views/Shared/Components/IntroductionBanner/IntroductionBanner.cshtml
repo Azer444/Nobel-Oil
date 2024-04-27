@@ -1,0 +1,34 @@
+﻿@using Core
+@using Core.Models
+@using Core.Constants.File
+@using Manage.Tools.FileHandler.Abstraction
+@using Core.Constants
+@using System.Globalization
+
+@model PageMainPhoto
+@inject IUnitOfWork _unitOfWork
+@inject IFileService _fileService
+
+@{
+    var currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+}
+
+<!--------------------------- Introduction Banner --------------------------->
+
+@if (Model != null)
+{
+    var dataTarget = Model.Page == Page.Contact ? "contact-section" : "g-tab-section";
+
+    <section id="g-banner-section">
+        <a href="#sticky-section" class="g-btn scroll-to scroll-to-section" data-target="@dataTarget">
+            <img class="g-fluid" src="~/Client/assets/svgs/double-arrow.svg" asp-append-version="true" alt="Nobel Energy">
+        </a>
+        <div class="g-banner" style="background-image: url('@_fileService.GetFileUrl(Model.PhotoName, FilePath.PageMainPhoto)');">
+            <div class="g-container">
+                <h1 class="g-banner-title">@_unitOfWork.Languages.ChooseLanguage(Model, "Title", currentCulture)</h1>
+            </div>
+        </div>
+    </section>
+}
+
+<!--------------------------- Introduction Banner --------------------------->

@@ -1,0 +1,286 @@
+﻿@using Manage.Areas.Admin.Models.FlatpageManagement
+@using Core.Constants
+
+@model FlatpageAddViewModel
+
+@{
+    ViewData["Title"] = "Flatpage";
+}
+
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <div class="float-right">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-action="list" asp-controller="flatpage" asp-area="admin">Flatpages</a></li>
+                    <li class="breadcrumb-item active">Add</li>
+                </ol>
+            </div>
+            <h4 class="page-title">Add flatpage</h4>
+        </div><!--end page-title-box-->
+    </div><!--end col-->
+</div>
+
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-@TempData["message_type"]">
+        @TempData["message"]
+    </div>
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data" asp-action="add" asp-controller="flatpage" id="flatpage-create">
+                    @Html.AntiForgeryToken()
+
+                    <div class="row">
+                        <div asp-validation-summary="ModelOnly" class="invalid-feedback" style="display:block"></div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="URL"></label>
+                                <input class="form-control form-control" asp-for="URL">
+                                <span asp-validation-for="URL" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="BannerTitle_AZ"></label>
+                                <input class="form-control form-control" asp-for="BannerTitle_AZ">
+                                <span asp-validation-for="BannerTitle_AZ" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="BannerTitle_RU"></label>
+                                <input class="form-control form-control" asp-for="BannerTitle_RU">
+                                <span asp-validation-for="BannerTitle_RU" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="BannerTitle_EN"></label>
+                                <input class="form-control form-control" asp-for="BannerTitle_EN">
+                                <span asp-validation-for="BannerTitle_EN" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="BannerTitle_TR"></label>
+                                <input class="form-control form-control" asp-for="BannerTitle_TR">
+                                <span asp-validation-for="BannerTitle_TR" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Content_AZ"></label>
+                                <textarea class="form-control form-control" asp-for="Content_AZ"></textarea>
+                                <span asp-validation-for="Content_AZ" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Content_RU"></label>
+                                <textarea class="form-control form-control" asp-for="Content_RU"></textarea>
+                                <span asp-validation-for="Content_RU" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Content_EN"></label>
+                                <textarea class="form-control form-control" asp-for="Content_EN"></textarea>
+                                <span asp-validation-for="Content_EN" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Content_TR"></label>
+                                <textarea class="form-control form-control" asp-for="Content_TR"><</textarea>
+                                <span asp-validation-for="Content_TR" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="d-flex m-0 bold-text" for=""><span>Banner Photo</span></label>
+                                <div class="custom-file">
+                                    <input asp-for="BannerPhoto" class="form-control custom-file-input" accept="image/*" />
+                                    <label class="custom-file-label"></label>
+                                </div>
+                                <span class="text-danger validate-message d-inline-block py-2" asp-validation-for="BannerPhoto"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="custom-control custom-switch switch-success">
+                                <input id="flatpage-has-component" type="checkbox" class="custom-control-input" asp-for="HasComponent">
+                                <label for="flatpage-has-component" class="custom-control-label" asp-for="HasComponent"></label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" id="flatpage-component-define-section" style="display : none">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <h4 class="header-title mt-0 mb-3">Page tab for this component will be created automatically</h4>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="custom-control custom-switch switch-success">
+                                <input form="flatpage-create" type="checkbox" class="custom-control-input" asp-for="IsBanner">
+                                <label class="custom-control-label" asp-for="IsBanner"></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="Page"></label>
+                            <select form="flatpage-create" class="form-control form-control" asp-for="Page" asp-items="Html.GetEnumSelectList<Page>()"></select>
+                            <span asp-validation-for="Page" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="TitlePage_AZ"></label>
+                            <input form="flatpage-create" class="form-control form-control" asp-for="TitlePage_AZ">
+                            <span asp-validation-for="TitlePage_AZ" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="TitlePage_RU"></label>
+                            <input form="flatpage-create" class="form-control form-control" asp-for="TitlePage_RU">
+                            <span asp-validation-for="TitlePage_RU" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="TitlePage_EN"></label>
+                            <input form="flatpage-create" class="form-control form-control" asp-for="TitlePage_EN">
+                            <span asp-validation-for="TitlePage_EN" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="TitlePage_TR"></label>
+                            <input form="flatpage-create" class="form-control form-control" asp-for="TitlePage_TR">
+                            <span asp-validation-for="TitlePage_TR" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="ContentPage_AZ"></label>
+                            <textarea form="flatpage-create" class="form-control form-control" asp-for="ContentPage_AZ"></textarea>
+                            <span asp-validation-for="ContentPage_AZ" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="ContentPage_RU"></label>
+                            <textarea form="flatpage-create" class="form-control form-control" asp-for="ContentPage_RU"></textarea>
+                            <span asp-validation-for="ContentPage_RU" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="ContentPage_EN"></label>
+                            <textarea form="flatpage-create" class="form-control form-control" asp-for="ContentPage_EN"></textarea>
+                            <span asp-validation-for="ContentPage_EN" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="ContentPage_TR"></label>
+                            <textarea form="flatpage-create" class="form-control form-control" asp-for="ContentPage_TR"></textarea>
+                            <span asp-validation-for="ContentPage_TR" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="d-flex m-0 bold-text" asp-for="PagePhoto"></label>
+                            <div class="custom-file">
+                                <input form="flatpage-create" asp-for="PagePhoto" class="form-control custom-file-input" accept="image/*" />
+                                <label class="custom-file-label"></label>
+                            </div>
+                            <span class="text-danger validate-message d-inline-block py-2" asp-validation-for="PagePhoto"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="form-group mt-3">
+                    <button class="btn btn-sm btn-primary" type="submit" form="flatpage-create">Save</button>
+                    @*<button class="btn btn-sm btn-primary" type="submit" form="user-create">Save and edit</button>*@
+                    <a asp-action="list" asp-controller="flatpage" asp-area="admin" class="btn btn-sm btn-danger">Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+
+<script src="~/Admin/vendor/slug.js" asp-append-version="true" ></script>
+<script src="~/Admin/vendor/ckeditor/ckeditor4/ckeditor.js" asp-append-version="true"></script>
+<script src="~/common/js/show_file_name.js" asp-append-version="true"></script>
+
+<!-- validate js -->
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+ }
+
+<script>
+    $('#Title_EN').on('input', function () {
+        $('#Slug').val(slug($(this).val()));
+    });
+
+    const contents = ["#Content_AZ", "#Content_RU", "#Content_EN", "#Content_TR", "#ContentPage_AZ", "#ContentPage_RU", "#ContentPage_EN", "#ContentPage_TR"];
+
+    for (const content of contents) {
+         CKEDITOR.replace(document.querySelector(content), {
+            customConfig: '/admin/vendor/ckeditor/ckeditor4/customConfig.js'
+        });
+    }
+
+        //Show and hide componen related fields
+      const flatpageHasComponent = document.querySelector('#flatpage-has-component');
+      const flatpageDefineComponentSection = document.querySelector("#flatpage-component-define-section");
+
+
+      flatpageHasComponent.addEventListener('change', (event) => {
+          if(flatpageHasComponent.checked)
+          {
+              flatpageDefineComponentSection.style.display = "block";
+          }
+          else
+          {
+              flatpageDefineComponentSection.style.display = "none";
+          }
+        });
+
+</script>
+}

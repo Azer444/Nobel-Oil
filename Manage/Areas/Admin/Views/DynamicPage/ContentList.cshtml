@@ -1,0 +1,116 @@
+﻿@using Manage.Areas.Admin.Models.DynamicPageManagement
+@using Manage.Tools.FileHandler.Abstraction
+@using Core.Constants.File
+
+@inject IFileService _fileService
+@model DynamicPageContentListViewModel
+
+@{
+    ViewData["Title"] = "Contents";
+}
+
+@section plugin_styles{
+<link rel="stylesheet" href="~/Areas/Admin/plugins/select2/select2.min.css" />
+<link rel="stylesheet" href="~/Areas/Admin/plugins/daterangepicker/daterangepicker.css" />
+<link rel="stylesheet" href="~/Areas/Admin/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.css" />
+<link rel="stylesheet" href="~/Areas/Admin/plugins/timepicker/bootstrap-material-datetimepicker.css" />
+<link rel="stylesheet" href="~/Areas/Admin/plugins/bootstrap-touchspin/css/jquery.bootstrap-touchspin.min.css" />
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <div class="float-right">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-action="list" asp-controller="dynamicpage" asp-area="admin">Dynamic Pages</a></li>
+                    <li class="breadcrumb-item active">Contents</li>
+                </ol>
+            </div>
+            <h4 class="page-title">Contents</h4>
+        </div><!--end page-title-box-->
+    </div><!--end col-->
+</div>
+
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-@TempData["message_type"]">
+        @TempData["message"]
+    </div>
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div>
+                    <a asp-action="contentcreate" asp-route-id="@Model.DynamicPageId" asp-controller="dynamicpage" asp-area="admin" type="button" class="btn btn-gradient-primary waves-effect waves-light float-right mb-3">
+                        + New Content
+                    </a>
+                </div>
+                <div class="table-responsive">
+                    <table id="companyservice-table" class="table table-striped mb-0 ">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.DynamicPageContents.GetEnumerator().Current.ContentPhotoName)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.DynamicPageContents.GetEnumerator().Current.ContentTitle_AZ)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.DynamicPageContents.GetEnumerator().Current.ContentTitle_EN)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.DynamicPageContents.GetEnumerator().Current.IsContentTitle)</span>
+                                </th>
+                                <th>
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int rowCounter = 0;
+                                foreach (var dynamicPageContent in Model.DynamicPageContents)
+                                {
+                                    rowCounter++;
+
+                                    var photoPath = _fileService.GetFileUrl(dynamicPageContent.ContentPhotoName, FilePath.DynamicPage);
+                                    <tr data-pk="@dynamicPageContent.Id">
+                                        <td>
+                                            <img src="@photoPath" style="width:200px;object-fit:cover;" />
+                                        </td>
+                                        <td>@dynamicPageContent.ContentTitle_AZ</td>
+                                        <td>@dynamicPageContent.ContentTitle_EN</td>
+                                        <td>@dynamicPageContent.IsContentTitle</td>
+                                        <td>
+                                            <a asp-controller="dynamicpage" asp-action="contentedit" asp-route-id="@dynamicPageContent.Id" class="mr-2"><i class="fas fa-edit text-info font-18"></i></a>
+                                            <a asp-controller="dynamicpage" asp-action="contentdetails" asp-route-id="@dynamicPageContent.Id" class="mr-2"><i class="fas fa-external-link-square-alt text-info font-18"></i></a>
+                                            <a asp-controller="dynamicpage" asp-action="contentdelete" asp-route-id="@dynamicPageContent.Id" asp-route-pageid="@dynamicPageContent.DynamicPageId" onclick="return confirm('Are you sure to delete?')" class="mr-2"><i class="fas fa-trash-alt text-danger font-18"></i></a><br>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+
+                </div><!--end /tableresponsive-->
+            </div><!--end card-body-->
+        </div><!--end card-->
+    </div> <!-- end col -->
+</div>
+
+@section plugin_scripts{
+<script src="~/Areas/Admin/plugins/moment/moment.js" asp-append-version="true"></script>
+<script src="~/Areas/Admin/plugins/daterangepicker/daterangepicker.js" asp-append-version="true"></script>
+<script src="~/Areas/Admin/plugins/select2/select2.min.js" asp-append-version="true"></script>
+<script src="~/Areas/Admin/plugins/timepicker/bootstrap-material-datetimepicker.js" asp-append-version="true"></script>
+<script src="~/Areas/Admin/plugins/bootstrap-touchspin/js/jquery.bootstrap-touchspin.min.js" asp-append-version="true"></script>
+<script src="~/Areas/Admin/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js" asp-append-version="true"></script>
+<script src="~/Areas/Admin/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js" asp-append-version="true"></script>
+<script src="~/Areas/Admin/assets/pages/jquery.forms-advanced.js" asp-append-version="true"></script>
+}
+
+@section Scripts{
+
+}

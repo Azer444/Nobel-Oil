@@ -1,0 +1,203 @@
+﻿@using Core.Models
+@model SiteConfig
+@{
+    ViewData["Title"] = "Site Configuration";
+}
+
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <div class="float-right">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-action="index" asp-controller="config" asp-area="admin">Site configuration</a></li>
+                    <li class="breadcrumb-item active">Define site configuration</li>
+                </ol>
+            </div>
+            <h4 class="page-title">Define site configuration</h4>
+        </div><!--end page-title-box-->
+    </div><!--end col-->
+</div>
+
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-@TempData["message_type"]">
+        @TempData["message"]
+    </div>
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title mt-0 mb-3">You can add your note to here</h4>
+                <form method="POST" enctype="multipart/form-data" asp-action="define" asp-controller="config" id="user-create">
+                    @Html.AntiForgeryToken()
+
+                    <div class="row">
+                        <div asp-validation-summary="ModelOnly" class="invalid-feedback" style="display:block"></div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Contact_AZ"></label>
+                                <textarea class="form-control form-control" asp-for="Contact_AZ"></textarea>
+                                <span asp-validation-for="Contact_AZ" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Contact_RU"></label>
+                                <textarea class="form-control form-control" asp-for="Contact_RU"></textarea>
+                                <span asp-validation-for="Contact_RU" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Contact_EN"></label>
+                                <textarea class="form-control form-control" asp-for="Contact_EN"></textarea>
+                                <span asp-validation-for="Contact_EN" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Contact_TR"></label>
+                                <textarea class="form-control form-control" asp-for="Contact_TR"><</textarea>
+                                <span asp-validation-for="Contact_TR" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="FacebookLink"></label>
+                                <input class="form-control form-control" asp-for="FacebookLink">
+                                <span asp-validation-for="FacebookLink" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="LinkedinLink"></label>
+                                <input class="form-control form-control" asp-for="LinkedinLink">
+                                <span asp-validation-for="LinkedinLink" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="TwitterLink"></label>
+                                <input class="form-control form-control" asp-for="TwitterLink">
+                                <span asp-validation-for="TwitterLink" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="YoutubeLink"></label>
+                                <input class="form-control form-control" asp-for="YoutubeLink">
+                                <span asp-validation-for="YoutubeLink" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Copyright_AZ"></label>
+                                <input class="form-control form-control" asp-for="Copyright_AZ">
+                                <span asp-validation-for="Copyright_AZ" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Copyright_RU"></label>
+                                <input class="form-control form-control" asp-for="Copyright_RU">
+                                <span asp-validation-for="Copyright_RU" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Copyright_EN"></label>
+                                <input class="form-control form-control" asp-for="Copyright_EN">
+                                <span asp-validation-for="Copyright_EN" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Copyright_TR"></label>
+                                <input class="form-control form-control" asp-for="Copyright_TR">
+                                <span asp-validation-for="Copyright_TR" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="d-flex m-0 bold-text" asp-for="FirstLogo"></label>
+                                <div class="custom-file">
+                                    <input asp-for="FirstLogo" class="form-control custom-file-input" accept="image/*" />
+                                    <label class="custom-file-label"></label>
+                                </div>
+                                <span class="text-danger validate-message d-inline-block py-2" asp-validation-for="FirstLogo"></span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="form-group mt-3">
+                    <button class="btn btn-sm btn-primary" type="submit" form="user-create">Save</button>
+                    @*<button class="btn btn-sm btn-primary" type="submit" form="user-create">Save and edit</button>*@
+                    <a asp-action="index" asp-controller="config" asp-area="admin" class="btn btn-sm btn-danger">Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script src="~/Admin/vendor/ckeditor/ckeditor.js"></script>
+    <script src="~/js/show_file_name.js"></script>
+    <!-- validate js -->
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#Contact_AZ'), {
+                viewportTopOffset: 50,
+                toolbar: ['heading', '|', 'bold', 'italic', 'bulletedList', 'link']
+            })
+            .catch(error => {
+                console.error(error);
+            })
+
+        ClassicEditor
+            .create(document.querySelector('#Contact_RU'), {
+                viewportTopOffset: 50,
+                toolbar: ['heading', '|', 'bold', 'italic', 'bulletedList', 'link']
+            })
+            .catch(error => {
+                console.error(error);
+            })
+
+
+        ClassicEditor
+            .create(document.querySelector('#Contact_EN'), {
+                viewportTopOffset: 50,
+                toolbar: ['heading', '|', 'bold', 'italic', 'bulletedList', 'link']
+            })
+            .catch(error => {
+                console.error(error);
+            })
+
+        ClassicEditor
+            .create(document.querySelector('#Contact_TR'), {
+                viewportTopOffset: 50,
+                toolbar: ['heading', '|', 'bold', 'italic', 'bulletedList', 'link']
+            })
+            .catch(error => {
+                console.error(error);
+            })
+    </script>
+}

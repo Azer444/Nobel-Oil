@@ -1,0 +1,86 @@
+﻿@using Manage.Areas.Admin.Models.PageManagement.MainSustainabilityReport
+@using Manage.Tools.FileHandler.Abstraction
+@using Core.Constants.File
+
+@model SustainabilityReportIndexViewModel
+@inject IFileService _fileService
+
+@{
+    ViewData["Title"] = "Main Sustainability report";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <h4 class="page-title">Main Sustainability report</h4>
+        </div>
+    </div>
+</div>
+
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-@TempData["message_type"]">
+        @TempData["message"]
+    </div>
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <h3>Component</h3>
+                    @if (Model.MainSustainabilityReport == null)
+                    {
+                        <a asp-action="definecomponent" asp-controller="mainsustainabilityreport" asp-area="admin" type="button" class="btn btn-gradient-primary waves-effect waves-light float-right mb-3">
+                            Define component
+                        </a>
+                    }
+                    else
+                    {
+                        <table id="sustainabilityreport-table" class="table table-striped mb-0 ">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.MainSustainabilityReport.PhotoName)</span>
+                                    </th>
+                                    <th>
+                                        <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.MainSustainabilityReport.Title_AZ)</span>
+                                    </th>
+                                    <th>
+                                        <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.MainSustainabilityReport.Title_RU)</span>
+                                    </th>
+                                    <th>
+                                        <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.MainSustainabilityReport.Title_EN)</span>
+                                    </th>
+                                    <th>
+                                        <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.MainSustainabilityReport.Title_TR)</span>
+                                    </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    @{
+                                        Model.MainSustainabilityReport.PhotoName = _fileService.GetFileUrl(Model.MainSustainabilityReport.PhotoName, FilePath.SustainabilityReport);
+                                    }
+                                    <td>
+                                        <img src="@Model.MainSustainabilityReport.PhotoName" style="width:200px;object-fit:cover;" />
+                                    </td>
+                                    <td>@Model.MainSustainabilityReport.Title_AZ</td>
+                                    <td>@Model.MainSustainabilityReport.Title_RU</td>
+                                    <td>@Model.MainSustainabilityReport.Title_EN</td>
+                                    <td>@Model.MainSustainabilityReport.Title_TR</td>
+                                    <td>
+                                        <a asp-controller="mainsustainabilityreport" asp-action="editcomponent" class="mr-2"><i class="fas fa-edit text-info font-18"></i></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    }
+
+                </div><!--end /tableresponsive-->
+            </div><!--end card-body-->
+        </div><!--end card-->
+    </div> <!-- end col -->
+</div>

@@ -1,0 +1,356 @@
+﻿@using Manage.Areas.Admin.Models.ComponentManagement.PublicationReport
+@using Manage.Tools.FileHandler.Abstraction
+@using Core.Constants.File
+@using EcomLab.Core.Constants.File
+
+@inject IFileService _fileService
+@model PublicationReportEditViewModel
+
+@{
+    ViewData["Title"] = "Insights";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <div class="float-right">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-action="list" asp-controller="publicationreport" asp-area="admin">Insights</a></li>
+                    <li class="breadcrumb-item active">Edit</li>
+                </ol>
+            </div>
+            <h4 class="page-title">Edit Insights</h4>
+        </div><!--end page-title-box-->
+    </div><!--end col-->
+</div>
+
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-@TempData["message_type"]">
+        @TempData["message"]
+    </div>
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title mt-0 mb-3">You can add your note to here</h4>
+                <form method="POST" enctype="multipart/form-data" asp-controller="publicationreport" asp-action="edit" asp-area="admin" id="publication-report">
+                    @Html.AntiForgeryToken()
+
+                    <input asp-for="Id" type="hidden" />
+
+                    <div class="row">
+                        <div asp-validation-summary="ModelOnly" class="invalid-feedback" style="display:block"></div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Title_AZ"></label>
+                                <input class="form-control form-control" asp-for="Title_AZ">
+                                <span asp-validation-for="Title_AZ" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Title_RU"></label>
+                                <input class="form-control form-control" asp-for="Title_RU">
+                                <span asp-validation-for="Title_RU" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Title_EN"></label>
+                                <input class="form-control form-control" asp-for="Title_EN">
+                                <span asp-validation-for="Title_EN" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Title_TR"></label>
+                                <input class="form-control form-control" asp-for="Title_TR">
+                                <span asp-validation-for="Title_TR" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Slug"></label>
+                                <input readonly class="form-control form-control" asp-for="Slug">
+                                <span asp-validation-for="Slug" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Content_AZ"></label>
+                                <textarea class="form-control form-control" asp-for="Content_AZ"></textarea>
+                                <span asp-validation-for="Content_AZ" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Content_RU"></label>
+                                <textarea class="form-control form-control" asp-for="Content_RU"></textarea>
+                                <span asp-validation-for="Content_RU" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Content_EN"></label>
+                                <textarea class="form-control form-control" asp-for="Content_EN"></textarea>
+                                <span asp-validation-for="Content_EN" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Content_TR"></label>
+                                <textarea class="form-control form-control" asp-for="Content_TR"><</textarea>
+                                <span asp-validation-for="Content_TR" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Description_AZ"></label>
+                                <textarea class="form-control form-control" asp-for="Description_AZ"></textarea>
+                                <span asp-validation-for="Description_AZ" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Description_RU"></label>
+                                <textarea class="form-control form-control" asp-for="Description_RU"></textarea>
+                                <span asp-validation-for="Description_RU" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Description_EN"></label>
+                                <textarea class="form-control form-control" asp-for="Description_EN"></textarea>
+                                <span asp-validation-for="Description_EN" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Description_TR"></label>
+                                <textarea class="form-control form-control" asp-for="Description_TR"><</textarea>
+                                <span asp-validation-for="Description_TR" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="ActionDate"></label>
+                                <input type="date" class="form-control form-control" asp-for="ActionDate">
+                                <span asp-validation-for="ActionDate" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="d-flex m-0 bold-text" for=""><span>Main Photo</span></label>
+                                <img style="width:200px; object-fit:cover;" src="@Model.PhotoPath" />
+                                <div class="custom-file">
+                                    <input asp-for="Photo" class="form-control custom-file-input" accept="image/*" />
+                                    <label class="custom-file-label"></label>
+                                </div>
+                                <span class="text-danger validate-message d-inline-block py-2" asp-validation-for="Photo"></span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="col-lg-12">
+                    <div>
+                        <div class="tab-content" id="files-tabContent">
+                            <div class="tab-pane fade active show" id="files-pdf">
+                                <h4 class="mt-0 header-title mb-3">
+                                    View PDFs (Az)
+                                </h4>
+                                <div class="file-box-content">
+                                    @foreach (var publicationReportPdfAz in Model.PublicationReportPdf_AZ)
+                                    {
+                                        var azdfPath = _fileService.GetFileUrl(publicationReportPdfAz.PdfFileName, FilePath.PublicationReport);
+                                        var azPureFileName = _fileService.GetPureFileName(publicationReportPdfAz.PdfFileName, true);
+                                        var azPdfFileSize = _fileService.GetFileSize(publicationReportPdfAz.PdfFileName, FilePath.PublicationReport, StorageUnits.Megabyte);
+
+                                        <div class="file-box">
+                                            <a href="@azdfPath" class="download-icon-link" download="">
+                                                <i class="dripicons-download file-download-icon"></i>
+                                            </a>
+                                            <div class="text-center">
+                                                <i class="far fa-file-pdf text-danger"></i>
+                                                <h6 class="text-truncate">@azPureFileName</h6>
+                                                <small class="text-muted">@azPdfFileSize MB</small>
+                                            </div>
+                                            <a asp-controller="publicationreport" asp-action="deletepdf" asp-route-id="@publicationReportPdfAz.Id" class="download-icon-link" onclick="return confirm('Are you sure to delete?')">
+                                                <i class="dripicons-trash file-download-icon text-danger"></i>
+                                            </a>
+                                        </div>
+                                    }
+                                </div>
+                            </div><!--end tab-pane-->
+                        </div>  <!--end tab-content-->
+                    </div><!--end card-body-->
+
+                    <div class="mt-3">
+                        <div class="custom-file">
+                            <input asp-for="Pdfs_AZ" class="form-control custom-file-input" multiple accept=".pdf" form="publication-report" />
+                            <label class="custom-file-label">
+                                Add optional az pdfs...
+                            </label>
+                        </div>
+                        <span class="text-danger validate-message d-inline-block py-2" asp-validation-for="Pdfs_AZ"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="col-lg-12">
+                    <div>
+                        <div class="tab-content" id="files-tabContent">
+                            <div class="tab-pane fade active show" id="files-pdf-ru">
+                                <h4 class="mt-0 header-title mb-3">
+                                    View PDFs (Ru)
+                                </h4>
+                                <div class="file-box-content">
+                                    @foreach (var publicationReportPdfRu in Model.PublicationReportPdf_RU)
+                                    {
+                                        var ruPdfPath = _fileService.GetFileUrl(publicationReportPdfRu.PdfFileName, FilePath.PublicationReport);
+                                        var ruPureFileName = _fileService.GetPureFileName(publicationReportPdfRu.PdfFileName, true);
+                                        var ruPdfFileSize = _fileService.GetFileSize(publicationReportPdfRu.PdfFileName, FilePath.PublicationReport, StorageUnits.Megabyte);
+
+                                        <div class="file-box">
+                                            <a href="@ruPdfPath" class="download-icon-link" download="">
+                                                <i class="dripicons-download file-download-icon"></i>
+                                            </a>
+                                            <div class="text-center">
+                                                <i class="far fa-file-pdf text-danger"></i>
+                                                <h6 class="text-truncate">@ruPureFileName</h6>
+                                                <small class="text-muted">@ruPdfFileSize MB</small>
+                                            </div>
+                                            <a asp-controller="publicationreport" asp-action="deletepdf" asp-route-id="@publicationReportPdfRu.Id" class="download-icon-link" onclick="return confirm('Are you sure to delete?')">
+                                                <i class="dripicons-trash file-download-icon text-danger"></i>
+                                            </a>
+                                        </div>
+                                    }
+                                </div>
+                            </div><!--end tab-pane-->
+                        </div>  <!--end tab-content-->
+                    </div><!--end card-body-->
+
+                    <div class="mt-3">
+                        <div class="custom-file">
+                            <input asp-for="Pdfs_RU" class="form-control custom-file-input" multiple accept=".pdf" form="publication-report" />
+                            <label class="custom-file-label">
+                                Add optional ru pdfs...
+                            </label>
+                        </div>
+                        <span class="text-danger validate-message d-inline-block py-2" asp-validation-for="Pdfs_RU"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="col-lg-12">
+                    <div>
+                        <div class="tab-content" id="files-tabContent">
+                            <div class="tab-pane fade active show" id="files-pdf-ru">
+                                <h4 class="mt-0 header-title mb-3">
+                                    View PDFs (En)
+                                </h4>
+                                <div class="file-box-content">
+                                    @foreach (var publicationReportPdfEn in Model.PublicationReportPdf_EN)
+                                    {
+                                        var enPdfPath = _fileService.GetFileUrl(publicationReportPdfEn.PdfFileName, FilePath.PublicationReport);
+                                        var enPureFileName = _fileService.GetPureFileName(publicationReportPdfEn.PdfFileName, true);
+                                        var enPdfFileSize = _fileService.GetFileSize(publicationReportPdfEn.PdfFileName, FilePath.PublicationReport, StorageUnits.Megabyte);
+
+                                        <div class="file-box">
+                                            <a href="@enPdfPath" class="download-icon-link" download="">
+                                                <i class="dripicons-download file-download-icon"></i>
+                                            </a>
+                                            <div class="text-center">
+                                                <i class="far fa-file-pdf text-danger"></i>
+                                                <h6 class="text-truncate">@enPureFileName</h6>
+                                                <small class="text-muted">@enPdfFileSize MB</small>
+                                            </div>
+                                            <a asp-controller="publicationreport" asp-action="deletepdf" asp-route-id="@publicationReportPdfEn.Id" class="download-icon-link" onclick="return confirm('Are you sure to delete?')">
+                                                <i class="dripicons-trash file-download-icon text-danger"></i>
+                                            </a>
+                                        </div>
+                                    }
+                                </div>
+                            </div><!--end tab-pane-->
+                        </div>  <!--end tab-content-->
+                    </div><!--end card-body-->
+
+                    <div class="mt-3">
+                        <div class="custom-file">
+                            <input asp-for="Pdfs_EN" class="form-control custom-file-input" multiple accept=".pdf" form="publication-report" />
+                            <label class="custom-file-label">
+                                Add optional en pdfs...
+                            </label>
+                        </div>
+                        <span class="text-danger validate-message d-inline-block py-2" asp-validation-for="Pdfs_EN"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="form-group mt-3">
+                    <button class="btn btn-sm btn-primary" type="submit" form="publication-report">Save</button>
+                    <a asp-action="list" asp-controller="publicationreport" asp-area="admin" class="btn btn-sm btn-danger">Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Admin/vendor/slug.js"></script>
+    <script src="~/Admin/vendor/ckeditor/ckeditor4/ckeditor.js" asp-append-version="true"></script>
+    <script src="~/common/js/show_file_name.js"></script>
+    <!-- validate js -->
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        $('#Title_EN').on('input', function() {
+            $('#Slug').val(slug($(this).val()));
+        });
+
+        const contents = ["#Content_AZ", "#Content_RU", "#Content_EN", "#Content_TR","#Description_AZ", "#Description_RU", "#Description_EN", "#Description_TR"];
+
+        for (const content of contents) {
+            CKEDITOR.replace(document.querySelector(content), {
+                customConfig: '/admin/vendor/ckeditor/ckeditor4/customConfig.js'
+            });
+        }
+    </script>
+}

@@ -1,0 +1,206 @@
+﻿@using Manage.Tools.FileHandler.Abstraction
+@using Manage.ViewModels.WhoWeAre
+@using Core.Constants.File
+@using Core.Constants
+@using Core
+@using System.Globalization
+
+@model IndexViewModel
+@inject IFileService _fileService
+@inject IUnitOfWork _unitOfWork
+
+@{
+    ViewData["Title"] = "Nobel Energy | Who we are";
+    
+    var currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+}
+
+@await Component.InvokeAsync("IntroductionBanner", new { Page = Page.WhoWeAre })
+
+
+<!--------------------------- Tab --------------------------->
+@await Component.InvokeAsync("PageTab", new { page = Page.WhoWeAre })
+
+<!--------------------------- Tab --------------------------->
+<!--------------------------- Pages Components --------------------------->
+
+<div id="g-pages-component-section">
+    <div id="about" class="g-pages-component-element">
+        <div class="g-pages-component-element-wrapper">
+            <div class="g-pages-component-element-content">
+                <h2 class="g-pages-component-element-content-title">
+                    @Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.AboutComponent, "Title", currentCulture))
+                </h2>
+                <div class="g-pages-component-element-content-text">
+                    @Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.AboutComponent, "ContentWWA", currentCulture))
+                </div>
+                <a asp-route-culture="@currentCulture"  asp-controller="about" asp-action="index" class="g-pages-component-anchor-button">
+                    @await _unitOfWork.LanguageResources.GetByKeyAsync("ReadMore", currentCulture)
+                </a>
+            </div>
+            <div class="g-pages-component-element-image">
+                <img src="@_fileService.GetFileUrl(Model.AboutComponent.PhotoName, FilePath.About)" asp-append-version="true">
+            </div>
+        </div>
+    </div>
+
+    <div id="vmv" class="g-pages-component-element">
+        <div class="g-pages-component-element-wrapper">
+            <div class="g-pages-component-element-content">
+                <h2 class="g-pages-component-element-content-title">
+                    @Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.VMVComponent, "Title", currentCulture))
+                </h2>
+                <div class="g-pages-component-element-content-text">
+                    @Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.VMVComponent, "ContentWWA", currentCulture))
+                </div>
+                <a asp-controller="vmv" asp-action="index" class="g-pages-component-anchor-button">
+                    @await _unitOfWork.LanguageResources.GetByKeyAsync("ReadMore", currentCulture)
+                </a>
+            </div>
+            <div class="g-pages-component-element-image">
+                <img src="@_fileService.GetFileUrl(Model.VMVComponent.VMVComponentPhotos.FirstOrDefault().PhotoName, FilePath.VMV)" asp-append-version="true">
+            </div>
+        </div>
+    </div>
+
+    <div id="history" class="g-pages-component-element">
+        <div class="g-pages-component-element-wrapper">
+            <div class="g-pages-component-element-content">
+                <h2 class="g-pages-component-element-content-title">
+                    @Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.OurHistoryComponent, "Title", currentCulture))
+                </h2>
+                <div class="g-pages-component-element-content-text">
+                    @Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.OurHistoryComponent, "ContentWWA", currentCulture))
+                </div>
+                <a asp-controller="history" asp-action="index" class="g-pages-component-anchor-button">
+                    @await _unitOfWork.LanguageResources.GetByKeyAsync("ReadMore", currentCulture)
+                </a>
+            </div>
+            <div class="g-pages-component-element-image">
+                <img src="@_fileService.GetFileUrl(Model.OurHistoryComponent?.PhotoName, FilePath.OurHistory)" asp-append-version="true">
+            </div>
+        </div>
+    </div>
+
+    <div id="nobelheritage" class="g-page-banner">
+        <div class="g-page-banner-cover" style='background: transparent url("@_fileService.GetFileUrl(Model.NobelHeritage?.PhotoName, FilePath.NobelHeritage)")'>
+            <div class="g-page-banner-content">
+                <h3 class="g-page-banner-title">
+                    @Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.NobelHeritage, "Title", currentCulture))
+                </h3>
+                <div class="g-page-banner-text">
+                    @Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.NobelHeritage, "ContentWWA", currentCulture))
+                </div>
+                <a asp-controller="nobelheritage" asp-action="index" class="g-page-banner-anchor-button">
+                    @await _unitOfWork.LanguageResources.GetByKeyAsync("ReadMore", currentCulture)
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div id="corporategovernance" class="g-pages-component-element">
+        <div class="g-pages-component-element-wrapper">
+            <div class="g-pages-component-element-content">
+                <h2 class="g-pages-component-element-content-title">
+                    @Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.CorporateGovernanceComponent, "Title", currentCulture))
+                </h2>
+                <div class="g-pages-component-element-content-text">
+                    @Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.CorporateGovernanceComponent, "ContentWWA", currentCulture))
+                </div>
+                <a asp-controller="corporategovernance" asp-action="index" class="g-pages-component-anchor-button">
+                    @await _unitOfWork.LanguageResources.GetByKeyAsync("ReadMore", currentCulture)
+                </a>
+            </div>
+            <div class="g-pages-component-element-image">
+                <img src="@_fileService.GetFileUrl(Model.CorporateGovernanceComponent?.PhotoName_WWA, FilePath.CorporateGovernance)" asp-append-version="true">
+            </div>
+        </div>
+    </div>
+
+    @foreach (var flatpage in Model.Flatpages)
+    {
+        if (flatpage.IsBanner)
+        {
+            <div id="@flatpage.URL" class="g-page-banner">
+                <div class="g-page-banner-cover" style='background: transparent url("@_fileService.GetFileUrl(flatpage.PagePhotoName, FilePath.Flatpage)")'>
+                    <div class="g-page-banner-content">
+                        <h3 class="g-page-banner-title">
+                            @Html.Raw(_unitOfWork.Languages.ChooseLanguage(flatpage, "TitlePage", currentCulture))
+                        </h3>
+                        <div class="g-page-banner-text">
+                            @Html.Raw(_unitOfWork.Languages.ChooseLanguage(flatpage, "ContentPage", currentCulture))
+                        </div>
+                        <a href="/@currentCulture/@flatpage.URL" class="g-page-banner-anchor-button">
+                            @await _unitOfWork.LanguageResources.GetByKeyAsync("ReadMore", currentCulture)
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div id="@flatpage.URL" class="g-pages-component-element">
+                <div class="g-pages-component-element-wrapper">
+                    <div class="g-pages-component-element-content">
+                        <h2 class="g-pages-component-element-content-title">
+                            @Html.Raw(_unitOfWork.Languages.ChooseLanguage(flatpage, "TitlePage", currentCulture))
+                        </h2>
+                        <div class="g-pages-component-element-content-text">
+                            @Html.Raw(_unitOfWork.Languages.ChooseLanguage(flatpage, "ContentPage", currentCulture))
+                        </div>
+                        <a href="/@currentCulture/@flatpage.URL" class="g-pages-component-anchor-button">
+                            @await _unitOfWork.LanguageResources.GetByKeyAsync("ReadMore", currentCulture)
+                        </a>
+                    </div>
+                    <div class="g-pages-component-element-image">
+                        <img src="@_fileService.GetFileUrl(flatpage.PagePhotoName, FilePath.Flatpage)" asp-append-version="true">
+                    </div>
+                </div>
+            </div>
+        }
+    }
+     @foreach (var dynamicPage in Model.DynamicPages)
+    {
+        if (dynamicPage.IsBanner)
+        {
+            <div id="@dynamicPage.URL" class="g-page-banner">
+                <div class="g-page-banner-cover" style='background: transparent url("@_fileService.GetFileUrl(dynamicPage.PagePhotoName, FilePath.DynamicPage)")'>
+                    <div class="g-page-banner-content">
+                        <h3 class="g-page-banner-title">
+                            @Html.Raw(_unitOfWork.Languages.ChooseLanguage(dynamicPage, "TitlePage", currentCulture))
+                        </h3>
+                        <div class="g-page-banner-text">
+                            @Html.Raw(_unitOfWork.Languages.ChooseLanguage(dynamicPage, "ContentPage", currentCulture))
+                        </div>
+                        <a href="/@currentCulture/@dynamicPage.URL" class="g-page-banner-anchor-button">
+                            @await _unitOfWork.LanguageResources.GetByKeyAsync("ReadMore", currentCulture)
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div id="@dynamicPage.URL" class="g-pages-component-element">
+                <div class="g-pages-component-element-wrapper">
+                    <div class="g-pages-component-element-content">
+                        <h2 class="g-pages-component-element-content-title">
+                            @Html.Raw(_unitOfWork.Languages.ChooseLanguage(dynamicPage, "TitlePage", currentCulture))
+                        </h2>
+                        <div class="g-pages-component-element-content-text">
+                            @Html.Raw(_unitOfWork.Languages.ChooseLanguage(dynamicPage, "ContentPage", currentCulture))
+                        </div>
+                        <a href="/@currentCulture/@dynamicPage.URL" class="g-pages-component-anchor-button">
+                            @await _unitOfWork.LanguageResources.GetByKeyAsync("ReadMore", currentCulture)
+                        </a>
+                    </div>
+                    <div class="g-pages-component-element-image">
+                        <img src="@_fileService.GetFileUrl(dynamicPage.PagePhotoName, FilePath.DynamicPage)" asp-append-version="true">
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+<!--------------------------- Pages Components --------------------------->

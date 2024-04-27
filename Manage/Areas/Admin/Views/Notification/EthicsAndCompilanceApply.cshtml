@@ -1,0 +1,101 @@
+﻿@using Manage.Areas.Admin.Models.NotificationManagement.Notification
+
+@model EthicsAndCompilanceApplyListViewModel
+
+@{
+    ViewData["Title"] = "Ethics and compilance apply";
+}
+
+@section plugin_styles{
+    <link rel="stylesheet" href="~/Areas/Admin/plugins/select2/select2.min.css" />
+    <link rel="stylesheet" href="~/Areas/Admin/plugins/daterangepicker/daterangepicker.css" />
+    <link rel="stylesheet" href="~/Areas/Admin/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.css" />
+    <link rel="stylesheet" href="~/Areas/Admin/plugins/timepicker/bootstrap-material-datetimepicker.css" />
+    <link rel="stylesheet" href="~/Areas/Admin/plugins/bootstrap-touchspin/css/jquery.bootstrap-touchspin.min.css" />
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <h4 class="page-title">Ethics and compilance applies</h4>
+        </div>
+    </div>
+</div>
+
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-@TempData["message_type"]">
+        @TempData["message"]
+    </div>
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="table-responsive">
+                    <table id="ethicsandcompilanceapply-table" class="table table-striped mb-0 ">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.EthicsAndCompilanceApplies.GetEnumerator().Current.FullName)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.EthicsAndCompilanceApplies.GetEnumerator().Current.Email)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.EthicsAndCompilanceApplies.GetEnumerator().Current.Phone)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.EthicsAndCompilanceApplies.GetEnumerator().Current.IsRead)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.EthicsAndCompilanceApplies.GetEnumerator().Current.CreatedAt)</span>
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int rowCounter = 0;
+                                foreach (var ethicsAndCompilanceApply in Model.EthicsAndCompilanceApplies)
+                                {
+                                    rowCounter++;
+
+                                    <tr data-pk="@ethicsAndCompilanceApply.Id">
+                                        <td>@ethicsAndCompilanceApply.FullName</td>
+                                        <td>@ethicsAndCompilanceApply.Email</td>
+                                        <td>@ethicsAndCompilanceApply.Phone</td>
+                                        <td>@await Component.InvokeAsync("BooleanResult", new { result = ethicsAndCompilanceApply.IsRead })</td>
+                                        <td>@ethicsAndCompilanceApply.CreatedAt.ToString("dd.MM.yyyy HH:mm")</td>
+                                        <td>
+                                            <a asp-controller="notification" asp-action="ethicsandcompilanceapplyedit" asp-route-id="@ethicsAndCompilanceApply.Id" class="mr-2"><i class="fas fa-edit text-info font-18"></i></a>
+                                            <a asp-controller="notification" asp-action="ethicsandcompilanceapplydetails" asp-route-id="@ethicsAndCompilanceApply.Id" class="mr-2"><i class="fas fa-external-link-square-alt text-info font-18"></i></a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+
+                </div><!--end /tableresponsive-->
+            </div><!--end card-body-->
+        </div><!--end card-->
+    </div> <!-- end col -->
+</div>
+
+@section plugin_scripts{
+    <script src="~/Areas/Admin/plugins/moment/moment.js" asp-append-version="true"></script>
+    <script src="~/Areas/Admin/plugins/daterangepicker/daterangepicker.js" asp-append-version="true"></script>
+    <script src="~/Areas/Admin/plugins/select2/select2.min.js" asp-append-version="true"></script>
+    <script src="~/Areas/Admin/plugins/timepicker/bootstrap-material-datetimepicker.js" asp-append-version="true"></script>
+    <script src="~/Areas/Admin/plugins/bootstrap-touchspin/js/jquery.bootstrap-touchspin.min.js" asp-append-version="true"></script>
+    <script src="~/Areas/Admin/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js" asp-append-version="true"></script>
+    <script src="~/Areas/Admin/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js" asp-append-version="true"></script>
+    <script src="~/Areas/Admin/assets/pages/jquery.forms-advanced.js" asp-append-version="true"></script>
+}
+
+@section Scripts{
+
+}

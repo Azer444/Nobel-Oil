@@ -1,0 +1,109 @@
+﻿@using Core
+@using Manage.ViewModels.Career;
+@using System.Globalization
+
+@model VacancyViewComponentViewModel
+@inject IUnitOfWork _unitOfWork
+
+@{
+    var currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+}
+
+
+<div class="accordion-section">
+    <div class="g-container">
+        <div class="accordion-section__wrapper">
+            <div class="accordion" id="mainAccordion">
+                @{
+                    int order = 0;
+                }
+                @foreach (var vacancy in Model.Vacancies)
+                {
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading_@order">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_@order" aria-expanded="false" aria-controls="collapse_@order">
+                                @_unitOfWork.Languages.ChooseLanguage(vacancy, "Title", currentCulture)
+                            </button>
+                        </h2>
+                        <div id="collapse_@order" class="accordion-collapse collapse" aria-labelledby="heading_@order" data-bs-parent="#mainAccordion">
+                            <div class="accordion-body">
+                                @Html.Raw(_unitOfWork.Languages.ChooseLanguage(vacancy, "Content", currentCulture))
+                                <button id="@vacancy.Id" class="g-btn g-btn__md g-btn__orange apply-btn" data-bs-toggle="modal" data-bs-target="#applyModal">
+                                    @await _unitOfWork.LanguageResources.GetByKeyAsync("ApplyNow",  currentCulture)
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    order++;
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--------------------------- Apply Form Modal --------------------------->
+
+<div class="modal fade g-modal apply-modal" id="applyModal" tabindex="-1" aria-labelledby="applyModal"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close-btn g-btn" data-bs-dismiss="modal">
+                    <img src="~/Client/assets/svgs/close-black.svg" asp-append-version="true" alt="">
+                </button>
+            </div>
+            <div class="modal-body">
+                <h2 class="apply-title">
+                    @await _unitOfWork.LanguageResources.GetByKeyAsync("ApplyNow",  currentCulture)
+                </h2>
+                <div class="g-form apply-form__wrapper">
+                    <form id="apply-form" action="" class="apply-form">
+                        <input type="hidden" id="vacancyId" name="vacancyId" value=""/>
+                        <div class="g-form-group">
+                            <input class="g-input" id="fullName" name="fullName" placeholder="@Html.DisplayNameFor(v => v.VacancyApply.FullName)">
+                        </div>
+                        <div class="g-form-group">
+                            <input type="email" class="g-input" id="email" name="email" placeholder="@Html.DisplayNameFor(v => v.VacancyApply.Email)">
+                        </div>
+                        <div class="g-form-group">
+                            <input readonly id="position" name="position" class="g-input" placeholder="Position">
+                        </div>
+                        <div class="g-form-group">
+                            <label class="g-upload">
+                                <input type="file" name="cv" accept=".pdf,.doc,.docx" class="visually-hidden" id="cv-form-file">
+                                <p class="g-upload__label">
+                                    @Html.DisplayNameFor(v => v.VacancyApply.CV)
+                                </p>
+                            </label>
+                        </div>
+                        <div class="g-form-group">
+                            <label class="g-upload">
+                                <input type="file" id="supportingFiles-form-file" name="supportingFiles" accept=".pdf,.doc,.docx" multiple class="visually-hidden">
+                                <p class="g-upload__label">
+                                    @Html.DisplayNameFor(v => v.VacancyApply.SupportingFiles)
+                                </p>
+                            </label>
+                        </div>
+                        <div id="success-alert" class="g-form-group d-none">
+                            <div class="alert alert-success" role="alert">
+                                @await _unitOfWork.LanguageResources.GetByKeyAsync("ApplySuccessfullyCompleted",  currentCulture)
+                            </div>
+                        </div>
+                        <div id="error-alert" class="g-form-group d-none">
+                            <div class="alert alert-danger" role="alert">
+                                @await _unitOfWork.LanguageResources.GetByKeyAsync("FillAllRequiredBlanks",  currentCulture)
+                            </div>
+                        </div>
+                        <button type="submit" class="g-btn g-btn__orange apply-form__btn">
+                            @await _unitOfWork.LanguageResources.GetByKeyAsync("Send",  currentCulture)
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--------------------------- Apply Form Modal --------------------------->

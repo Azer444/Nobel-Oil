@@ -1,0 +1,86 @@
+﻿@using Manage.Areas.Admin.Models.NavbarManagement
+@model NavbarIndexViewModel
+
+@{
+    ViewData["Title"] = "Navbar";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <h4 class="page-title">Navbar</h4>
+        </div>
+    </div>
+</div>
+
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-@TempData["message_type"]">
+        @TempData["message"]
+    </div>
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <h3>Title Component</h3>
+                    <a asp-action="addtitlecomponent" asp-controller="navbar" asp-area="admin" asp type="button" class="btn btn-gradient-primary waves-effect waves-light float-right mb-3">
+                        Add title component
+                    </a>
+                    <table id="ourproject-table" class="table table-striped mb-0 ">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.NavTitleComponents.GetEnumerator().Current.Title_AZ)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.NavTitleComponents.GetEnumerator().Current.Title_RU)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.NavTitleComponents.GetEnumerator().Current.Title_EN)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.NavTitleComponents.GetEnumerator().Current.Title_TR)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.NavTitleComponents.GetEnumerator().Current.Link)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.NavTitleComponents.GetEnumerator().Current.Order)</span>
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var navTitleComponent in Model.NavTitleComponents)
+                            {
+                            <tr>
+                                <td>@navTitleComponent.Title_AZ</td>
+                                <td>@navTitleComponent.Title_RU</td>
+                                <td>@navTitleComponent.Title_EN</td>
+                                <td>@navTitleComponent.Title_TR</td>
+                                <td>@navTitleComponent.Link</td>
+                                <td>@navTitleComponent.Order</td>
+                                <td>
+                                    <a asp-controller="navbar" asp-action="edittitlecomponent" asp-route-id="@navTitleComponent.Id" class="mr-2"><i class="fas fa-edit text-info font-18"></i></a>
+                                    <a asp-controller="navbar" asp-action="components" asp-route-id="@navTitleComponent.Id" class="mr-2"><i class="fas fa-external-link-square-alt text-info font-18"></i></a>
+                                    <a asp-controller="navbar" asp-action="deletetitlecomponent" asp-route-id="@navTitleComponent.Id" onclick="return confirm('Are you sure to delete?')" class="mr-2"><i class="fas fa-trash-alt text-danger font-18"></i></a>
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div><!--end /tableresponsive-->
+
+            </div><!--end card-body-->
+        </div><!--end card-->
+
+    </div> <!-- end col -->
+</div>
+
+
+@section Scripts{
+
+}

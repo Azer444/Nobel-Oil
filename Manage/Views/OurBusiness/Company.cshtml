@@ -1,0 +1,41 @@
+﻿@using Manage.Tools.FileHandler.Abstraction
+@using Manage.ViewModels.OurBusiness
+@using Core.Constants.File
+@using Core.Constants
+@using Core
+@using System.Globalization
+
+@model CompanyDetailViewModel
+@inject IFileService _fileService
+@inject IUnitOfWork _unitOfWork
+
+@{
+    ViewData["Title"] = "Nobel Energy | Company";
+
+    var currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+}
+
+@await Component.InvokeAsync("IntroductionBanner", new { Page = Page.WhatWeDo })
+
+<!--------------------------- Tab --------------------------->
+@await Component.InvokeAsync("PageTab", new { page = Page.WhatWeDo, currentPage = "ourbusiness" })
+
+<!--------------------------- Tab --------------------------->
+
+<section class="news-section media" id="news">
+    <div class="g-container__md media__wrapper">
+        <div>
+            <img asp-append-version="true" class="media__image" src="@_fileService.GetFileUrl(Model.Company.PhotoName, FilePath.Company)" alt="Nobel Energy">
+        </div>
+        <div class="mt-5">
+            <div class="presentation-section-text mx-auto">
+                <h2 class="presentation-title">
+                    @Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.Company, "Title", currentCulture))
+                </h2>
+                <div class="presentation-text">
+                    @Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.Company, "Content", currentCulture))
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

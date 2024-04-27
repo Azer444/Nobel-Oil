@@ -1,0 +1,35 @@
+﻿@using Core
+@using Core.Constants.File
+@using Manage.Tools.FileHandler.Abstraction
+@using Core.Constants
+@using Manage.ViewModels.FlatPage
+
+@model FlatPageViewModel
+@inject IUnitOfWork _unitOfWork
+@inject IFileService _fileService
+
+@{
+    ViewData["Title"] = $"Nobel Energy | {Model.BannerTitle}";
+}
+
+<!--------------------------- Introduction Banner --------------------------->
+
+
+<section id="g-banner-section">
+    <a class="g-btn scroll-to scroll-to-section" href="#sticky-section">
+        <img class="g-fluid" src="~/Client/assets/svgs/double-arrow.svg" asp-append-version="true" alt="Nobel Energy">
+    </a>
+    <div class="g-banner" style="background-image: url('@Model.BannerPhotoUrl');">
+        <div class="g-container">
+            <h1 class="g-banner-title">@Model.BannerTitle</h1>
+        </div>
+    </div>
+</section>
+
+
+<!--------------------------- Introduction Banner --------------------------->
+
+
+<div class="g-container my-5">
+    @Html.Raw(Model.Content)
+</div>

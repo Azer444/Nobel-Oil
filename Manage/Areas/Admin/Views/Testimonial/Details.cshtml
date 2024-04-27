@@ -1,0 +1,152 @@
+﻿@using Manage.Areas.Admin.Models.ComponentManagement.Testimonial
+@model TestimonialDetailsViewModel
+@{
+    ViewData["Title"] = "Testimonials";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <div class="float-right">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-action="list" asp-controller="testimonial" asp-area="admin">Testimonials</a></li>
+                    <li class="breadcrumb-item active">Details</li>
+                </ol>
+            </div>
+            <h4 class="page-title">Details testimonial</h4>
+        </div><!--end page-title-box-->
+    </div><!--end col-->
+</div>
+
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-@TempData["message_type"]">
+        @TempData["message"]
+    </div>
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="Writer_AZ"></label>
+                            <input readonly class="form-control form-control" asp-for="Writer_AZ">
+                            <span asp-validation-for="Writer_AZ" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="Writer_RU"></label>
+                            <input readonly class="form-control form-control" asp-for="Writer_RU">
+                            <span asp-validation-for="Writer_RU" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="Writer_EN"></label>
+                            <input readonly class="form-control form-control" asp-for="Writer_EN">
+                            <span asp-validation-for="Writer_EN" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="Writer_TR"></label>
+                            <input readonly class="form-control form-control" asp-for="Writer_TR">
+                            <span asp-validation-for="Writer_TR" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="WriterInfo_AZ"></label>
+                            <input readonly class="form-control form-control" asp-for="WriterInfo_AZ">
+                            <span asp-validation-for="WriterInfo_AZ" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="WriterInfo_RU"></label>
+                            <input readonly class="form-control form-control" asp-for="WriterInfo_RU">
+                            <span asp-validation-for="WriterInfo_RU" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="WriterInfo_EN"></label>
+                            <input readonly class="form-control form-control" asp-for="WriterInfo_EN">
+                            <span asp-validation-for="WriterInfo_EN" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="WriterInfo_TR"></label>
+                            <input readonly class="form-control form-control" asp-for="WriterInfo_TR">
+                            <span asp-validation-for="WriterInfo_TR" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="Content_AZ"></label>
+                            <textarea readonly class="form-control" asp-for="Content_AZ"></textarea>
+                            <span asp-validation-for="Content_AZ" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="Content_RU"></label>
+                            <textarea readonly class="form-control form-control" asp-for="Content_RU"></textarea>
+                            <span asp-validation-for="Content_RU" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="Content_EN"></label>
+                            <textarea readonly class="form-control form-control" asp-for="Content_EN"></textarea>
+                            <span asp-validation-for="Content_EN" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="Content_TR"></label>
+                            <textarea readonly class="form-control form-control" asp-for="Content_TR"></textarea>
+                            <span asp-validation-for="Content_TR" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="d-flex m-0 bold-text" for=""><span>Main Photo</span></label>
+                            <img style="width:200px; object-fit:cover;" src="@Model.PhotoPath" />
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script src="~/Admin/vendor/ckeditor/ckeditor.js"></script>
+
+    <script>
+        const contents = ["#Content_AZ", "#Content_RU", "#Content_EN", "#Content_TR"];
+
+        for (const content of contents) {
+            ClassicEditor
+                .create(document.querySelector(content), {
+                    viewportTopOffset: 50,
+                    toolbar: ['heading', '|', 'bold', 'italic', 'bulletedList', 'link'],
+                })
+                .then(editor => {
+                    editor.isReadOnly = true; // make the editor read-only right after initialization
+                })
+                .catch(error => {
+                    console.error(error);
+                })
+        }
+    </script>
+}

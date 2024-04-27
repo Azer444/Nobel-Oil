@@ -1,0 +1,100 @@
+﻿@using Manage.Areas.Admin.Models.ComponentManagement.PublicationReport
+@using Manage.Tools.FileHandler.Abstraction
+@using Core.Constants.File
+
+@inject IFileService _fileService
+@model PublicationReportListViewModel
+
+@{
+    ViewData["Title"] = "Insights";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <h4 class="page-title">Insights</h4>
+        </div>
+    </div>
+</div>
+
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-@TempData["message_type"]">
+        @TempData["message"]
+    </div>
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div>
+                    <p class="text-muted mb-3">
+                        You can add your note to here
+                    </p>
+                </div>
+                <div>
+                    <a asp-action="create" asp-controller="publicationreport" asp-area="admin" asp type="button" class="btn btn-gradient-primary waves-effect waves-light float-right mb-3">
+                        + New Insights
+                    </a>
+                </div>
+
+                <div class="table-responsive">
+
+                    <table id="users-table" class="table table-striped mb-0 ">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.PublicationReports.GetEnumerator().Current.Photo)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.PublicationReports.GetEnumerator().Current.Title_AZ)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.PublicationReports.GetEnumerator().Current.Title_RU)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.PublicationReports.GetEnumerator().Current.Title_EN)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.PublicationReports.GetEnumerator().Current.Title_TR)</span>
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int rowCounter = 0;
+                                foreach (var publicationReport in Model.PublicationReports)
+                                {
+                                    rowCounter++;
+
+                                    publicationReport.PhotoPath = _fileService.GetFileUrl(publicationReport.PhotoName, FilePath.PublicationReport);
+                                    <tr data-pk="@publicationReport.Id">
+                                        <td>
+                                            <img src="@publicationReport.PhotoPath" style="width:200px;object-fit:cover;" />
+                                        </td>
+                                        <td>@publicationReport.Title_AZ</td>
+                                        <td>@publicationReport.Title_RU</td>
+                                        <td>@publicationReport.Title_EN</td>
+                                        <td>@publicationReport.Title_TR</td>
+                                        <td>
+                                            <a asp-controller="publicationreport" asp-action="edit" asp-route-slug="@publicationReport.Slug" class="mr-2"><i class="fas fa-edit text-info font-18"></i></a>
+                                            <a asp-controller="publicationreport" asp-action="details" asp-route-slug="@publicationReport.Slug" class="mr-2"><i class="fas fa-external-link-square-alt text-info font-18"></i></a>
+                                            <a asp-controller="publicationreport" asp-action="delete" asp-route-slug="@publicationReport.Slug" onclick="return confirm('Are you sure to delete?')" class="mr-2"><i class="fas fa-trash-alt text-danger font-18"></i></a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+
+                </div><!--end /tableresponsive-->
+            </div><!--end card-body-->
+        </div><!--end card-->
+    </div> <!-- end col -->
+</div>
+
+@section Scripts{
+
+}

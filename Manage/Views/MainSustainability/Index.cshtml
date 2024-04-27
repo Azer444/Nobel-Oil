@@ -1,0 +1,203 @@
+﻿@using Manage.Tools.FileHandler.Abstraction
+@using Manage.ViewModels.MainSustainability
+@using Core.Constants.File
+@using Core.Constants
+@using Core
+@using System.Globalization
+
+@model IndexViewModel
+@inject IFileService _fileService
+@inject IUnitOfWork _unitOfWork
+
+@{
+    ViewData["Title"] = "Nobel Energy | Sustainability";
+    
+    var currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+}
+
+@await Component.InvokeAsync("IntroductionBanner", new { Page = Page.Sustainability })
+
+
+<!--------------------------- Tab --------------------------->
+@await Component.InvokeAsync("PageTab", new { page = Page.Sustainability, currentPage = "" })
+
+
+<!--------------------------- Tab --------------------------->
+<!--------------------------- Pages Components --------------------------->
+@if (Model.MainSustainabilityReportComponent != null)
+{
+    <section id="sustainable" style="background: url('@_fileService.GetFileUrl(Model.MainSustainabilityReportComponent.PhotoName, FilePath.SustainabilityReport)');">
+        <div class="sustainable-content">
+            <p class="sustainable-title our-projects-title">
+                @Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.MainSustainabilityReportComponent, "Title", currentCulture))
+            </p>
+            <div class="sustainable-info">
+                @Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.MainSustainabilityReportComponent, "Content", currentCulture))
+            </div>
+            <a asp-action="index" asp-controller="sustainability" class="g-btn g-btn__green g-btn__md">
+                @await _unitOfWork.LanguageResources.GetByKeyAsync("ReadMore", currentCulture)
+            </a>
+        </div>
+    </section>
+}
+
+<div id="g-pages-component-section">
+    <div id="sustainability/developmentgoals" class="g-pages-component-element">
+        <div class="g-pages-component-element-wrapper">
+            <div class="g-pages-component-element-content">
+                <h2 class="g-pages-component-element-content-title">
+                    @Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.SustainableDevelopmentComponent, "Title", currentCulture))
+                </h2>
+                <div class="g-pages-component-element-content-text">
+                    @Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.SustainableDevelopmentComponent, "Content", currentCulture))
+                </div>
+                <a asp-action="developmentgoals" asp-controller="mainsustainability" class="g-pages-component-anchor-button">
+                    @await _unitOfWork.LanguageResources.GetByKeyAsync("ReadMore", currentCulture)
+                </a>
+            </div>
+            <div class="g-pages-component-element-image">
+                <img src="@_fileService.GetFileUrl(Model.SustainableDevelopmentComponent.PhotoName, FilePath.SustainableDevelopment)" asp-append-version="true">
+            </div>
+        </div>
+    </div>
+
+    <div id="safety" class="g-pages-component-element">
+        <div class="g-pages-component-element-wrapper">
+            <div class="g-pages-component-element-content">
+                <h2 class="g-pages-component-element-content-title">
+                    @Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.SafetyComponent, "Title", currentCulture))
+                </h2>
+                <div class="g-pages-component-element-content-text">
+                    @Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.SafetyComponent, "Content", currentCulture))
+                </div>
+                <a asp-action="index" asp-controller="safety" class="g-pages-component-anchor-button">
+                    @await _unitOfWork.LanguageResources.GetByKeyAsync("ReadMore", currentCulture)
+                </a>
+            </div>
+            <div class="g-pages-component-element-image">
+                <img src="@_fileService.GetFileUrl(Model.SafetyComponent.PhotoName, FilePath.Safety)" asp-append-version="true">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="environment">
+    <section id="sustainable" style="background: url('@_fileService.GetFileUrl(Model.EnvironmentComponent.PhotoName, FilePath.Environment)');">
+        <div class="sustainable-content">
+            <p class="sustainable-title our-projects-title">
+                @Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.EnvironmentComponent, "Title", currentCulture))
+            </p>
+            <div class="sustainable-info">
+                @Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.EnvironmentComponent, "Content", currentCulture))
+            </div>
+            <a asp-action="index" asp-controller="environment" class="g-btn g-btn__green g-btn__md">
+                @await _unitOfWork.LanguageResources.GetByKeyAsync("ReadMore", currentCulture)
+            </a>
+        </div>
+    </section>
+</div>
+
+<div id="g-pages-component-section">
+    <div id="humanresource" class="g-pages-component-element">
+        <div class="g-pages-component-element-wrapper">
+            <div class="g-pages-component-element-content">
+                <h2 class="g-pages-component-element-content-title">
+                    @Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.HumanResourceComponent, "Title", currentCulture))
+                </h2>
+                <div class="g-pages-component-element-content-text">
+                    @Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.HumanResourceComponent, "ContentSustainability", currentCulture))
+                </div>
+                <a asp-action="index" asp-controller="humanresource" class="g-pages-component-anchor-button">
+                    @await _unitOfWork.LanguageResources.GetByKeyAsync("ReadMore", currentCulture)
+                </a>
+            </div>
+            <div class="g-pages-component-element-image">
+                <img src="@_fileService.GetFileUrl(Model.HumanResourceComponent.PhotoName_Sustainability, FilePath.HumanResource)" asp-append-version="true">
+            </div>
+        </div>
+    </div>
+
+    <div id="community" class="g-pages-component-element">
+        <div class="g-pages-component-element-wrapper">
+            <div class="g-pages-component-element-content">
+                <h2 class="g-pages-component-element-content-title">
+                    @Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.CommunityComponent, "Title", currentCulture))
+                </h2>
+                <div class="g-pages-component-element-content-text">
+                    @Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.CommunityComponent, "ContentSustainability", currentCulture))
+                </div>
+                <a asp-action="component" asp-controller="community" class="g-pages-component-anchor-button">
+                    @await _unitOfWork.LanguageResources.GetByKeyAsync("ReadMore", currentCulture)
+                </a>
+            </div>
+            <div class="g-pages-component-element-image">
+                <img src="@_fileService.GetFileUrl(Model.CommunityComponent.PhotoName_Sustainability, FilePath.Community)">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="ethicsandcompliance">
+    <section id="sustainable" style="background: url('@_fileService.GetFileUrl(Model.EthicsComplianceComponent.PhotoName, FilePath.EthicsCompliance)');">
+        <!-- <img class="sustainable-cover g-fluid" src="./static/assets/svgs/sustainable-1.svg" alt="Nobel Energy"> -->
+        <div class="sustainable-content">
+            <p class="sustainable-title our-projects-title">
+                @Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.EthicsComplianceComponent, "Title", currentCulture))
+            </p>
+            <div class="sustainable-info">
+                @Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.EthicsComplianceComponent, "Content", currentCulture))
+            </div>
+            <a asp-action="index" asp-controller="ethicsandcompliance" class="g-btn g-btn__green g-btn__md">
+                @await _unitOfWork.LanguageResources.GetByKeyAsync("ReadMore", currentCulture)
+            </a>
+        </div>
+    </section>
+</div>
+
+<div id="g-pages-component-section">
+    @foreach (var flatpage in Model.Flatpages)
+    {
+        if (flatpage.IsBanner)
+        {
+            <div id="@flatpage.URL" class="g-page-banner">
+                <div class="g-page-banner-cover" style='background: transparent url("@_fileService.GetFileUrl(flatpage.PagePhotoName, FilePath.Flatpage)")'>
+                    <div class="g-page-banner-content">
+                        <h3 class="g-page-banner-title">
+                            @Html.Raw(_unitOfWork.Languages.ChooseLanguage(flatpage, "TitlePage", currentCulture))
+                        </h3>
+                        <div class="g-page-banner-text">
+                            @Html.Raw(_unitOfWork.Languages.ChooseLanguage(flatpage, "ContentPage", currentCulture))
+                        </div>
+                        <a href="/@currentCulture/@flatpage.URL" class="g-page-banner-anchor-button">
+                            @await _unitOfWork.LanguageResources.GetByKeyAsync("ReadMore", currentCulture)
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div id="@flatpage.URL" class="g-pages-component-element">
+                <div class="g-pages-component-element-wrapper">
+                    <div class="g-pages-component-element-content">
+                        <h2 class="g-pages-component-element-content-title">
+                            @Html.Raw(_unitOfWork.Languages.ChooseLanguage(flatpage, "TitlePage", currentCulture))
+                        </h2>
+                        <div class="g-pages-component-element-content-text">
+                            @Html.Raw(_unitOfWork.Languages.ChooseLanguage(flatpage, "ContentPage", currentCulture))
+                        </div>
+                        <a href="/@currentCulture/@flatpage.URL" class="g-pages-component-anchor-button">
+                            @await _unitOfWork.LanguageResources.GetByKeyAsync("ReadMore", currentCulture)
+                        </a>
+                    </div>
+                    <div class="g-pages-component-element-image">
+                        <img src="@_fileService.GetFileUrl(flatpage.PagePhotoName, FilePath.Flatpage)" asp-append-version="true">
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+<!--------------------------- Pages Components --------------------------->

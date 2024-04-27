@@ -1,0 +1,104 @@
+﻿@using Manage.Tools.FileHandler.Abstraction
+@using Manage.ViewModels.Search
+@using Core.Constants.File
+@using Core.Constants
+@using Core
+@using System.Globalization
+
+@model SearchViewModel
+@inject IFileService _fileService
+@inject IUnitOfWork _unitOfWork
+
+@{
+    ViewData["Title"] = "Nobel Energy | Search";
+    
+    var currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+}
+
+@await Component.InvokeAsync("IntroductionBanner", new { Page = Page.Search })
+
+<!--------------------------- Search Results --------------------------->
+
+<div class="search-results" id="search-results">
+    <div class="g-container">
+        <div class="d-flex flex-column flex-md-row justify-content-between">
+            <p class="search-results__title">
+                @await _unitOfWork.LanguageResources.GetByKeyAsync("ResultFor", currentCulture): <span id="result-keyword" result-keyword>@Model.Search?.Query</span>
+            </p>
+            <form asp-action="index" asp-controller="search" method="get">
+                <div class="search-result__field">
+                    <input value="@Model.Search.Query" name="query">
+                    <button class="g-btn" type="submit">
+                        <img src="~/Client/assets/svgs/search.svg" asp-append-version="true" alt="">
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div class="search-results__wrapper">
+            <p class="number-of-results">@Model.Search.Results.Where(r => !string.IsNullOrEmpty(_unitOfWork.Languages.ChooseLanguage(r, "Title", currentCulture))).Count() @await _unitOfWork.LanguageResources.GetByKeyAsync("ResultsFound", currentCulture)</p>
+            @foreach (var result in Model.Search.Results)
+            {
+                @if (!string.IsNullOrEmpty(_unitOfWork.Languages.ChooseLanguage(result, "Title", currentCulture)))
+                {
+                    <a href="/@result.Link" class="search-result">
+                        <p class="search-result-title">@_unitOfWork.Languages.ChooseLanguage(result, "Title", currentCulture)</p>
+                        @if (!string.IsNullOrEmpty(_unitOfWork.Languages.ChooseLanguage(result, "Content", currentCulture)))
+                        {
+                            @if (_unitOfWork.Languages.ChooseLanguage(result, "Content", currentCulture).ToLower().IndexOf(Model.Search.Query.ToLower()) > 0)
+                            {
+                                var index = _unitOfWork.Languages.ChooseLanguage(result, "Content", currentCulture).ToLower().IndexOf(Model.Search.Query.ToLower());
+
+                                <div class="search-result-text" search-result>
+                                    ...@Html.Raw(_unitOfWork.Languages.ChooseLanguage(result, "Content", currentCulture).Substring(index, Math.Min(200, _unitOfWork.Languages.ChooseLanguage(result, "Content", currentCulture).Length - index)))...
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="search-result-text" search-result>
+                                    @Html.Raw(_unitOfWork.Languages.ChooseLanguage(result, "Content", currentCulture).Substring(0, Math.Min(_unitOfWork.Languages.ChooseLanguage(result, "Content", currentCulture).Length, 300)))...
+                                </div>
+                            }
+                        }
+                    </a>
+                }
+            }
+        </div>
+    </div>
+    @*<div class="pagination-section mt-4" id="pagination">
+            <div class="g-container d-flex justify-content-md-end justify-content-center ">
+                <ul class="pagination-section__container ">
+                    <li class="pagination-section__container--item">
+                        <a href="" class="pagination-section__container--link"
+                           id="pag-prev">
+                            <i class="fas fa-chevron-left"></i>
+                        </a>
+                    </li>
+                    <li class="pagination-section__container--item ">
+                        <a class="pagination-section__container--link" href="">1</a>
+                    </li>
+                    <li class="pagination-section__container--item">
+                        <a class="pagination-section__container--link" href="">2</a>
+                    </li>
+                    <li class="pagination-section__container--item">
+                        <a class="pagination-section__container--link" href="">3</a>
+                    </li>
+                    <li class="pagination-section__container--item active">
+                        <a class="pagination-section__container--link" href="">4</a>
+                    </li>
+                    <li class="pagination-section__container--item">
+                        <a class="pagination-section__container--link" href="">...</a>
+                    </li>
+                    <li class="pagination-section__container--item ">
+                        <a class="pagination-section__container--link" href="" id="pag-next">
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>*@
+</div>
+
+<!--------------------------- Search Results --------------------------->
+@*@section Scripts{
+       <script src="~/Client/js/search-results.js"></script>
+    }*@

@@ -1,0 +1,95 @@
+﻿@using Manage.Areas.Admin.Models.PageManagement.PageTab
+@using Manage.Tools.FileHandler.Abstraction
+@using Core.Constants.File
+
+@inject IFileService _fileService
+@model PageTabIndexViewModel
+
+@{
+    ViewData["Title"] = "Page tab";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <h4 class="page-title">Page tab</h4>
+        </div>
+    </div>
+</div>
+
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-@TempData["message_type"]">
+        @TempData["message"]
+    </div>
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div>
+                    <a asp-action="createcomponent" asp-controller="pagetab" asp-area="admin" asp type="button" class="btn btn-gradient-primary waves-effect waves-light float-right mb-3">
+                        + Create Component
+                    </a>
+                </div>
+
+                <div class="table-responsive">
+
+                    <table id="users-table" class="table table-striped mb-0 ">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.PageTabComponents.GetEnumerator().Current.Title_AZ)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.PageTabComponents.GetEnumerator().Current.Title_RU)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.PageTabComponents.GetEnumerator().Current.Title_EN)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.PageTabComponents.GetEnumerator().Current.Title_TR)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.PageTabComponents.GetEnumerator().Current.Link)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.PageTabComponents.GetEnumerator().Current.Page)</span>
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int rowCounter = 0;
+                                foreach (var pageTabComponent in Model.PageTabComponents)
+                                {
+                                    rowCounter++;
+
+                                    <tr>
+                                        <td>@pageTabComponent.Title_AZ</td>
+                                        <td>@pageTabComponent.Title_RU</td>
+                                        <td>@pageTabComponent.Title_EN</td>
+                                        <td>@pageTabComponent.Title_TR</td>
+                                        <td>@pageTabComponent.Link</td>
+                                        <td>@pageTabComponent.Page</td>
+                                        <td>
+                                            <a asp-controller="pagetab" asp-action="editcomponent" asp-route-id="@pageTabComponent.Id" class="mr-2"><i class="fas fa-edit text-info font-18"></i></a>
+                                            <a asp-controller="pagetab" asp-action="deletecomponent" asp-route-id="@pageTabComponent.Id" onclick="return confirm('Are you sure to delete?')" class="mr-2"><i class="fas fa-trash-alt text-danger font-18"></i></a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+
+                </div><!--end /tableresponsive-->
+            </div><!--end card-body-->
+        </div><!--end card-->
+    </div> <!-- end col -->
+</div>
+
+@section Scripts{
+
+}

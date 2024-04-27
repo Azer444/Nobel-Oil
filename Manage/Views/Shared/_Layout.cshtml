@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+@*     <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta property="og:title" content="Nobeloil" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="" />
+    <meta property="og:description" content="Nobeloil" />
+    <meta property="og:image" content="" />
+
+    <title>@ViewData["Title"]</title>
+
+    <link rel="shortcut icon" href="~/common/nobel-favicon.jpeg" asp-append-version="true" type="image/x-icon"> 
+    <link rel="stylesheet" href="~/Client/styles/css/bootstrap/bootstrap.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/Client/styles/css/swiper/swiper.min.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/Client/styles/css/main.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/Client/styles/css/nice-select/nice-select.min.css" asp-append-version="true">
+
+    <script src="~/Client/js/min/font-awesome.min.js" asp-append-version="true"></script>
+
+    @RenderSection("Styles", required: false) *@
+
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <link rel="shortcut icon" href="images/fevicon.png" type="image/x-icon">
+    <title>Finter</title>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css" integrity="sha256-mLBIhmBvigTFWPSCtvdu6a76T+3Xyt+K571hupeFLg4=" crossorigin="anonymous" />
+    <link href="css/font-awesome.min.css" rel="stylesheet" />
+    <link href="css/style.css" rel="stylesheet" />
+    <link href="css/responsive.css" rel="stylesheet" />
+</head>
+
+<body id="body">
+
+    @await Component.InvokeAsync("Header")
+
+
+    @RenderBody()
+
+
+    @await Component.InvokeAsync("Footer")
+
+
+@*     <script src="~/Client/js/min/jquery.min.js" asp-append-version="true"></script>
+    <script src="~/Client/js/min/bootstrap.bundle.min.js" asp-append-version="true"></script>
+    <script src="~/Client/js/min/swiper-bundle.min.js" asp-append-version="true"></script>
+    <script src="~/Client/js/min/jquery.nice-select.min.js" asp-append-version="true"></script>
+    <script src="~/common/js/cookie.js" asp-append-version="true"></script>
+    <script src="~/Client/js/languagePreferenceCookie.js" asp-append-version="true"></script>
+    <script src="~/Client/js/main.js" asp-append-version="true"></script> *@
+@*    <script src="~/Client/js/scroll-to.js" asp-append-version="true"></script>
+*@
+    @* @RenderSection("Scripts", required: false) *@
+
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js" integrity="sha256-Zr3vByTlMGQhvMfgkQ5BtWRSKBGa2QlspKYJnkjZTmo=" crossorigin="anonymous"></script>
+    <script src="js/custom.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap"></script>
+</body>
+
+</html>

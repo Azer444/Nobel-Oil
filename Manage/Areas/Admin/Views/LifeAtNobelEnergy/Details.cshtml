@@ -1,0 +1,264 @@
+﻿@using Manage.Areas.Admin.Models.ComponentManagement.LifeAtNobelEnergy
+
+@model LifeAtNobelEnergyDetailsViewModel
+
+@{
+    ViewData["Title"] = "Life At Nobel Energy";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <div class="float-right">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-action="list" asp-controller="lifeatnobelenergy" asp-area="admin">@ViewData["Title"]</a></li>
+                    <li class="breadcrumb-item active">Details</li>
+                </ol>
+            </div>
+            <h4 class="page-title">Details @ViewData["Title"]</h4>
+        </div><!--end page-title-box-->
+    </div><!--end col-->
+</div>
+
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-@TempData["message_type"]">
+        @TempData["message"]
+    </div>
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title mt-0 mb-3">You can add your note to here</h4>
+                <form id="user-create">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Title_AZ"></label>
+                                <input readonly class="form-control" asp-for="Title_AZ">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Title_RU"></label>
+                                <input readonly class="form-control" asp-for="Title_RU">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Title_EN"></label>
+                                <input readonly class="form-control" asp-for="Title_EN">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Title_TR"></label>
+                                <input readonly class="form-control" asp-for="Title_TR">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Content_AZ"></label>
+                                <textarea readonly class="form-control" asp-for="Content_AZ"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Content_RU"></label>
+                                <textarea readonly class="form-control" asp-for="Content_RU"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Content_EN"></label>
+                                <textarea readonly class="form-control" asp-for="Content_EN"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Content_TR"></label>
+                                <textarea readonly class="form-control" asp-for="Content_TR"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Description_AZ"></label>
+                                <textarea class="form-control" asp-for="Description_AZ"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Description_RU"></label>
+                                <textarea class="form-control" asp-for="Description_RU"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Description_EN"></label>
+                                <textarea class="form-control" asp-for="Description_EN"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Description_TR"></label>
+                                <textarea class="form-control" asp-for="Description_TR"><</textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="ActionDate"></label>
+                                <input readonly type="date" class="form-control" asp-for="ActionDate">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="d-flex m-0 bold-text" for=""><span>Main Photo</span></label>
+                                <img style="width:200px; object-fit:cover;" src="@Model.PhotoPath" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script src="~/Admin/vendor/ckeditor/ckeditor.js"></script>
+
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#Content_AZ'), {
+                viewportTopOffset: 50,
+                toolbar: ['heading', '|', 'bold', 'italic', 'bulletedList', 'link', 'imageUpload'],
+                simpleUpload: {
+                    uploadUrl: '/admin/news/upload',
+                    withCredentials: true
+                },
+            })
+            .then(editor => {
+                editor.isReadOnly = true; // make the editor read-only right after initialization
+            })
+            .catch(error => {
+                console.error(error);
+            })
+
+        ClassicEditor
+            .create(document.querySelector('#Content_RU'), {
+                viewportTopOffset: 50,
+                toolbar: ['heading', '|', 'bold', 'italic', 'bulletedList', 'link', 'imageUpload'],
+                simpleUpload: {
+                    uploadUrl: '/admin/news/upload',
+                    withCredentials: true
+                }
+            })
+            .then(editor => {
+                editor.isReadOnly = true; // make the editor read-only right after initialization
+            })
+            .catch(error => {
+                console.error(error);
+            })
+
+
+        ClassicEditor
+            .create(document.querySelector('#Content_EN'), {
+                viewportTopOffset: 50,
+                toolbar: ['heading', '|', 'bold', 'italic', 'bulletedList', 'link', 'imageUpload'],
+                simpleUpload: {
+                    uploadUrl: '/admin/news/upload',
+                    withCredentials: true
+                }
+            })
+            .then(editor => {
+                editor.isReadOnly = true; // make the editor read-only right after initialization
+            })
+            .catch(error => {
+                console.error(error);
+            })
+
+        ClassicEditor
+            .create(document.querySelector('#Content_TR'), {
+                viewportTopOffset: 50,
+                toolbar: ['heading', '|', 'bold', 'italic', 'bulletedList', 'link', 'imageUpload'],
+                simpleUpload: {
+                    uploadUrl: '/admin/news/upload',
+                    withCredentials: true
+                }
+            })
+            .then(editor => {
+                editor.isReadOnly = true; // make the editor read-only right after initialization
+            })
+            .catch(error => {
+                console.error(error);
+            })
+
+        ClassicEditor
+            .create(document.querySelector('#Description_AZ'), {
+                viewportTopOffset: 50,
+                toolbar: ['heading', '|', 'bold', 'italic', 'bulletedList', 'link', 'imageUpload'],
+                simpleUpload: {
+                    uploadUrl: '/admin/news/upload',
+                    withCredentials: true
+                }
+            })
+            .then(editor => {
+                editor.isReadOnly = true; // make the editor read-only right after initialization
+            })
+            .catch(error => {
+                console.error(error);
+            })
+
+        ClassicEditor
+            .create(document.querySelector('#Description_RU'), {
+                viewportTopOffset: 50,
+                toolbar: ['heading', '|', 'bold', 'italic', 'bulletedList', 'link', 'imageUpload'],
+                simpleUpload: {
+                    uploadUrl: '/admin/news/upload',
+                    withCredentials: true
+                }
+            })
+            .then(editor => {
+                editor.isReadOnly = true; // make the editor read-only right after initialization
+            })
+            .catch(error => {
+                console.error(error);
+            })
+
+
+        ClassicEditor
+            .create(document.querySelector('#Description_EN'), {
+                viewportTopOffset: 50,
+                toolbar: ['heading', '|', 'bold', 'italic', 'bulletedList', 'link', 'imageUpload'],
+                simpleUpload: {
+                    uploadUrl: '/admin/news/upload',
+                    withCredentials: true
+                }
+            })
+            .then(editor => {
+                editor.isReadOnly = true; // make the editor read-only right after initialization
+            })
+            .catch(error => {
+                console.error(error);
+            })
+
+        ClassicEditor
+            .create(document.querySelector('#Description_TR'), {
+                viewportTopOffset: 50,
+                toolbar: ['heading', '|', 'bold', 'italic', 'bulletedList', 'link', 'imageUpload'],
+                simpleUpload: {
+                    uploadUrl: '/admin/news/upload',
+                    withCredentials: true
+                }
+            })
+            .then(editor => {
+                editor.isReadOnly = true; // make the editor read-only right after initialization
+            })
+            .catch(error => {
+                console.error(error);
+            })
+    </script>
+}

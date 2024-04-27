@@ -1,0 +1,232 @@
+﻿@using Manage.Areas.Admin.Models.PageManagement.EthicsCompliance
+@using Manage.Tools.FileHandler.Abstraction
+@using Core.Constants.File
+@using EcomLab.Core.Constants.File
+
+@inject IFileService _fileService
+
+@model EthicsComplianceDetailsSubComponentViewModel
+@{
+    ViewData["Title"] = "Ethics Compliance";
+}
+
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <div class="float-right">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-action="index" asp-controller="ethicscompliance" asp-area="admin">Ethics Compliance Sub Component</a></li>
+                    <li class="breadcrumb-item active">Details sub-component</li>
+                </ol>
+            </div>
+            <h4 class="page-title">Details sub-component</h4>
+        </div><!--end page-title-box-->
+    </div><!--end col-->
+</div>
+
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-@TempData["message_type"]">
+        @TempData["message"]
+    </div>
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div asp-validation-summary="ModelOnly" class="invalid-feedback" style="display:block"></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="Title_AZ"></label>
+                            <input readonly class="form-control form-control" asp-for="Title_AZ">
+                            <span asp-validation-for="Title_AZ" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="Title_RU"></label>
+                            <input readonly class="form-control form-control" asp-for="Title_RU">
+                            <span asp-validation-for="Title_RU" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="Title_EN"></label>
+                            <input readonly class="form-control form-control" asp-for="Title_EN">
+                            <span asp-validation-for="Title_EN" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="Title_TR"></label>
+                            <input readonly class="form-control form-control" asp-for="Title_TR">
+                            <span asp-validation-for="Title_TR" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="Slug"></label>
+                            <input readonly class="form-control form-control" asp-for="Slug">
+                            <span asp-validation-for="Slug" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="Content_AZ"></label>
+                            <textarea class="form-control form-control" asp-for="Content_AZ"></textarea>
+                            <span asp-validation-for="Content_AZ" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="Content_RU"></label>
+                            <textarea class="form-control form-control" asp-for="Content_RU"></textarea>
+                            <span asp-validation-for="Content_RU" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="Content_EN"></label>
+                            <textarea class="form-control form-control" asp-for="Content_EN"></textarea>
+                            <span asp-validation-for="Content_EN" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="Content_TR"></label>
+                            <textarea class="form-control form-control" asp-for="Content_TR"><</textarea>
+                            <span asp-validation-for="Content_TR" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="ContentEC_AZ"></label>
+                            <textarea class="form-control form-control" asp-for="ContentEC_AZ"></textarea>
+                            <span asp-validation-for="ContentEC_AZ" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="ContentEC_RU"></label>
+                            <textarea class="form-control form-control" asp-for="ContentEC_RU"></textarea>
+                            <span asp-validation-for="ContentEC_RU" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="ContentEC_EN"></label>
+                            <textarea class="form-control form-control" asp-for="ContentEC_EN"></textarea>
+                            <span asp-validation-for="ContentEC_EN" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="ContentEC_TR"></label>
+                            <textarea class="form-control form-control" asp-for="ContentEC_TR"></textarea>
+                            <span asp-validation-for="ContentEC_TR" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <div class="custom-control custom-switch switch-success">
+                                <input readonly asp-for="isBanner" class="custom-control-input">
+                                <label class="custom-control-label" asp-for="isBanner"></label>
+                                <span asp-validation-for="isBanner" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <div class="custom-control custom-switch switch-success">
+                                <input readonly asp-for="SubmitForm" class="custom-control-input">
+                                <label class="custom-control-label" asp-for="SubmitForm"></label>
+                                <span asp-validation-for="SubmitForm" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="d-flex m-0 bold-text" asp-for="PhotoPath_EC"></label>
+                            <img style="width:200px; object-fit:cover;" src="@Model.PhotoPath_EC" />
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="d-flex m-0 bold-text" asp-for="PhotoPath"></label>
+                            <img style="width:200px; object-fit:cover;" src="@Model.PhotoPath" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="col-lg-12">
+                    <div>
+                        <div class="tab-content" id="files-tabContent">
+                            <div class="tab-pane fade active show" id="files-pdf">
+                                <h4 class="mt-0 header-title mb-3">PDF Files</h4>
+                                <div class="file-box-content">
+                                    @foreach (var ethicsComplianceSubComponentPdf in Model.EthicsComplianceSubComponentPdfs)
+                                    {
+                                        var pdfPath = _fileService.GetFileUrl(ethicsComplianceSubComponentPdf.PdfFileName, FilePath.EthicsCompliancePDF);
+                                        var pureFileName = _fileService.GetPureFileName(ethicsComplianceSubComponentPdf.PdfFileName, false);
+                                        var pdfFileSize = _fileService.GetFileSize(ethicsComplianceSubComponentPdf.PdfFileName, FilePath.EthicsCompliancePDF, StorageUnits.Megabyte);
+
+                                        <div class="file-box">
+                                            <a href="@pdfPath" class="download-icon-link" download="">
+                                                <i class="dripicons-download file-download-icon"></i>
+                                            </a>
+                                            <div class="text-center">
+                                                <i class="far fa-file-pdf text-danger"></i>
+                                                <h6 class="text-truncate">@pureFileName</h6>
+                                                <small class="text-muted">@pdfFileSize MB</small>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div><!--end tab-pane-->
+                        </div>  <!--end tab-content-->
+                    </div><!--end card-body-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Admin/vendor/ckeditor/ckeditor.js"></script>
+    <script src="~/common/js/show_file_name.js"></script>
+    <!-- validate js -->
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+
+
+    <script>
+        const contents = ["#Content_AZ", "#Content_RU", "#Content_EN", "#Content_TR", "#ContentEC_AZ", "#ContentEC_RU", "#ContentEC_EN", "#ContentEC_TR"];
+
+        for (const content of contents) {
+            ClassicEditor
+                .create(document.querySelector(content), {
+                    viewportTopOffset: 50,
+                    toolbar: ['heading', '|', 'bold', 'italic', 'bulletedList', 'link'],
+                })
+                .then(editor => {
+                    editor.isReadOnly = true; // make the editor read-only right after initialization
+                })
+                .catch(error => {
+                    console.error(error);
+                })
+        }
+    </script>
+}

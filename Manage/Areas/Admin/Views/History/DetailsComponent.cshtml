@@ -1,0 +1,117 @@
+﻿@using Core.Models
+@using Manage.Tools.FileHandler.Abstraction
+@using Core.Constants.File
+
+@inject IFileService _fileService
+@model HistoryComponent
+
+@{
+    ViewData["Title"] = "History";
+}
+
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <div class="float-right">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-action="index" asp-controller="history" asp-area="admin">History</a></li>
+                    <li class="breadcrumb-item active">Details component</li>
+                </ol>
+            </div>
+            <h4 class="page-title">Details component</h4>
+        </div><!--end page-title-box-->
+    </div><!--end col-->
+</div>
+
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-@TempData["message_type"]">
+        @TempData["message"]
+    </div>
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div asp-validation-summary="ModelOnly" class="invalid-feedback" style="display:block"></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="Content_AZ"></label>
+                            <textarea class="form-control form-control" asp-for="Content_AZ"></textarea>
+                            <span asp-validation-for="Content_AZ" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="Content_RU"></label>
+                            <textarea class="form-control form-control" asp-for="Content_RU"></textarea>
+                            <span asp-validation-for="Content_RU" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="Content_EN"></label>
+                            <textarea class="form-control form-control" asp-for="Content_EN"></textarea>
+                            <span asp-validation-for="Content_EN" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="Content_TR"></label>
+                            <textarea class="form-control form-control" asp-for="Content_TR"><</textarea>
+                            <span asp-validation-for="Content_TR" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="ActionDate"></label>
+                            <input readonly type="date" class="form-control form-control" asp-for="ActionDate">
+                            <span asp-validation-for="ActionDate" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="Order"></label>
+                            <input readonly class="form-control form-control" asp-for="Order">
+                            <span asp-validation-for="Order" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script src="~/Admin/vendor/ckeditor/ckeditor.js"></script>
+    <script src="~/common/js/show_file_name.js"></script>
+    <!-- validate js -->
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+
+    <script>
+        const contents = ["#Content_AZ", "#Content_RU", "#Content_EN", "#Content_TR"];
+
+        for (const content of contents) {
+            ClassicEditor
+                .create(document.querySelector(content), {
+                    viewportTopOffset: 50,
+                    toolbar: ['heading', '|', 'bold', 'italic', 'bulletedList', 'link'],
+                })
+                .then(editor => {
+                    editor.isReadOnly = true; // make the editor read-only right after initialization
+                })
+                .catch(error => {
+                    console.error(error);
+                })
+        }
+
+    </script>
+}

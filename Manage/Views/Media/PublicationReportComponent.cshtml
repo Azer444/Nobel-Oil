@@ -1,0 +1,140 @@
+﻿@using Manage.Tools.FileHandler.Abstraction
+@using Manage.ViewModels.Media
+@using Core.Constants.File
+@using EcomLab.Core.Constants.File
+@using Core.Constants
+@using Core
+@using System.Globalization
+
+@model MediaPublicationReportComponentViewModel
+@inject IFileService _fileService
+@inject IUnitOfWork _unitOfWork
+
+@{
+    ViewData["Title"] = "Nobel Energy | Publication report";
+    
+    var currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+}
+
+@await Component.InvokeAsync("IntroductionBanner", new { Page = Page.Media })
+
+
+<!--------------------------- Tab --------------------------->
+@await Component.InvokeAsync("PageTab", new { page = Page.Media, currentPage = $"{currentCulture}/media/{Model.PublicationReport.Slug}" })
+
+
+<!--------------------------- Tab --------------------------->
+
+<section class="news-section media" id="news">
+    <div class="g-container__md media__wrapper">
+        <div>
+            <img src="@_fileService.GetFileUrl(Model.PublicationReport.PhotoName, FilePath.PublicationReport)" class="media__image" alt="">
+        </div>
+        <div class=" mt-5">
+            <h1 class="media__title">
+                @_unitOfWork.Languages.ChooseLanguage(Model.PublicationReport, "Title", currentCulture)
+            </h1>
+        </div>
+        <div class="mt-4">
+            <p class="media__date">@Model.PublicationReport.ActionDate.ToString("dd.MM.yyyy")</p>
+        </div>
+        <div class="media__content">
+            <p class="media__content--description">
+                @Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.PublicationReport, "Content", currentCulture))
+            </p>
+        </div>
+
+        @foreach (var publicationReportPdf in Model.PublicationReportPdfs)
+        {
+            var pdfPath = @_fileService.GetFileUrl(publicationReportPdf.PdfFileName, FilePath.PublicationReport);
+            var pdfSize = @_fileService.GetFileSize(publicationReportPdf.PdfFileName, FilePath.PublicationReport, StorageUnits.Megabyte);
+
+            <div class="download__pdf mt-5 mb-5 pb-4">
+                <a href="@pdfPath" class="d-block d-block mb-4 download__pdf--link-2 has-triangle" download>
+                    <span><i class="far fa-file-pdf"></i></span>
+                    <span class="pdf-name">@Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.PublicationReport, "Title", currentCulture))</span>
+                    <span class="size">PDF/@pdfSize mb</span>
+                </a>
+            </div>
+        }
+
+        @*<div class="media__share">
+            <ul class="media__share--wrapper">
+            <li class="media__share--item">
+            <p>Share:</p>
+            </li>
+            <li class="media__share--item">
+            <a class="media__share--link" href="">
+            <i class="fab fa-facebook-f"></i>
+            </a>
+            </li>
+            <li class="media__share--item">
+            <a class="media__share--link" href="">
+            <i class="fab fa-linkedin-in"></i>
+            </a>
+            </li>
+            <li class="media__share--item">
+            <a class="media__share--link" href="">
+            <i class="fab fa-twitter"></i>
+            </a>
+            </li>
+            <li class="media__share--item">
+            <a class="media__share--link" href="">
+            <i class="fab fa-youtube"></i>
+            </a>
+            </li>
+            </ul>
+            </div>*@
+    </div>
+
+    <div class="media__related-news g-container">
+        @if(Model.RecentPublicationReports.Count > 0)
+        {
+        <h3 class="text-center">
+            @await _unitOfWork.LanguageResources.GetByKeyAsync("RecentNews", currentCulture)
+        </h3>            
+        }
+        <div class="news-section__news ">
+            <div class="news-wrapper row ">
+                @foreach (var publicationReport in Model.RecentPublicationReports.Take(3))
+                {
+                    <div class="swiper-slide_card mt-5 col-md-4">
+                        <div class="news-section__card ">
+                            <div class="news-section__card--img">
+                                <img src="@_fileService.GetFileUrl(publicationReport.PhotoName, FilePath.PublicationReport)" alt="">
+                            </div>
+                            <div class="news-section__card--body">
+                                <p class="news-section__card--title">
+                                    @_unitOfWork.Languages.ChooseLanguage(publicationReport, "Title", currentCulture)
+                                </p>
+                                <div class="news-section__card--info">
+                                    @Html.Raw(_unitOfWork.Languages.ChooseLanguage(publicationReport, "Content", currentCulture))
+                                </div>
+                                <div class="news-section__card--footer">
+                                    <a asp-action="publicationreportcomponent" asp-controller="media" asp-route-slug="@publicationReport.Slug" class="g-btn">
+                                        @await _unitOfWork.LanguageResources.GetByKeyAsync("ReadMore", currentCulture)
+                                    </a>
+                                    <p class="news-section__card--date">@publicationReport.ActionDate.ToString("dd.MM.yyyy")</p>
+                                </div>
+                            </div>
+                            <div class="news-section__card--layer">
+                                <p class="layer-title">
+                                    @_unitOfWork.Languages.ChooseLanguage(publicationReport, "Title", currentCulture)
+                                </p>
+                                <a asp-action="publicationreportcomponent" asp-controller="media" asp-route-slug="@publicationReport.Slug" class="layer-btn g-btn">
+                                    @await _unitOfWork.LanguageResources.GetByKeyAsync("ReadMore", currentCulture)
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+@section Scripts{
+    <script src="~/Client/js/newsTruncate.js"></script>
+}

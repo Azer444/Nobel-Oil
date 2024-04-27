@@ -1,0 +1,37 @@
+﻿@using Manage.Tools.FileHandler.Abstraction
+@using Manage.ViewModels.LegalNotice
+@using Core.Constants.File
+@using Core.Constants
+@using Core
+@using System.Globalization
+
+@model IndexViewModel
+@inject IFileService _fileService
+@inject IUnitOfWork _unitOfWork
+
+@{
+    ViewData["Title"] = "Nobel Energy | Legal notice";
+    
+    var currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+}
+
+@await Component.InvokeAsync("IntroductionBanner", new { Page = Page.LegalNotice })
+
+
+<!--------------------------- Project Content --------------------------->
+
+<section id="g-project-section" class="legal-notice-section">
+    <div class="g-container__lg">
+        <div class="g-project">
+            <div class="g-project-content">
+                <p class="g-project-content-title legal-notice-title">
+                    @_unitOfWork.Languages.ChooseLanguage(Model.LegalNoticeComponent, "Title", currentCulture)
+                </p>
+
+                 @Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.LegalNoticeComponent, "Content", currentCulture))
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--------------------------- Project Content --------------------------->

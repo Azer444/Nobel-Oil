@@ -1,0 +1,106 @@
+﻿@using Manage.Tools.FileHandler.Abstraction
+@using Core.Constants.File
+@using Core.Constants
+@using Core
+@using System.Globalization
+@using Manage.ViewModels.Career
+
+@model LifeAtNobelEnergyViewModel
+@inject IFileService _fileService
+@inject IUnitOfWork _unitOfWork
+
+@{
+    ViewData["Title"] = "Nobel Energy | Life at Nobel Energy";
+
+    var currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+}
+
+@await Component.InvokeAsync("IntroductionBanner", new { Page = Page.Career })
+
+@await Component.InvokeAsync("PageTab", new { page = Page.Career, currentPage = $"{currentCulture}/career/lifeatnobelenergy" })
+
+<!--------------------------- News Section --------------------------->
+
+<section class="news-section" id="news">
+    <div class="g-container">
+        <div class="news-section__news">
+            <div class="news-section__news">
+                <div class="news-wrapper row">
+                    @foreach (var item in Model.LifeAtNobelEnergies)
+                    {
+                        <div class="swiper-slide_card mt-5 col-md-4">
+                            <div class="news-section__card ">
+                                <div class="news-section__card--img">
+                                    <img src="@_fileService.GetFileUrl(item.PhotoName, FilePath.LifeAtNobelEnergy)">
+                                </div>
+                                <div class="news-section__card--body">
+                                    <p class="news-section__card--title">
+                                        @_unitOfWork.Languages.ChooseLanguage(item, "Title", currentCulture)
+                                    </p>
+                                    <div class="news-section__card--info">
+                                        @Html.Raw(_unitOfWork.Languages.ChooseLanguage(item, "Description", currentCulture))
+                                    </div>
+                                    <div class="news-section__card--footer">
+                                        <a asp-route-culture="@currentCulture" asp-action="lifeatnobelenergycomponent" asp-controller="career" asp-route-slug="@item.Slug" class="g-btn">
+                                            @await _unitOfWork.LanguageResources.GetByKeyAsync("ReadMore", currentCulture)
+                                        </a>
+                                        <p class="news-section__card--date">@item.ActionDate.ToString("dd.MM.yyyy")</p>
+                                    </div>
+                                </div>
+                                <div class="news-section__card--layer">
+                                    <p class="layer-title">
+                                        @_unitOfWork.Languages.ChooseLanguage(item, "Title", currentCulture)
+                                    </p>
+                                    <a asp-route-culture="@currentCulture" asp-action="lifeatnobelenergycomponent" asp-controller="career" asp-route-slug="@item.Slug" class="layer-btn g-btn">
+                                        @await _unitOfWork.LanguageResources.GetByKeyAsync("ReadMore", currentCulture)
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--------------------------- Pagination Section --------------------------->
+    <div class="pagination-section mt-4" id="pagination">
+        <div class="g-container d-flex justify-content-md-end justify-content-center ">
+            @if (Model.Pager.TotalPages > 0)
+            {
+                <ul class="pagination-section__container ">
+
+                    @if (Model.Pager.CurrentPage > 1)
+                    {
+                        <li class="pagination-section__container--item">
+                            <a asp-route-culture="@currentCulture" asp-controller="career" asp-action="lifeatnobelenergy" asp-route-page="@(Model.Pager.CurrentPage - 1)" class="pagination-section__container--link" id="pag-prev">
+                                <i class="fas fa-chevron-left"></i>
+                            </a>
+                        </li>
+                    }
+
+                    @for (var pge = Model.Pager.StartPage; pge <= Model.Pager.EndPage; pge++)
+                    {
+                        <li class="pagination-section__container--item @(pge == Model.Pager.CurrentPage ? "active" : "")">
+                            <a asp-route-culture="@currentCulture" asp-controller="career" asp-action="lifeatnobelenergy" asp-route-page="@pge" class="pagination-section__container--link">@pge</a>
+                        </li>
+                    }
+
+                    @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
+                    {
+                        <li class="pagination-section__container--item ">
+                            <a asp-route-culture="@currentCulture" asp-controller="career" asp-action="lifeatnobelenergy" asp-route-page="@(Model.Pager.CurrentPage + 1)" class="pagination-section__container--link" id="pag-next">
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
+    </div>
+    <!--------------------------- Pagination Section --------------------------->
+</section>
+
+<!--------------------------- News Section --------------------------->
+@section Scripts{
+    <script src="~/Client/js/newsTruncate.js"></script>
+}

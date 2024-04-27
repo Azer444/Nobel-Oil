@@ -1,0 +1,178 @@
+﻿@using Manage.Areas.Admin.Models.PageManagement.OurStrategy
+@using Manage.Tools.FileHandler.Abstraction
+@using Core.Constants.File
+
+@inject IFileService _fileService
+
+@model OurStrategyEditComponentViewModel
+@{
+    ViewData["Title"] = "Our Strategy";
+}
+
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <div class="float-right">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-action="index" asp-controller="ourstrategy" asp-area="admin">Our strategy</a></li>
+                    <li class="breadcrumb-item active">Edit component</li>
+                </ol>
+            </div>
+            <h4 class="page-title">Edit component</h4>
+        </div><!--end page-title-box-->
+    </div><!--end col-->
+</div>
+
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-@TempData["message_type"]">
+        @TempData["message"]
+    </div>
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data" asp-action="editcomponent" asp-controller="ourstrategy" id="ourproject-create">
+                    @Html.AntiForgeryToken()
+
+                    <div class="row">
+                        <div asp-validation-summary="ModelOnly" class="invalid-feedback" style="display:block"></div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Title_AZ"></label>
+                                <input class="form-control form-control" asp-for="Title_AZ">
+                                <span asp-validation-for="Title_AZ" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Title_RU"></label>
+                                <input class="form-control form-control" asp-for="Title_RU">
+                                <span asp-validation-for="Title_RU" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Title_EN"></label>
+                                <input class="form-control form-control" asp-for="Title_EN">
+                                <span asp-validation-for="Title_EN" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Title_TR"></label>
+                                <input class="form-control form-control" asp-for="Title_TR">
+                                <span asp-validation-for="Title_TR" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Content_AZ"></label>
+                                <textarea class="form-control form-control" asp-for="Content_AZ"></textarea>
+                                <span asp-validation-for="Content_AZ" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Content_RU"></label>
+                                <textarea class="form-control form-control" asp-for="Content_RU"></textarea>
+                                <span asp-validation-for="Content_RU" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Content_EN"></label>
+                                <textarea class="form-control form-control" asp-for="Content_EN"></textarea>
+                                <span asp-validation-for="Content_EN" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Content_TR"></label>
+                                <textarea class="form-control form-control" asp-for="Content_TR"><</textarea>
+                                <span asp-validation-for="Content_TR" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="custom-control custom-switch switch-success">
+                                    <input asp-for="IsBanner" class="custom-control-input">
+                                    <label class="custom-control-label" asp-for="IsBanner"></label>
+                                    <span asp-validation-for="IsBanner" class="invalid-feedback" style="display:block"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="d-flex m-0 bold-text" asp-for="Photo"></label>
+                                <img style="width:200px; object-fit:cover;" src="@Model.PhotoPath" />
+                                <div class="custom-file">
+                                    <input asp-for="Photo" class="form-control custom-file-input" accept="image/*" />
+                                    <label class="custom-file-label"></label>
+                                </div>
+                                <span class="text-danger validate-message d-inline-block py-2" asp-validation-for="Photo"></span>
+                            </div>
+                        </div>
+                         <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="VideoLink"></label>
+                                <input class="form-control form-control" asp-for="VideoLink"/>
+                                <span asp-validation-for="VideoLink" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="form-group mt-3">
+                    <button class="btn btn-sm btn-primary" type="submit" form="ourproject-create">Save</button>
+                    @*<button class="btn btn-sm btn-primary" type="submit" form="user-create">Save and edit</button>*@
+                    <a asp-action="index" asp-controller="ourstrategy" asp-area="admin" class="btn btn-sm btn-danger">Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script src="~/Admin/vendor/ckeditor/ckeditor.js"></script>
+    <script src="~/common/js/show_file_name.js"></script>
+    <script src="~/Admin/vendor/slug.js"></script>
+
+    <!-- validate js -->
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+
+
+    <script>
+        $('#Title_EN').on('input', function () {
+            $('#Slug').val(slug($(this).val()));
+        });
+
+        const contents = ["#Content_AZ", "#Content_RU", "#Content_EN", "#Content_TR"];
+
+        for (const content of contents) {
+            ClassicEditor
+                .create(document.querySelector(content), {
+                    viewportTopOffset: 50,
+                    toolbar: ['heading', '|', 'bold', 'italic', 'bulletedList', 'link'],
+                })
+                .catch(error => {
+                    console.error(error);
+                })
+        }
+    </script>
+}

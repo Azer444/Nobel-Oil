@@ -1,0 +1,200 @@
+﻿@using Manage.Areas.Admin.Models.PageManagement.Career
+@using Manage.Tools.FileHandler.Abstraction
+@using Core.Constants.File
+
+@model CareerIndexViewModel
+@inject IFileService _fileService
+
+@{
+    ViewData["Title"] = "Career";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <h4 class="page-title">Career</h4>
+        </div>
+    </div>
+</div>
+
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-@TempData["message_type"]">
+        @TempData["message"]
+    </div>
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <h3>Main Photo</h3>
+                    @if (Model.PageMainPhoto == null)
+                    {
+                        <a asp-action="definemainphoto" asp-controller="career" asp-area="admin" asp type="button" class="btn btn-gradient-primary waves-effect waves-light float-right mb-3">
+                            Define Main Photo
+                        </a>
+                    }
+                    else
+                    {
+                        <table id="users-table" class="table table-striped mb-0 ">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <span class="mr-1" style="pointer-events: none;">Photo</span>
+                                    </th>
+                                    <th>
+                                        <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.PageMainPhoto.Title_AZ)</span>
+                                    </th>
+                                    <th>
+                                        <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.PageMainPhoto.Title_RU)</span>
+                                    </th>
+                                    <th>
+                                        <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.PageMainPhoto.Title_EN)</span>
+                                    </th>
+                                    <th>
+                                        <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.PageMainPhoto.Title_TR)</span>
+                                    </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        @{
+                                            Model.PageMainPhoto.PhotoPath = _fileService.GetFileUrl(Model.PageMainPhoto.PhotoName, FilePath.PageMainPhoto);
+                                        }
+                                        <img src="@Model.PageMainPhoto.PhotoPath" style="width:200px;object-fit:cover;" />
+                                    </td>
+                                    <td>@Model.PageMainPhoto.Title_AZ</td>
+                                    <td>@Model.PageMainPhoto.Title_RU</td>
+                                    <td>@Model.PageMainPhoto.Title_EN</td>
+                                    <td>@Model.PageMainPhoto.Title_TR</td>
+                                    <td>
+                                        <a asp-controller="career" asp-action="editmainphoto" class="mr-2"><i class="fas fa-edit text-info font-18"></i></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    }
+
+                </div><!--end /tableresponsive-->
+            </div><!--end card-body-->
+        </div><!--end card-->
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <h3>Component</h3>
+                    <a asp-action="addcomponent" asp-controller="career" asp-area="admin" type="button" class="btn btn-gradient-primary waves-effect waves-light float-right mb-3">
+                        Add component
+                    </a>
+                    <table id="ourproject-table" class="table table-striped mb-0 ">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">Photo</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.CareerComponents.GetEnumerator().Current.Title_AZ)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.CareerComponents.GetEnumerator().Current.Title_RU)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.CareerComponents.GetEnumerator().Current.Title_EN)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.CareerComponents.GetEnumerator().Current.Title_TR)</span>
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var careerComponent in Model.CareerComponents)
+                            {
+                                <tr>
+                                    <td>
+                                        @{
+                                            var photoPath_ = _fileService.GetFileUrl(careerComponent.PhotoName, FilePath.Career);
+                                        }
+                                        <img src="@photoPath_" style="width:200px;object-fit:cover;" />
+                                    </td>
+                                    <td>@careerComponent.Title_AZ</td>
+                                    <td>@careerComponent.Title_RU</td>
+                                    <td>@careerComponent.Title_EN</td>
+                                    <td>@careerComponent.Title_TR</td>
+                                    <td>
+                                        <a asp-controller="career" asp-action="editcomponent" asp-route-id="@careerComponent.Id" class="mr-2"><i class="fas fa-edit text-info font-18"></i></a>
+                                        <a asp-controller="career" asp-action="detailscomponent" asp-route-id="@careerComponent.Id" class="mr-2"><i class="fas fa-external-link-square-alt text-info font-18"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </div><!--end /tableresponsive-->
+            </div><!--end card-body-->
+        </div><!--end card-->
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <h3>Tip Component</h3>
+                    <a asp-action="addtipcomponent" asp-controller="career" asp-area="admin" type="button" class="btn btn-gradient-primary waves-effect waves-light float-right mb-3">
+                        Add tip component
+                    </a>
+                    <table id="ourproject-table" class="table table-striped mb-0 ">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">Photo</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.CareerTipComponents.GetEnumerator().Current.Title_AZ)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.CareerTipComponents.GetEnumerator().Current.Title_RU)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.CareerTipComponents.GetEnumerator().Current.Title_EN)</span>
+                                </th>
+                                <th>
+                                    <span class="mr-1" style="pointer-events: none;">@Html.DisplayNameFor(x => x.CareerTipComponents.GetEnumerator().Current.Title_TR)</span>
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var careerTipComponent in Model.CareerTipComponents)
+                            {
+                                <tr>
+                                    <td>
+                                        @{
+                                            var photoPath_ = _fileService.GetFileUrl(careerTipComponent.PhotoName, FilePath.Career);
+                                        }
+                                        <img src="@photoPath_" style="width:200px;object-fit:cover;" />
+                                    </td>
+                                    <td>@careerTipComponent.Title_AZ</td>
+                                    <td>@careerTipComponent.Title_RU</td>
+                                    <td>@careerTipComponent.Title_EN</td>
+                                    <td>@careerTipComponent.Title_TR</td>
+                                    <td>
+                                        <a asp-controller="career" asp-action="edittipcomponent" asp-route-id="@careerTipComponent.Id" class="mr-2"><i class="fas fa-edit text-info font-18"></i></a>
+                                        <a asp-controller="career" asp-action="detailstipcomponent" asp-route-id="@careerTipComponent.Id" class="mr-2"><i class="fas fa-external-link-square-alt text-info font-18"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </div><!--end /tableresponsive-->
+            </div><!--end card-body-->
+        </div><!--end card-->
+
+    </div> <!-- end col -->
+</div>
+
+
+@section Scripts{
+
+}

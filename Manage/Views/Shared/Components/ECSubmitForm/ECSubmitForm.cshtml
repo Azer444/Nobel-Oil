@@ -1,0 +1,41 @@
+﻿@using Core
+@using Manage.ViewModels.EthicsAndCompilance;
+@using Manage.Tools.FileHandler.Abstraction
+@using Manage.ViewModels.Project
+@using Core.Constants.File
+@using Core.Constants
+@using System.Globalization
+
+@model ECSubmitFormViewComponentViewModel
+@inject IUnitOfWork _unitOfWork
+
+@{
+    var currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+}
+
+<div class="row">
+    <div class="col-lg-7">
+        <form id="ecsubmit-form" class="sustainability-form">
+
+            <div id="alert-box-success" class="alert alert-success" style="display:none"></div>
+            <div id="alert-box-danger" class="alert alert-danger" style="display:none"></div>
+
+            <div class="g-form-group">
+                <input required class="g-input" asp-for="FullName" placeholder="@Html.DisplayNameFor(ec => ec.FullName)">
+                <!-- <span class="g-error">Error will be here.</span> -->
+            </div>
+            <div class="g-form-group">
+                <input required class="g-input" asp-for="Email" placeholder="@Html.DisplayNameFor(ec => ec.Email)">
+            </div>
+            <div class="g-form-group">
+                <input required class="g-input" asp-for="Phone" placeholder="@Html.DisplayNameFor(ec => ec.Phone)">
+            </div>
+            <div class="g-form-group">
+                <textarea required class="g-input" asp-for="Message" placeholder="@Html.DisplayNameFor(ec => ec.Message)"></textarea>
+            </div>
+            <button type="submit" class="g-btn g-btn__purple apply-form__btn">
+                @await _unitOfWork.LanguageResources.GetByKeyAsync("Send", currentCulture)
+            </button>
+        </form>
+    </div>
+</div>

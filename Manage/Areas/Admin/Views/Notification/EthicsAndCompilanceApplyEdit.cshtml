@@ -1,0 +1,131 @@
+﻿@using Manage.Areas.Admin.Models.NotificationManagement.Notification
+
+@model EthicsAndCompilanceApplyEditViewModel
+
+@{
+    ViewData["Title"] = "Ethics and compilance apply";
+}
+
+
+@section plugin_styles{
+    <link rel="stylesheet" href="~/Areas/Admin/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.css" />
+    <link rel="stylesheet" href="~/Areas/Admin/plugins/bootstrap-touchspin/css/jquery.bootstrap-touchspin.min.css" />
+    <link href="~/Areas/Admin/plugins/select2/select2.min.css" asp-append-version="true" rel="stylesheet" type="text/css" />
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <div class="float-right">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-action="ethicsandcompilanceapply" asp-controller="notification" asp-area="admin">Ethics and compilance apply</a></li>
+                    <li class="breadcrumb-item active">Edit</li>
+                </ol>
+            </div>
+            <h4 class="page-title">Edit ethics and compilance apply</h4>
+        </div><!--end page-title-box-->
+    </div><!--end col-->
+</div>
+
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-@TempData["message_type"]">
+        @TempData["message"]
+    </div>
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data" asp-controller="notification" asp-action="ethicsandcompilanceapplyedit" asp-area="admin" id="ethicsandcompilanceapply-edit">
+                    @Html.AntiForgeryToken()
+
+                    <div class="row">
+                        <div asp-validation-summary="ModelOnly" class="invalid-feedback" style="display:block"></div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="custom-control custom-switch switch-success">
+                                    <input asp-for="IsRead" class="custom-control-input">
+                                    <label class="custom-control-label" asp-for="IsRead"></label>
+                                    <span asp-validation-for="IsRead" class="invalid-feedback" style="display:block"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="FullName"></label>
+                                <input readonly class="form-control form-control" asp-for="FullName">
+                                <span asp-validation-for="FullName" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Email"></label>
+                                <input readonly class="form-control form-control" asp-for="Email">
+                                <span asp-validation-for="Email" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Phone"></label>
+                                <input readonly class="form-control form-control" asp-for="Phone">
+                                <span asp-validation-for="Phone" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="Message"></label>
+                                <input readonly class="form-control form-control" asp-for="Message">
+                                <span asp-validation-for="Message" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="ToEmail"></label>
+                                <input readonly class="form-control form-control" asp-for="ToEmail">
+                                <span asp-validation-for="ToEmail" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>                       
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="form-group mt-3">
+                    <button class="btn btn-sm btn-primary" type="submit" form="ethicsandcompilanceapply-edit">Save</button>
+                    @*<button class="btn btn-sm btn-primary" type="submit" form="user-create">Save and edit</button>*@
+                    <a asp-action="ethicsandcompilanceapply" asp-controller="notification" asp-area="admin" class="btn btn-sm btn-danger">Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section plugin_scripts{
+    <!-- Plugins js -->
+    <script src="~/Areas/Admin/plugins/moment/moment.js" asp-append-version="true"></script>
+    <script src="~/Areas/Admin/plugins/daterangepicker/daterangepicker.js" asp-append-version="true"></script>
+    <script src="~/Areas/Admin/plugins/select2/select2.min.js" asp-append-version="true"></script>
+    <script src="~/Areas/Admin/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js" asp-append-version="true"></script>
+    <script src="~/Areas/Admin/plugins/timepicker/bootstrap-material-datetimepicker.js" asp-append-version="true"></script>
+    <script src="~/Areas/Admin/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js" asp-append-version="true"></script>
+    <script src="~/Areas/Admin/plugins/bootstrap-touchspin/js/jquery.bootstrap-touchspin.min.js" asp-append-version="true"></script>
+    <script src="~/Areas/Admin/assets/pages/jquery.forms-advanced.js" asp-append-version="true"></script>
+}
+
+
+@section scripts{
+    <!-- validate js -->
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

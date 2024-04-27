@@ -1,0 +1,264 @@
+﻿@using Manage.Areas.Admin.Models.DynamicPageManagement
+@using Core.Constants
+
+@model DynamicPageEditViewModel
+
+@{
+    ViewData["Title"] = "Dynamic Pages";
+}
+
+
+@section plugin_styles{
+
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <div class="float-right">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-action="list" asp-controller="dynamicpage" asp-area="admin">Dynamic Pages</a></li>
+                    <li class="breadcrumb-item active">Edit</li>
+                </ol>
+            </div>
+            <h4 class="page-title">Edit dynamic page</h4>
+        </div><!--end page-title-box-->
+    </div><!--end col-->
+</div>
+
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-@TempData["message_type"]">
+        @TempData["message"]
+    </div>
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data"  asp-action="edit" asp-controller="dynamicpage" asp-area="admin" id="dynamicpage-edit">
+                    @Html.AntiForgeryToken()
+
+                    <div class="row">
+                        <div asp-validation-summary="ModelOnly" class="invalid-feedback" style="display:block"></div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="URL"></label>
+                                <input class="form-control form-control" asp-for="URL">
+                                <span asp-validation-for="URL" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="BannerTitle_AZ"></label>
+                                <input class="form-control form-control" asp-for="BannerTitle_AZ">
+                                <span asp-validation-for="BannerTitle_AZ" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="BannerTitle_RU"></label>
+                                <input class="form-control form-control" asp-for="BannerTitle_RU">
+                                <span asp-validation-for="BannerTitle_RU" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="BannerTitle_EN"></label>
+                                <input class="form-control form-control" asp-for="BannerTitle_EN">
+                                <span asp-validation-for="BannerTitle_EN" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label" asp-for="BannerTitle_TR"></label>
+                                <input class="form-control form-control" asp-for="BannerTitle_TR">
+                                <span asp-validation-for="BannerTitle_TR" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="d-flex m-0 bold-text" asp-for="BannerPhoto"></label>
+                                <img style="width:200px; object-fit:cover;" src="@Model.BannerPhotoPath" />
+                                <div class="custom-file">
+                                    <input asp-for="BannerPhoto" class="form-control custom-file-input" accept="image/*" />
+                                    <label class="custom-file-label"></label>
+                                </div>
+                                <span class="text-danger validate-message d-inline-block py-2" asp-validation-for="BannerPhoto"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="custom-control custom-switch switch-success">
+                                <input id="flatpage-has-component" type="checkbox" class="custom-control-input" asp-for="HasComponent">
+                                <label for="flatpage-has-component" class="custom-control-label" asp-for="HasComponent"></label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" id="flatpage-component-define-section">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <h4 class="header-title mt-0 mb-3">Page tab for this component will not update, you should go to related page</h4>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="custom-control custom-switch switch-success">
+                                <input form="dynamicpage-edit" type="checkbox" class="custom-control-input" asp-for="IsBanner">
+                                <label class="custom-control-label" asp-for="IsBanner"></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="Page"></label>
+                            <select form="dynamicpage-edit" class="form-control form-control" asp-for="Page" asp-items="Html.GetEnumSelectList<Page>()"></select>
+                            <span asp-validation-for="Page" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="TitlePage_AZ"></label>
+                            <input form="dynamicpage-edit" class="form-control form-control" asp-for="TitlePage_AZ">
+                            <span asp-validation-for="TitlePage_AZ" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="TitlePage_RU"></label>
+                            <input form="dynamicpage-edit" class="form-control form-control" asp-for="TitlePage_RU">
+                            <span asp-validation-for="TitlePage_RU" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="TitlePage_EN"></label>
+                            <input form="dynamicpage-edit" class="form-control form-control" asp-for="TitlePage_EN">
+                            <span asp-validation-for="TitlePage_EN" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="TitlePage_TR"></label>
+                            <input form="dynamicpage-edit" class="form-control form-control" asp-for="TitlePage_TR">
+                            <span asp-validation-for="TitlePage_TR" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="ContentPage_AZ"></label>
+                            <textarea form="dynamicpage-edit" class="form-control form-control" asp-for="ContentPage_AZ"></textarea>
+                            <span asp-validation-for="ContentPage_AZ" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="ContentPage_RU"></label>
+                            <textarea form="dynamicpage-edit" class="form-control form-control" asp-for="ContentPage_RU"></textarea>
+                            <span asp-validation-for="ContentPage_RU" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="ContentPage_EN"></label>
+                            <textarea form="dynamicpage-edit" class="form-control form-control" asp-for="ContentPage_EN"></textarea>
+                            <span asp-validation-for="ContentPage_EN" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="form-control-label" asp-for="ContentPage_TR"></label>
+                            <textarea form="dynamicpage-edit" class="form-control form-control" asp-for="ContentPage_TR"></textarea>
+                            <span asp-validation-for="ContentPage_TR" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="d-flex m-0 bold-text" asp-for="PagePhoto"></label>
+                            <img style="width:200px; object-fit:cover;" src="@Model.PagePhotoPath" />
+                            <div class="custom-file">
+                                <input  form="dynamicpage-edit" asp-for="PagePhoto" class="form-control custom-file-input" accept="image/*" />
+                                <label class="custom-file-label"></label>
+                            </div>
+                            <span class="text-danger validate-message d-inline-block py-2" asp-validation-for="PagePhoto"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="form-group mt-3">
+                    <button form="dynamicpage-edit" class="btn btn-sm btn-primary" type="submit">Save</button>
+                    <a asp-action="list" asp-controller="dynamicpage" asp-area="admin" class="btn btn-sm btn-danger">Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section plugin_scripts{
+
+}
+
+
+@section scripts{
+<script src="~/Admin/vendor/slug.js" asp-append-version="true"></script>
+<script src="~/Admin/vendor/ckeditor/ckeditor4/ckeditor.js" asp-append-version="true"></script>
+<script src="~/common/js/show_file_name.js" asp-append-version="true"></script>
+<!-- validate js -->
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+ }
+
+<script>
+      $('#Title_EN').on('input', function () {
+          $('#Slug').val(slug($(this).val()));
+      });
+
+      const contents = ["#ContentPage_AZ", "#ContentPage_RU", "#ContentPage_EN", "#ContentPage_TR"];
+
+      for (const content of contents) {
+          CKEDITOR.replace(document.querySelector(content), {
+            customConfig: '/admin/vendor/ckeditor/ckeditor4/dynamicPageConfig.js'
+        });
+      }
+
+      const flatpageHasComponent = document.querySelector('#flatpage-has-component');
+    const flatpageDefineComponentSection = document.querySelector("#flatpage-component-define-section");
+
+
+    flatpageHasComponent.addEventListener('change', (event) => {
+        if(flatpageHasComponent.checked)
+        {
+            flatpageDefineComponentSection.style.display = "block";
+        }
+        else
+        {
+            flatpageDefineComponentSection.style.display = "none";
+        }
+      });
+</script>
+}

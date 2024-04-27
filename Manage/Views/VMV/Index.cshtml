@@ -1,0 +1,70 @@
+﻿@using Manage.Tools.FileHandler.Abstraction
+@using Manage.ViewModels.VMV
+@using Core.Constants.File
+@using Core.Constants
+@using Core
+@using System.Globalization
+
+@model IndexViewModel
+@inject IFileService _fileService
+@inject IUnitOfWork _unitOfWork
+
+@{
+    ViewData["Title"] = "Nobel Energy | Vision, Mission, Values";
+    
+    var currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+}
+
+@await Component.InvokeAsync("IntroductionBanner", new { Page = Page.WhoWeAre })
+
+
+<!--------------------------- Tab --------------------------->
+
+@await Component.InvokeAsync("PageTab", new { page = Page.WhoWeAre, currentPage = "vmv" })
+
+<!--------------------------- Tab --------------------------->
+
+
+<!--------------------------- Pages Components --------------------------->
+
+
+
+<div id="g-pages-component-section">
+    @{
+        bool title = true;
+        int order = 0;
+    }
+
+    @foreach (var splittedContent in _unitOfWork.Languages.ChooseLanguageList(Model.VMVComponent, "SplitedContent", currentCulture))
+    {
+        <div class="g-pages-component-element">
+            <div class="g-pages-component-element-wrapper">
+                <div class="g-pages-component-element-content">
+                    @if (title)
+                    {
+                        <h2 class="g-pages-component-element-content-title">
+                            @Html.Raw(_unitOfWork.Languages.ChooseLanguage(Model.VMVComponent, "Title", currentCulture))
+                        </h2>
+
+                        title = false;
+                    }
+
+                    <div class="g-pages-component-element-content-text">
+                        @Html.Raw(splittedContent)
+                    </div>
+                </div>
+
+                @{var photo = Model.VMVComponent.VMVComponentPhotos.Skip(order).FirstOrDefault();}
+
+                <div class="g-pages-component-element-image">
+                    <img src="@_fileService.GetFileUrl(photo.PhotoName, FilePath.VMV)" asp-append-version="true">
+                </div>
+            </div>
+        </div>
+
+        order++;
+    }
+
+</div>
+
+<!--------------------------- Pages Components --------------------------->
